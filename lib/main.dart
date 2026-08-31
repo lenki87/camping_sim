@@ -1,121 +1,143 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CampingSimApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CampingSimApp extends StatelessWidget {
+  const CampingSimApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Camping Simulator',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const GameScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<GameScreen> createState() => _GameScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _GameScreenState extends State<GameScreen> {
+  final int gridSize = 20; // 20x20 Spielfeld
+  late List<List<int>> mapData;
+  int selectedTool = 1; // 1 = Rohr, 2 = Weg, 0 = Abriss/Wiese
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    // Startet mit einer leeren Matrix (alles Wiese)
+    mapData = List.generate(gridSize, (_) => List.generate(gridSize, (_) => 0));
+  }
+
+  void buildTile(int x, int y) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      mapData[x][y] = selectedTool;
     });
+  }
+
+  Color getTileColor(int type) {
+    switch (type) {
+      case 1: return Colors.blue[400]!; // Wasser/Rohre
+      case 2: return Colors.grey[600]!; // Asphalt/Schotter
+      default: return Colors.green[300]!; // Gras
+    }
+  }
+
+  Widget _buildMenuButton(String title, int toolId, IconData icon, Color color) {
+    bool isActive = selectedTool == toolId;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isActive ? color : Colors.grey[200],
+          foregroundColor: isActive ? Colors.white : Colors.black87,
+          alignment: Alignment.centerLeft,
+          minimumSize: const Size(double.infinity, 55),
+        ),
+        onPressed: () => setState(() => selectedTool = toolId),
+        icon: Icon(icon),
+        label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
+        title: const Text('Camping Simulator - Map Editor'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      body: Row(
+        children: [
+          // Seitliches Bau-Menü
+          Container(
+            width: 320,
+            color: Colors.white,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Baumaterial', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 24),
+                _buildMenuButton('Simplesta SH Edelstahl (3 Kreise)', 1, Icons.water_drop, Colors.blue),
+                _buildMenuButton('Infrastruktur Weg', 2, Icons.add_road, Colors.grey[700]!),
+                const Divider(height: 40, thickness: 2),
+                _buildMenuButton('Abriss (Wiese)', 0, Icons.grass, Colors.green),
+              ],
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+          ),
+          // Interaktives Spielfeld
+          Expanded(
+            child: InteractiveViewer(
+              boundaryMargin: const EdgeInsets.all(100),
+              minScale: 0.5,
+              maxScale: 4.0,
+              child: Center(
+                child: Container(
+                  width: 800,
+                  height: 800,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white24, width: 2),
+                  ),
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: gridSize,
+                    ),
+                    itemCount: gridSize * gridSize,
+                    itemBuilder: (context, index) {
+                      int x = index ~/ gridSize;
+                      int y = index % gridSize;
+                      
+                      return GestureDetector(
+                        onTap: () => buildTile(x, y),
+                        child: Container(
+                          margin: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: getTileColor(mapData[x][y]),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
