@@ -30,7 +30,9 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   final int gridSize = 20; 
   late List<List<int>> mapData;
-  int selectedTool = 3; // 3 = Simplesta Rohr, 4 = Weg, 0 = Wiese
+  // 0 = Wiese, 1 = Meer, 2 = Parzelle, 3 = Simplesta Rohr, 4 = Fußweg, 5 = Straße, 6 = Rezeption/Einfahrt mit Schranke
+  int selectedTool = 4; 
+  bool isDragging = false;
 
   @override
   void initState() {
@@ -38,22 +40,29 @@ class _GameScreenState extends State<GameScreen> {
     _generatePrototypeMap();
   }
 
-  // Generiert die Startkarte mit Wiese, 10 Parzellen und dem Meer
+  // Generiert die Startkarte mit Wiese, 10 Parzellen, Meer, Hauptstraße und Rezeption
   void _generatePrototypeMap() {
-    // 0 = Wiese, 1 = Meer, 2 = Parzelle, 3 = Rohr, 4 = Weg
     mapData = List.generate(gridSize, (x) => List.generate(gridSize, (y) {
-      if (x >= 16) return 1; // Die rechten 4 Spalten werden zum Meer
-      return 0; // Der Rest ist Wiese
+      if (x >= 16) return 1; // Meer auf der rechten Seite
+      return 0; // Wiese
     }));
 
-    // 10 Parzellen (jeweils 2x2 Kacheln groß) generieren
+    // Hauptstraße am linken Rand (Spalte 0)
+    for (int y = 0; y < gridSize; y++) {
+      mapData[0][y] = 5; // Straße
+    }
+
+    // Rezeption & Schranke an der Einfahrt (Mitte der linken Straße)
+    mapData[1][9] = 6; // Rezeption / Eingangsbereich
+    mapData[1][10] = 5; // Zufahrt
+
+    // 10 Parzellen platzieren
     int parcelCount = 0;
     for (int col = 0; col < 2; col++) {
       for (int row = 0; row < 5; row++) {
-        int startX = 3 + (col * 6); // Abstand zwischen den Spalten
-        int startY = 2 + (row * 3); // Abstand zwischen den Reihen
+        int startX = 4 + (col * 6); 
+        int startY = 2 + (row * 3); 
         
-        // Eine 2x2 Parzelle auf die Wiese setzen
         mapData[startX][startY] = 2;
         mapData[startX+1][startY] = 2;
         mapData[startX][startY+1] = 2;
@@ -76,11 +85,13 @@ class _GameScreenState extends State<GameScreen> {
 
   Color getTileColor(int type) {
     switch (type) {
-      case 1: return Colors.blue[800]!; // Meer (Tiefblau)
-      case 2: return Colors.orange[200]!; // Parzelle (Sand/Kies)
-      case 3: return Colors.cyanAccent[400]!; // Simplesta SH Rohr (Leuchtend Hellblau)
-      case 4: return Colors.grey[600]!; // Weg (Asphalt)
-      default: return Colors.green[400]!; // Wiese (Gras)
+      case 1: return Colors.blue[800]!; // Meer
+      case 2: return Colors.orange[200]!; // Parzelle
+      case 3: return Colors.cyanAccent[400]!; // Simplesta SH Rohr
+      case 4: return Colors.grey[500]!; // Fußweg
+      case 5: return Colors.grey[900]!; // Asphalt-Straße
+      case 6: return Colors.amber[800]!; // Rezeption / Schranke (Einfahrt)
+      default: return Colors.green[400]!; // Wiese
     }
   }
 
@@ -120,10 +131,12 @@ class _GameScreenState extends State<GameScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Baumaterial', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 24),
-                _buildMenuButton('Simplesta SH Edelstahl (3 Kreise)', 3, Icons.water_drop, Colors.cyanAccent[400]!),
-                _buildMenuButton('Infrastruktur Weg', 4, Icons.add_road, Colors.grey[700]!),
-                const Divider(height: 30, thickness: 2),
+                const SizedBox(height: 16),
+                _buildMenuButton('Hauptstraße', 5, Icons.car_repair, Colors.grey[900]!),
+                _buildMenuButton('Rezeption & Schranke', 6, Icons.security, Colors.amber[800]!),
+                _buildMenuButton('Fußweg', 4, Icons.alt_route, Colors.grey[500]!),
+                _buildMenuButton('Simplesta SH Edelstahl', 3, Icons.water_drop, Colors.cyanAccent[400]!),
+                const Divider(height: 24, thickness: 2),
                 _buildMenuButton('Abriss (Wiese)', 0, Icons.grass, Colors.green),
                 const Spacer(),
                 const Text('Legende:', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -131,6 +144,10 @@ class _GameScreenState extends State<GameScreen> {
                 Row(children: [Icon(Icons.square, color: Colors.blue[800]), const SizedBox(width: 8), const Text('Meer')]),
                 const SizedBox(height: 5),
                 Row(children: [Icon(Icons.square, color: Colors.orange[200]), const SizedBox(width: 8), const Text('Stellplatz Parzelle')]),
+                const SizedBox(height: 5),
+                Row(children: [Icon(Icons.square, color: Colors.grey[900]), const SizedBox(width: 8), const Text('Hauptstraße')]),
+                const SizedBox(height: 5),
+                Row(children: [Icon(Icons.square, color: Colors.amber[800]), const SizedBox(width: 8), const Text('Rezeption & Schranke')]),
               ],
             ),
           ),
@@ -139,30 +156,47 @@ class _GameScreenState extends State<GameScreen> {
               boundaryMargin: const EdgeInsets.all(100),
               minScale: 0.5,
               maxScale: 4.0,
+              constrained: false,
               child: Center(
-                child: Container(
-                  width: 800,
-                  height: 800,
-                  decoration: BoxDecoration(border: Border.all(color: Colors.white24, width: 2)),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: gridSize),
-                    itemCount: gridSize * gridSize,
-                    itemBuilder: (context, index) {
-                      int x = index % gridSize;
-                      int y = index ~/ gridSize;
-                      
-                      return GestureDetector(
-                        onTap: () => buildTile(x, y),
-                        child: Container(
-                          margin: const EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                            color: getTileColor(mapData[x][y]),
-                            borderRadius: BorderRadius.circular(2),
+                child: GestureDetector(
+                  onPanStart: (details) {
+                    isDragging = true;
+                  },
+                  onPanEnd: (details) {
+                    isDragging = false;
+                  },
+                  child: Container(
+                    width: 800,
+                    height: 800,
+                    decoration: BoxDecoration(border: Border.all(color: Colors.white24, width: 2)),
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: gridSize),
+                      itemCount: gridSize * gridSize,
+                      itemBuilder: (context, index) {
+                        int x = index % gridSize;
+                        int y = index ~/ gridSize;
+                        
+                        return MouseRegion(
+                          onEnter: (event) {
+                            // Wenn die Maustaste beim Bewegen gedrückt gehalten wird -> Trasse weiterziehen
+                            if (isDragging) {
+                              buildTile(x, y);
+                            }
+                          },
+                          child: GestureDetector(
+                            onTap: () => buildTile(x, y),
+                            child: Container(
+                              margin: const EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: getTileColor(mapData[x][y]),
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
