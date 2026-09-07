@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/scheduler.dart';
 
 void main() {
   runApp(const CampingSimApp());
@@ -46,7 +47,7 @@ class GameScreen extends StatefulWidget {
   State<GameScreen> createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   final int gridSize = 20; 
   late List<List<int>> mapData;
   
@@ -60,6 +61,16 @@ class _GameScreenState extends State<GameScreen> {
   bool isDragging = false;
 
   final FocusNode _focusNode = FocusNode();
+  final TransformationController _mapController = TransformationController();
+
+  // Tasten-Status für flüssige Bewegung
+  bool _wPressed = false;
+  bool _aPressed = false;
+  bool _sPressed = false;
+  bool _dPressed = false;
+
+  late Ticker _ticker;
+  Duration _lastTick = Duration.zero;
 
   // UI Status
   bool _isLegendVisible = false;
@@ -153,6 +164,9 @@ class _GameScreenState extends State<GameScreen> {
     _generatePrototypeMap();
     _startGameLoop();
     
+    // Ticker für flüssige Kamerabewegung starten
+    _ticker = createTicker(_onTick)..start();
+
     // Fordert den Fokus für die Tastatursteuerung an
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
@@ -201,9 +215,36 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  void _onTick(Duration elapsed) {
+    if (_lastTick == Duration.zero) {
+      _lastTick = elapsed;
+      return;
+    }
+    
+    final double dt = (elapsed - _lastTick).inMilliseconds / 1000.0;
+    _lastTick = elapsed;
+
+    if (!_wPressed && !_sPressed && !_aPressed && !_dPressed) return;
+
+    const double speed = 500.0; 
+    double dx = 0.0;
+    double dy = 0.0;
+
+    if (_wPressed) dy += speed * dt;
+    if (_sPressed) dy -= speed * dt;
+    if (_aPressed) dx += speed * dt;
+    if (_dPressed) dx -= speed * dt;
+
+    final matrix = _mapController.value.clone();
+    matrix.translate(dx, dy);
+    _mapController.value = matrix;
+  }
+
   @override
   void dispose() {
+    _ticker.dispose();
     _focusNode.dispose();
+    _mapController.dispose();
     gameLoop?.cancel(); 
     renderLoop?.cancel(); 
     super.dispose();
@@ -1281,6 +1322,23 @@ class _GameScreenState extends State<GameScreen> {
       child: Focus(
         focusNode: _focusNode,
         autofocus: true,
+        onKeyEvent: (FocusNode node, KeyEvent event) {
+          bool isPressed = event is KeyDownEvent || event is KeyRepeatEvent;
+          
+          if (event.logicalKey == LogicalKeyboardKey.keyW) {
+            _wPressed = isPressed;
+          } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
+            _sPressed = isPressed;
+          } else if (event.logicalKey == LogicalKeyboardKey.keyA) {
+            _aPressed = isPressed;
+          } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
+            _dPressed = isPressed;
+          } else {
+            return KeyEventResult.ignored;
+          }
+
+          return KeyEventResult.handled;
+        },
         child: Scaffold(
           backgroundColor: Colors.blueGrey[900],
           body: Stack(
@@ -1288,6 +1346,7 @@ class _GameScreenState extends State<GameScreen> {
           // 1. Spielfeld (Ehemals Expanded Bereich)
           Positioned.fill(
             child: InteractiveViewer(
+              transformationController: _mapController,
               boundaryMargin: const EdgeInsets.all(500),
               minScale: 0.1,
               maxScale: 4.0,
