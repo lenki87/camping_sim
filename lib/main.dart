@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const CampingSimApp());
@@ -49,67 +50,67 @@ class _GameScreenState extends State<GameScreen> {
   final int gridSize = 20; 
   late List<List<int>> mapData;
   
-  // Kamera-Winkel für Isometrie (Startwert -45 Grad für klassische Diamant-Perspektive)
+  // Kamera-Winkel für Isometrie
   double cameraZ = -pi / 4; 
-  final double cameraTilt = 0.95; // Feste isometrische Neigung (~54.4 Grad)
-  bool usePerspective = false; // false = Reine isometrische Parallelprojektion (kein trapezförmiges Verzerren)
+  final double cameraTilt = 0.95; 
+  bool usePerspective = false; 
 
-  // 0 = Wiese, 1 = Meer, 2 = Parzelle, 4 = Fußweg, 5 = Straße, 6 = Rezeption, 7 = Hauptanschluss Wasser, 12 = Abwasser Stadt, 13 = Strom Stadt
-  // Werkzeuge für den Untergrund -> 8 = Trinkwasser, 9 = Abwasser, 10 = Strom, 11 = Abriss Leitungen
-  int selectedTool = 5; // Standardmäßig Straße ausgewählt
+  // Werkzeug-ID
+  int selectedTool = 5; 
   bool isDragging = false;
 
-  // Untergrund-Netze (true = Leitung liegt hier)
+  final FocusNode _focusNode = FocusNode();
+
+  // UI Status
+  bool _isLegendVisible = false;
+  int _selectedTab = -1; // -1 = Menü geschlossen
+  String _activeToolName = 'Straße'; // Für die Anzeige im Chip
+
+  // ... (Rest bleibt gleich)
+
+  // Untergrund-Netze
   late List<List<bool>> undergroundWater; 
   late List<List<bool>> undergroundWaste; 
   late List<List<bool>> undergroundPower; 
 
-  // Netzwerk-Status (true = erfolgreich mit dem Hauptanschluss/Meer verbunden)
+  // Netzwerk-Status
   late List<List<bool>> connectedWater;
   late List<List<bool>> connectedWaste;
   late List<List<bool>> connectedPower;
 
-  // Parzellen-Status (true = Parzelle wird versorgt)
+  // Parzellen-Status
   late List<List<bool>> parcelWater;
   late List<List<bool>> parcelWaste;
   late List<List<bool>> parcelPower;
 
-  // Speichert den exakten Spawnpunkt für das Fahrzeug einer Zone
   late List<List<bool>> isParcelAnchor;
-  // Speichert, ob die Zone groß genug für einen Wohnwagen ist (sonst Zelt)
   late List<List<bool>> isBigParcel;
-  // Speichert, ob auf dieser Parzelle genug Platz für ein Kinder-Zusatzzelt ist
   late List<List<bool>> isExtraTent;
-
-  // 0 = Leerer Schotter, 1 = Aufbau-Animation, 2 = Fertig bezogen
   late List<List<int>> parcelState;
-  // Speichert den Fortschritt des Ladebalkens (0.0 bis 1.0)
   late List<List<double>> setupProgress;
-  // Speichert, ob auf der Parzelle ein Wohnwagen (true) oder Zelt (false) kommt
   late List<List<bool>> parcelIsCaravan;
 
   // Wirtschafts-Variablen
-  double money = 15000.0; // Startkapital in Euro
+  double money = 15000.0; 
   double dailyIncome = 0.0;
 
-  // Tech-Tree / Upgrade-Baum
-  bool hasWaterUnlocked = false; // Erst wenn das gekauft ist, fließt Wasser
-  double waterUpgradeCost = 5000.0; // Kostet 5000€, den städtischen Anschluss legen zu lassen
+  // Tech-Tree
+  bool hasWaterUnlocked = false; 
+  double waterUpgradeCost = 5000.0; 
 
-  // Simulations-Variablen
+  // Simulation
   Timer? gameLoop;
   Timer? renderLoop;
-  double guestX = 1.0; // Startposition X (bei der Rezeption)
-  double guestY = 10.0; // Startposition Y
+  double guestX = 1.0; 
+  double guestY = 10.0; 
   double waterWaveOffset = 0.0;
-  // 0.0 = Mittag, 0.25 = Nachmittag, 0.5 = Mitternacht, 0.75 = Morgen
   double timeOfDay = 0.25; 
   int inGameDay = 1;
   int activeCampers = 0;
-  int maxCapacity = 0; // Wie viele Parzellen sind ans Netz angeschlossen?
+  int maxCapacity = 0; 
 
   List<VisitingCar> activeCars = [];
-  double barrierAngle = 0.0; // 0.0 = geschlossen, 1.2 = hochgeklappt
+  double barrierAngle = 0.0;
 
   Color getAtmosphereColor() {
     if (timeOfDay < 0.3) {
@@ -152,6 +153,11 @@ class _GameScreenState extends State<GameScreen> {
     _generatePrototypeMap();
     _startGameLoop();
     
+    // Fordert den Fokus für die Tastatursteuerung an
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+
     renderLoop = Timer.periodic(const Duration(milliseconds: 16), (timer) {
       setState(() {
         guestX += 0.03; 
@@ -197,8 +203,9 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
-    gameLoop?.cancel(); // Beendet den Loop, wenn das Fenster geschlossen wird
-    renderLoop?.cancel(); // Wichtig: Neuen Loop auch beenden
+    _focusNode.dispose();
+    gameLoop?.cancel(); 
+    renderLoop?.cancel(); 
     super.dispose();
   }
 
@@ -1018,347 +1025,462 @@ class _GameScreenState extends State<GameScreen> {
     return const SizedBox.shrink();
   }
 
-  Widget _buildMenuButton(String title, int toolId, IconData icon, Color color) {
-    bool isActive = selectedTool == toolId;
+  Widget _buildTopBar() {
+    return Container(
+      height: 60,
+      margin: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.white24, width: 1.5),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10)],
+      ),
+      child: Row(
+        children: [
+          _topBarItem(Icons.calendar_today, 'TAG $inGameDay', Colors.white),
+          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
+          _topBarItem(Icons.payments, '${money.toStringAsFixed(0)} €', Colors.greenAccent),
+          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
+          _topBarItem(Icons.people, '$activeCampers / $maxCapacity', Colors.orangeAccent),
+          const Spacer(),
+          // Kamera Rotation Buttons in die Top Bar integriert
+          IconButton(
+            icon: const Icon(Icons.rotate_left, color: Colors.white70),
+            onPressed: () => setState(() => cameraZ -= pi / 2),
+          ),
+          IconButton(
+            icon: const Icon(Icons.rotate_right, color: Colors.white70),
+            onPressed: () => setState(() => cameraZ += pi / 2),
+          ),
+          const SizedBox(width: 10),
+          IconButton(
+            icon: Icon(_isLegendVisible ? Icons.close : Icons.help_outline, color: Colors.white),
+            onPressed: () => setState(() => _isLegendVisible = !_isLegendVisible),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _topBarItem(IconData icon, String text, Color color) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(width: 8),
+        Text(text, style: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.bold)),
+      ],
+    );
+  }
+
+  Widget _buildLegendBox() {
+    return Container(
+      width: 220,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.85),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white24),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('KARTEN-LEGENDE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+          const Divider(color: Colors.white24),
+          _legendItem(Colors.blue[800]!, 'Meer (Abwasser-Einleitung)'),
+          _legendItem(Colors.orange[200]!, 'Stellplatz Parzelle'),
+          _legendItem(Colors.grey[900]!, 'Hauptstraße / Asphalt'),
+          _legendItem(Colors.amber[800]!, 'Rezeption / Schranke'),
+          _legendItem(Colors.cyan[900]!, 'Haupt-Wasseranschluss'),
+          _legendItem(Colors.brown[800]!, 'Abwasser-Sammelschacht'),
+          _legendItem(Colors.yellow[800]!, 'Strom-Trafostation'),
+        ],
+      ),
+    );
+  }
+
+  Widget _legendItem(Color color, String label) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isActive ? color : Colors.grey[200],
-          foregroundColor: isActive ? (toolId == 8 || toolId == 10 ? Colors.black : Colors.white) : Colors.black87,
-          alignment: Alignment.centerLeft,
-          minimumSize: const Size(double.infinity, 50),
+      child: Row(
+        children: [
+          Container(width: 14, height: 14, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
+          const SizedBox(width: 10),
+          Expanded(child: Text(label, style: const TextStyle(color: Colors.white70, fontSize: 11))),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomMenu() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 1. Anzeige des aktiven Werkzeugs (nur wenn Menü zu)
+        if (_selectedTab == -1 && selectedTool != 0)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Chip(
+              elevation: 4,
+              backgroundColor: Colors.cyanAccent[700],
+              avatar: const Icon(Icons.construction, color: Colors.white, size: 18),
+              label: Text(
+                'Aktiv: $_activeToolName',
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              onDeleted: () => setState(() {
+                selectedTool = 0;
+                _activeToolName = 'Keins';
+              }),
+              deleteIcon: const Icon(Icons.cancel, color: Colors.white70),
+            ),
+          ),
+
+        // 2. Das aufklappbare Menü
+        if (_selectedTab != -1)
+          Stack(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                height: 130,
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.85),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                  border: Border.all(color: Colors.white10),
+                ),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.fromLTRB(20, 15, 60, 15),
+                  children: _getToolsForTab(),
+                ),
+              ),
+              Positioned(
+                top: 5,
+                right: 20,
+                child: IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white54),
+                  onPressed: () => setState(() => _selectedTab = -1),
+                ),
+              ),
+            ],
+          ),
+
+        // 3. Die Tab-Leiste (immer sichtbar)
+        Container(
+          height: 70,
+          decoration: BoxDecoration(
+            color: Colors.blueGrey[900],
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 15, offset: const Offset(0, -5))],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildTabButton(0, 'WEGE', Icons.edit_road),
+              _buildTabButton(1, 'NETZE', Icons.hub),
+              _buildTabButton(2, 'ZONING', Icons.grid_view),
+              _buildTabButton(3, 'NATUR', Icons.park),
+              _buildTabButton(4, 'ABRISS', Icons.delete_sweep),
+            ],
+          ),
         ),
-        onPressed: () => setState(() => selectedTool = toolId),
-        icon: Icon(icon),
-        label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+      ],
+    );
+  }
+
+  Widget _buildTabButton(int id, String label, IconData icon) {
+    bool isActive = _selectedTab == id;
+    return InkWell(
+      onTap: () => setState(() => _selectedTab = isActive ? -1 : id),
+      child: SizedBox(
+        width: 80,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: isActive ? Colors.cyanAccent : Colors.white54, size: 28),
+            const SizedBox(height: 4),
+            Text(label, style: TextStyle(color: isActive ? Colors.cyanAccent : Colors.white54, fontSize: 10, fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _getToolsForTab() {
+    switch (_selectedTab) {
+      case 0: // Wege & Infrastruktur
+        return [
+          _buildToolTile('Straße', 5, Icons.directions_car, Colors.grey[850]!, '80 €'),
+          _buildToolTile('Fußweg', 4, Icons.directions_walk, Colors.grey[600]!, '30 €'),
+          _buildToolTile('Rezeption', 6, Icons.bungalow, Colors.amber[800]!, '2500 €'),
+        ];
+      case 1: // Versorgung / Netze
+        return [
+          _buildToolTile('Wasserleitung', 8, Icons.water_drop, Colors.cyanAccent[400]!, '120 €'),
+          _buildToolTile('Abwasserrohr', 9, Icons.waves, Colors.brown[400]!, '90 €'),
+          _buildToolTile('Stromkabel', 10, Icons.bolt, Colors.yellowAccent[700]!, '60 €'),
+          const VerticalDivider(color: Colors.white24, width: 30),
+          _buildToolTile('Wasserwerk', 7, Icons.water_damage, Colors.cyan[900]!, '1500 €'),
+          _buildToolTile('Klärschacht', 12, Icons.delete, Colors.brown[800]!, '1200 €'),
+          _buildToolTile('Trafo', 13, Icons.electric_bolt, Colors.yellow[800]!, '2000 €'),
+        ];
+      case 2: // Zoning
+        return [
+          _buildToolTile('Stellplatz', 2, Icons.crop_free, Colors.orange[300]!, '100 €'),
+        ];
+      case 3: // Natur
+        return [
+          _buildToolTile('Baum', 3, Icons.park, Colors.green[800]!, '50 €'),
+          _buildToolTile('Hecke', 14, Icons.grass, Colors.lightGreen, '20 €'),
+        ];
+      case 4: // Abriss
+        return [
+          _buildToolTile('Gelände', 0, Icons.auto_fix_normal, Colors.green[400]!, '0 €'),
+          _buildToolTile('Leitungen', 11, Icons.link_off, Colors.redAccent, '0 €'),
+        ];
+      default: return [];
+    }
+  }
+
+  Widget _buildToolTile(String name, int toolId, IconData icon, Color color, String cost) {
+    bool isSelected = selectedTool == toolId;
+    return GestureDetector(
+      onTap: () => setState(() {
+        selectedTool = toolId;
+        _activeToolName = name;
+      }),
+      child: Container(
+        width: 100,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withOpacity(0.4) : Colors.white.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: isSelected ? color : Colors.white10, width: 2),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: isSelected ? color : Colors.white70, size: 30),
+            const SizedBox(height: 4),
+            Text(name, style: const TextStyle(color: Colors.white, fontSize: 10), textAlign: TextAlign.center),
+            Text(cost, style: const TextStyle(color: Colors.yellowAccent, fontSize: 10, fontWeight: FontWeight.bold)),
+          ],
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
-      appBar: AppBar(
-        title: const Text('Camping Simulator - Prototyp'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Row(
-        children: [
-          Container(
-            width: 340,
-            color: Colors.white,
-            padding: const EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Kamera-Steuerung
-                  const Text('Kamera (Isometrie)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () => setState(() => cameraZ -= pi / 2), // Dreht 90 Grad nach links
-                          icon: const Icon(Icons.rotate_left, size: 18),
-                          label: const Text('Links'),
-                        ),
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.keyQ): () => setState(() => cameraZ -= pi / 2),
+        const SingleActivator(LogicalKeyboardKey.keyE): () => setState(() => cameraZ += pi / 2),
+      },
+      child: Focus(
+        focusNode: _focusNode,
+        autofocus: true,
+        child: Scaffold(
+          backgroundColor: Colors.blueGrey[900],
+          body: Stack(
+            children: [
+          // 1. Spielfeld (Ehemals Expanded Bereich)
+          Positioned.fill(
+            child: InteractiveViewer(
+              boundaryMargin: const EdgeInsets.all(500),
+              minScale: 0.1,
+              maxScale: 4.0,
+              constrained: false,
+              child: Center(
+                child: Transform(
+                  transform: Matrix4.identity()
+                    ..scale(1.0, 0.5)
+                    ..rotateZ(cameraZ),
+                  alignment: FractionalOffset.center,
+                  child: GestureDetector(
+                    onPanStart: (details) => isDragging = true,
+                    onPanEnd: (details) => isDragging = false,
+                    child: Container(
+                      width: 800,
+                      height: 800,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white10, width: 2),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
+                        ]
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () => setState(() => cameraZ += pi / 2), // Dreht 90 Grad nach rechts
-                          icon: const Icon(Icons.rotate_right, size: 18),
-                          label: const Text('Rechts'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 38),
-                    ),
-                    onPressed: () => setState(() => usePerspective = !usePerspective),
-                    icon: Icon(usePerspective ? Icons.grid_view : Icons.view_in_ar, size: 18),
-                    label: Text(usePerspective ? 'Ansicht: Fluchtpunkt 3D' : 'Ansicht: Parallel Isometrie'),
-                  ),
-                  const Divider(height: 24, thickness: 2),
+                      child: Builder(
+                        builder: (context) {
+                          Matrix4 parentMatrix = Matrix4.identity()
+                            ..scale(1.0, 0.5)
+                            ..rotateZ(cameraZ);
+                          Matrix4 billboardMatrix = Matrix4.copy(parentMatrix)..invert();
 
-                  // Wirtschafts- & Simulations-HUD
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.blueGrey[800],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Tag: $inGameDay', 
-                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 4),
-                        Text('Gäste: $activeCampers / $maxCapacity', 
-                          style: const TextStyle(color: Colors.orangeAccent, fontSize: 14)),
-                        const Divider(color: Colors.white24),
-                        Text('Budget: ${money.toStringAsFixed(0)} €', 
-                          style: const TextStyle(color: Colors.greenAccent, fontSize: 16, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 4),
-                        Text('Tagesbilanz: +${dailyIncome.toStringAsFixed(0)} €', 
-                          style: const TextStyle(color: Colors.white70, fontSize: 13)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // Tech-Tree / Upgrade-Baum
-                  const Text('Tech-Tree / Upgrades', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: hasWaterUnlocked ? Colors.cyan[800] : Colors.grey[300],
-                      foregroundColor: hasWaterUnlocked ? Colors.white : Colors.black54,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    onPressed: () {
-                      if (!hasWaterUnlocked && money >= waterUpgradeCost) {
-                        setState(() {
-                          money -= waterUpgradeCost;
-                          hasWaterUnlocked = true;
-                          _updateNetworks(); // Berechnet Netzwerke & Einnahmen neu
-                        });
-                      }
-                    },
-                    icon: Icon(hasWaterUnlocked ? Icons.check_circle : Icons.lock),
-                    label: Text(hasWaterUnlocked ? 'Trinkwassernetz aktiv' : 'Netzanschluss kaufen (5.000 €)'),
-                  ),
-                  const Divider(height: 20, thickness: 2),
+                          double sinZ = sin(cameraZ);
+                          double cosZ = cos(cameraZ);
+                          const double tileSize = 40.0;
 
-                  // Städtische Anschlüsse
-                  const Text('Städtische Anschlüsse', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  _buildMenuButton('Wasser-Hauptanschluss', 7, Icons.water_damage, Colors.cyan[900]!),
-                  _buildMenuButton('Abwasser-Sammelschacht', 12, Icons.delete, Colors.brown[800]!),
-                  _buildMenuButton('Trafo-Station (Strom)', 13, Icons.electric_bolt, Colors.yellow[800]!),
-                  const Divider(height: 20, thickness: 2),
-
-                  const Text('Baumaterial & Natur', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  _buildMenuButton('Stellplatz ausweisen', 2, Icons.crop_free, Colors.orange[400]!),
-                  _buildMenuButton('Hecke / Zaun', 14, Icons.grass, Colors.lightGreen),
-                  _buildMenuButton('Straße / Fahrweg', 5, Icons.directions_car, Colors.grey[900]!),
-                  _buildMenuButton('Fußweg', 4, Icons.directions_walk, Colors.grey[500]!),
-                  _buildMenuButton('Rezeption & Schranke', 6, Icons.security, Colors.amber[800]!),
-                  _buildMenuButton('Baum pflanzen', 3, Icons.park, Colors.green[800]!),
-                  _buildMenuButton('Trinkwasserleitung', 8, Icons.water_drop, Colors.cyanAccent[400]!),
-                  _buildMenuButton('Abwasserrohr', 9, Icons.delete_outline, Colors.brown[600]!),
-                  _buildMenuButton('Stromkabel', 10, Icons.bolt, Colors.yellowAccent[700]!),
-                  _buildMenuButton('Abriss (Leitungen)', 11, Icons.link_off, Colors.redAccent),
-                  const Divider(height: 20, thickness: 2),
-                  _buildMenuButton('Abriss (Wiese)', 0, Icons.grass, Colors.green),
-                  const SizedBox(height: 16),
-                  const Text('Legende:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  Row(children: [Icon(Icons.square, color: Colors.blue[800]), const SizedBox(width: 8), const Text('Meer (Einleitung)')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.orange[200]), const SizedBox(width: 8), const Text('Stellplatz Parzelle')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.cyan[900]), const SizedBox(width: 8), const Text('Hauptanschluss Wasser')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.brown[800]), const SizedBox(width: 8), const Text('Abwasser Schacht Stadt')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.yellow[800]), const SizedBox(width: 8), const Text('Trafo-Station Strom')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.grey[900]), const SizedBox(width: 8), const Text('Straße / Fahrweg')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.grey[500]), const SizedBox(width: 8), const Text('Fußweg')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.amber[800]), const SizedBox(width: 8), const Text('Rezeption & Schranke')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.cyanAccent[400]), const SizedBox(width: 8), const Text('Trinkwasser (Untergrund)')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.brown[600]), const SizedBox(width: 8), const Text('Abwasser (Untergrund)')]),
-                  const SizedBox(height: 4),
-                  Row(children: [Icon(Icons.square, color: Colors.yellowAccent[700]), const SizedBox(width: 8), const Text('Strom (Untergrund)')]),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                InteractiveViewer(
-                  boundaryMargin: const EdgeInsets.all(500),
-                  minScale: 0.1,
-                  maxScale: 4.0,
-                  constrained: false,
-                  child: Center(
-                    child: Transform(
-                      transform: Matrix4.identity()
-                        ..scale(1.0, 0.5)
-                        ..rotateZ(cameraZ),
-                      alignment: FractionalOffset.center,
-                      child: GestureDetector(
-                        onPanStart: (details) => isDragging = true,
-                        onPanEnd: (details) => isDragging = false,
-                        child: Container(
-                          width: 800,
-                          height: 800,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white24, width: 2),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
-                            ]
-                          ),
-                          child: Builder(
-                            builder: (context) {
-                              Matrix4 parentMatrix = Matrix4.identity()
-                                ..scale(1.0, 0.5)
-                                ..rotateZ(cameraZ);
-                              Matrix4 billboardMatrix = Matrix4.copy(parentMatrix)..invert();
-
-                              double sinZ = sin(cameraZ);
-                              double cosZ = cos(cameraZ);
-                              const double tileSize = 40.0;
-
-                              // PASS 1: Alle flachen Bodenkacheln
-                              List<Widget> groundLayer = [];
-                              for (int x = 0; x < gridSize; x++) {
-                                for (int y = 0; y < gridSize; y++) {
-                                  groundLayer.add(
-                                    Positioned(
-                                      left: x * tileSize,
-                                      top: y * tileSize,
-                                      width: tileSize,
-                                      height: tileSize,
-                                      child: MouseRegion(
-                                        onEnter: (_) {
-                                          if (isDragging) buildTile(x, y);
-                                        },
-                                        child: GestureDetector(
-                                          onTap: () => buildTile(x, y),
-                                          child: _buildGroundTile(x, y, mapData[x][y]),
-                                        ),
-                                      ),
+                          // PASS 1: Alle flachen Bodenkacheln
+                          List<Widget> groundLayer = [];
+                          for (int x = 0; x < gridSize; x++) {
+                            for (int y = 0; y < gridSize; y++) {
+                              groundLayer.add(
+                                Positioned(
+                                  left: x * tileSize,
+                                  top: y * tileSize,
+                                  width: tileSize,
+                                  height: tileSize,
+                                  child: MouseRegion(
+                                    onEnter: (_) {
+                                      if (isDragging) buildTile(x, y);
+                                    },
+                                    child: GestureDetector(
+                                      onTap: () => buildTile(x, y),
+                                      child: _buildGroundTile(x, y, mapData[x][y]),
                                     ),
-                                  );
-                                }
-                              }
+                                  ),
+                                ),
+                              );
+                            }
+                          }
 
-                              // PASS 2: Aufrechte 3D-Objekte einsammeln & sortieren
-                              List<WorldObject> objectList = [];
+                          // PASS 2: Aufrechte 3D-Objekte einsammeln & sortieren
+                          List<WorldObject> objectList = [];
 
-                              for (int x = 0; x < gridSize; x++) {
-                                for (int y = 0; y < gridSize; y++) {
-                                  int type = mapData[x][y];
+                          for (int x = 0; x < gridSize; x++) {
+                            for (int y = 0; y < gridSize; y++) {
+                              int type = mapData[x][y];
 
-                                  if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
-                                    objectList.add(WorldObject(
-                                      x: x + 0.5,
-                                      y: y + 0.5,
-                                      sinZ: sinZ,
-                                      cosZ: cosZ,
-                                      widget: Positioned(
-                                        left: (x + 0.5) * tileSize - (tileSize / 2),
-                                        top: (y + 0.5) * tileSize - (tileSize / 2),
-                                        width: tileSize,
-                                        height: tileSize,
-                                        child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                      ),
-                                    ));
-                                  } else if (type == 3 || type == 6 || type == 14 || type == 15) {
-                                    objectList.add(WorldObject(
-                                      x: x.toDouble(),
-                                      y: y.toDouble(),
-                                      sinZ: sinZ,
-                                      cosZ: cosZ,
-                                      widget: Positioned(
-                                        left: x * tileSize,
-                                        top: y * tileSize,
-                                        width: tileSize,
-                                        height: tileSize,
-                                        child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                      ),
-                                    ));
-                                  }
-                                }
-                              }
-
-                              for (var car in activeCars) {
+                              if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
                                 objectList.add(WorldObject(
-                                  x: car.x,
-                                  y: car.y,
+                                  x: x + 0.5,
+                                  y: y + 0.5,
                                   sinZ: sinZ,
                                   cosZ: cosZ,
                                   widget: Positioned(
-                                    left: car.x * tileSize,
-                                    top: car.y * tileSize,
+                                    left: (x + 0.5) * tileSize - (tileSize / 2),
+                                    top: (y + 0.5) * tileSize - (tileSize / 2),
                                     width: tileSize,
                                     height: tileSize,
-                                    child: Transform(
-                                      alignment: Alignment.bottomCenter,
-                                      transform: billboardMatrix,
-                                      child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent),
-                                    ),
+                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
+                                  ),
+                                ));
+                              } else if (type == 3 || type == 6 || type == 14 || type == 15) {
+                                objectList.add(WorldObject(
+                                  x: x.toDouble(),
+                                  y: y.toDouble(),
+                                  sinZ: sinZ,
+                                  cosZ: cosZ,
+                                  widget: Positioned(
+                                    left: x * tileSize,
+                                    top: y * tileSize,
+                                    width: tileSize,
+                                    height: tileSize,
+                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
                                   ),
                                 ));
                               }
+                            }
+                          }
 
-                              objectList.add(WorldObject(
-                                x: guestX,
-                                y: guestY,
-                                sinZ: sinZ,
-                                cosZ: cosZ,
-                                widget: Positioned(
-                                  left: guestX * tileSize,
-                                  top: guestY * tileSize,
-                                  width: tileSize,
-                                  height: tileSize,
-                                  child: Transform(
-                                    alignment: Alignment.bottomCenter,
-                                    transform: billboardMatrix,
-                                    child: const Icon(Icons.emoji_people, size: 32, color: Colors.white),
-                                  ),
+                          for (var car in activeCars) {
+                            objectList.add(WorldObject(
+                              x: car.x,
+                              y: car.y,
+                              sinZ: sinZ,
+                              cosZ: cosZ,
+                              widget: Positioned(
+                                left: car.x * tileSize,
+                                top: car.y * tileSize,
+                                width: tileSize,
+                                height: tileSize,
+                                child: Transform(
+                                  alignment: Alignment.bottomCenter,
+                                  transform: billboardMatrix,
+                                  child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent),
                                 ),
-                              ));
+                              ),
+                            ));
+                          }
 
-                              objectList.sort((a, b) => a.depth.compareTo(b.depth));
+                          objectList.add(WorldObject(
+                            x: guestX,
+                            y: guestY,
+                            sinZ: sinZ,
+                            cosZ: cosZ,
+                            widget: Positioned(
+                              left: guestX * tileSize,
+                              top: guestY * tileSize,
+                              width: tileSize,
+                              height: tileSize,
+                              child: Transform(
+                                alignment: Alignment.bottomCenter,
+                                transform: billboardMatrix,
+                                child: const Icon(Icons.emoji_people, size: 32, color: Colors.white),
+                              ),
+                            ),
+                          ));
 
-                              return SizedBox(
-                                width: gridSize * tileSize,
-                                height: gridSize * tileSize,
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    ...groundLayer,
-                                    ...objectList.map((obj) => obj.widget),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                          objectList.sort((a, b) => a.depth.compareTo(b.depth));
+
+                          return SizedBox(
+                            width: gridSize * tileSize,
+                            height: gridSize * tileSize,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                ...groundLayer,
+                                ...objectList.map((obj) => obj.widget),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
                 ),
-
-                IgnorePointer(
-                  child: AnimatedContainer(
-                    duration: const Duration(seconds: 2),
-                    color: getAtmosphereColor(),
-                  ),
-                ),
-              ],
+              ),
             ),
+          ),
+
+          // 2. Atmosphäre / Filter
+          IgnorePointer(
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 2),
+              color: getAtmosphereColor(),
+            ),
+          ),
+
+          // 3. Top Bar
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: _buildTopBar(),
+          ),
+
+          // 4. Legende
+          if (_isLegendVisible)
+            Positioned(
+              top: 85,
+              right: 25,
+              child: _buildLegendBox(),
+            ),
+
+          // 5. Bottom Menu
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: _buildBottomMenu(),
           ),
         ],
       ),
-    );
-  }
+    ),
+  ),
+);
+}
 }
 
 class PipePainter extends CustomPainter {
