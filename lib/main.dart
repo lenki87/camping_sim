@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 void main() {
   runApp(const CampingSimApp());
@@ -156,6 +157,21 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       case 14: return 20.0;  // Hecke / Zaun
       default: return 0.0;
     }
+  }
+
+  UnityWidgetController? _unityWidgetController;
+
+  void onUnityCreated(controller) {
+    _unityWidgetController = controller;
+  }
+
+  // Röntgenblick für Unity-Engine umschalten
+  void toggleXRayIn3D(bool enable) {
+    _unityWidgetController?.postMessage(
+      'GameBridge',
+      'ToggleXRay',
+      enable.toString().toLowerCase(),
+    );
   }
 
   @override
