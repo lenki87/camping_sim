@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 void main() {
   runApp(const CampingSimApp());
@@ -48,6 +49,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
+  UnityWidgetController? _unityWidgetController;
   final int gridSize = 20; 
   late List<List<int>> mapData;
   
@@ -1304,6 +1306,13 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       onTap: () => setState(() {
         selectedTool = toolId;
         _activeToolName = name;
+        
+        bool isXRayTool = toolId >= 8 && toolId <= 11;
+        _unityWidgetController?.postMessage(
+          'GameBridge',
+          'ToggleXRay',
+          isXRayTool.toString().toLowerCase(),
+        );
       }),
       child: Container(
         width: 100,
@@ -1357,163 +1366,13 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           backgroundColor: Colors.blueGrey[900],
           body: Stack(
             children: [
-          // 1. Spielfeld (2-Pass 2.5D Isometrie)
+          // 1. Echte 3D Unity Engine
           Positioned.fill(
-            child: InteractiveViewer(
-              transformationController: _mapController,
-              boundaryMargin: const EdgeInsets.all(500),
-              minScale: 0.1,
-              maxScale: 4.0,
-              constrained: false,
-              child: Center(
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..scale(1.0, 0.5)
-                    ..rotateZ(cameraZ),
-                  alignment: FractionalOffset.center,
-                  child: GestureDetector(
-                    onPanStart: (details) => isDragging = true,
-                    onPanEnd: (details) => isDragging = false,
-                    child: Container(
-                      width: 800,
-                      height: 800,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white10, width: 2),
-                        boxShadow: const [
-                          BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
-                        ]
-                      ),
-                      child: Builder(
-                        builder: (context) {
-                          Matrix4 parentMatrix = Matrix4.identity()
-                            ..scale(1.0, 0.5)
-                            ..rotateZ(cameraZ);
-                          Matrix4 billboardMatrix = Matrix4.copy(parentMatrix)..invert();
-
-                          double sinZ = sin(cameraZ);
-                          double cosZ = cos(cameraZ);
-                          const double tileSize = 40.0;
-
-                          // PASS 1: Alle flachen Bodenkacheln
-                          List<Widget> groundLayer = [];
-                          for (int x = 0; x < gridSize; x++) {
-                            for (int y = 0; y < gridSize; y++) {
-                              groundLayer.add(
-                                Positioned(
-                                  left: x * tileSize,
-                                  top: y * tileSize,
-                                  width: tileSize,
-                                  height: tileSize,
-                                  child: MouseRegion(
-                                    onEnter: (_) {
-                                      if (isDragging) buildTile(x, y);
-                                    },
-                                    child: GestureDetector(
-                                      onTap: () => buildTile(x, y),
-                                      child: _buildGroundTile(x, y, mapData[x][y]),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                          }
-
-                          // PASS 2: Aufrechte 3D-Objekte einsammeln & sortieren
-                          List<WorldObject> objectList = [];
-
-                          for (int x = 0; x < gridSize; x++) {
-                            for (int y = 0; y < gridSize; y++) {
-                              int type = mapData[x][y];
-
-                              if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
-                                objectList.add(WorldObject(
-                                  x: x + 0.5,
-                                  y: y + 0.5,
-                                  sinZ: sinZ,
-                                  cosZ: cosZ,
-                                  widget: Positioned(
-                                    left: (x + 0.5) * tileSize - (tileSize / 2),
-                                    top: (y + 0.5) * tileSize - (tileSize / 2),
-                                    width: tileSize,
-                                    height: tileSize,
-                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                  ),
-                                ));
-                              } else if (type == 3 || type == 6 || type == 14 || type == 15) {
-                                objectList.add(WorldObject(
-                                  x: x.toDouble(),
-                                  y: y.toDouble(),
-                                  sinZ: sinZ,
-                                  cosZ: cosZ,
-                                  widget: Positioned(
-                                    left: x * tileSize,
-                                    top: y * tileSize,
-                                    width: tileSize,
-                                    height: tileSize,
-                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                  ),
-                                ));
-                              }
-                            }
-                          }
-
-                          for (var car in activeCars) {
-                            objectList.add(WorldObject(
-                              x: car.x,
-                              y: car.y,
-                              sinZ: sinZ,
-                              cosZ: cosZ,
-                              widget: Positioned(
-                                left: car.x * tileSize,
-                                top: car.y * tileSize,
-                                width: tileSize,
-                                height: tileSize,
-                                child: Transform(
-                                  alignment: Alignment.bottomCenter,
-                                  transform: billboardMatrix,
-                                  child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent),
-                                ),
-                              ),
-                            ));
-                          }
-
-                          objectList.add(WorldObject(
-                            x: guestX,
-                            y: guestY,
-                            sinZ: sinZ,
-                            cosZ: cosZ,
-                            widget: Positioned(
-                              left: guestX * tileSize,
-                              top: guestY * tileSize,
-                              width: tileSize,
-                              height: tileSize,
-                              child: Transform(
-                                alignment: Alignment.bottomCenter,
-                                transform: billboardMatrix,
-                                child: const Icon(Icons.emoji_people, size: 32, color: Colors.white),
-                              ),
-                            ),
-                          ));
-
-                          objectList.sort((a, b) => a.depth.compareTo(b.depth));
-
-                          return SizedBox(
-                            width: gridSize * tileSize,
-                            height: gridSize * tileSize,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                ...groundLayer,
-                                ...objectList.map((obj) => obj.widget),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            child: UnityWidget(
+              onUnityCreated: (controller) {
+                _unityWidgetController = controller;
+              },
+              useAndroidViewSurface: true, // Wichtig für reibungslose UI in Android
             ),
           ),
 
