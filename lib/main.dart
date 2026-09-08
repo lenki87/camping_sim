@@ -126,19 +126,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   double barrierAngle = 0.0;
 
   Color getAtmosphereColor() {
-    if (timeOfDay < 0.3) {
-      // Tag / Nachmittag: Leicht warmes Sonnenlicht
-      return const Color(0xFFFF9E00).withValues(alpha: 0.1);
-    } else if (timeOfDay < 0.5) {
-      // Abend: Kräftiges, stimmungsvolles Orange-Rot
-      return const Color(0xFFFF4500).withValues(alpha: 0.3);
-    } else if (timeOfDay < 0.8) {
-      // Nacht: Tiefes, kühles Mitternachtsblau
-      return const Color(0xFF001133).withValues(alpha: 0.5);
-    } else {
-      // Morgen: Frisches, zartes Morgenlicht
-      return const Color(0xFF87CEEB).withValues(alpha: 0.15);
-    }
+    return Colors.transparent;
   }
 
   // Kosten für die jeweiligen Bauteile
