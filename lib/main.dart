@@ -629,6 +629,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   Widget _buildGroundTile(int x, int y, int tileType) {
     bool isUndergroundView = selectedTool >= 8;
+    // NEU: Ein zentraler Wert, der alle Böden beim Röntgen auf 30% dimmt
+    double groundOpacity = isUndergroundView ? 0.3 : 1.0; 
 
     return Stack(
       fit: StackFit.expand,
@@ -639,7 +641,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             fit: StackFit.expand,
             children: [
               Opacity(
-                opacity: isUndergroundView ? 0.3 : 1.0,
+                opacity: groundOpacity,
                 child: Image.asset(
                   'assets/water.png',
                   fit: BoxFit.cover,
@@ -648,60 +650,72 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 ),
               ),
               Opacity(
-                opacity: isUndergroundView ? 0.3 : 1.0,
+                opacity: groundOpacity,
                 child: CustomPaint(painter: CoastPainter(_getCoastMask(x, y))),
               ),
             ],
           )
         else if (tileType == 15) // Sandstrand
-          Stack(
-            fit: StackFit.expand,
-            children: [
-              Container(color: const Color(0xFFE2C499)),
-              CustomPaint(painter: CoastPainter(_getCoastMask(x, y))),
-            ],
+          Opacity(
+            opacity: groundOpacity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Container(color: const Color(0xFFE2C499)),
+                CustomPaint(painter: CoastPainter(_getCoastMask(x, y))),
+              ],
+            ),
           )
         else if (tileType == 2 || tileType == 6) // Schotter (Parzelle & Rezeption)
-          Image.asset(
-            'assets/gravel.png',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.none,
-            errorBuilder: (c, e, s) => Container(color: getTileColor(tileType)),
+          Opacity(
+            opacity: groundOpacity,
+            child: Image.asset(
+              'assets/gravel.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
+              errorBuilder: (c, e, s) => Container(color: getTileColor(tileType)),
+            ),
           )
         else if (tileType == 4 || tileType == 5) // Straßen & Wege
-          Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset('assets/grass.png', fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(color: getTileColor(0))),
-              CustomPaint(
-                painter: RoadPainter(
-                  hasTop: _isRoadConnection(x, y - 1),
-                  hasRight: _isRoadConnection(x + 1, y),
-                  hasBottom: _isRoadConnection(x, y + 1),
-                  hasLeft: _isRoadConnection(x - 1, y),
-                  roadColor: tileType == 5 ? Colors.grey[700]! : Colors.brown[300]!,
+          Opacity(
+            opacity: groundOpacity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset('assets/grass.png', fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(color: getTileColor(0))),
+                CustomPaint(
+                  painter: RoadPainter(
+                    hasTop: _isRoadConnection(x, y - 1),
+                    hasRight: _isRoadConnection(x + 1, y),
+                    hasBottom: _isRoadConnection(x, y + 1),
+                    hasLeft: _isRoadConnection(x - 1, y),
+                    roadColor: tileType == 5 ? Colors.grey[700]! : Colors.brown[300]!,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         else // Standard Wiese (Typ 0 & 3)
-          Builder(
-            builder: (context) {
-              int variant = (x * 13 + y * 37) % 4;
-              return Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    'assets/grass.png',
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.none,
-                    errorBuilder: (c, e, s) => Container(color: getTileColor(0)),
-                  ),
-                  if (!isUndergroundView && variant == 1)
-                    const Center(child: Icon(Icons.eco, size: 12, color: Colors.black12)),
-                ],
-              );
-            },
+          Opacity(
+            opacity: groundOpacity,
+            child: Builder(
+              builder: (context) {
+                int variant = (x * 13 + y * 37) % 4;
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/grass.png',
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.none,
+                      errorBuilder: (c, e, s) => Container(color: getTileColor(0)),
+                    ),
+                    if (!isUndergroundView && variant == 1)
+                      const Center(child: Icon(Icons.eco, size: 12, color: Colors.black12)),
+                  ],
+                );
+              },
+            ),
           ),
 
         // Versorgungs-Statuspunkte auf Parzellen
