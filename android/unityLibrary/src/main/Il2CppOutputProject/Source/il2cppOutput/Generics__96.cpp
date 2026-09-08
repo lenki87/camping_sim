@@ -1,0 +1,5353 @@
+﻿#include "pch-cpp.hpp"
+
+
+
+
+
+
+struct HashSet_1_t4FBFDDA1AD07FFD212AA59BAB18C9A86185C2243;
+struct IEnumerator_1_t66C3C763F0F8BE3D51EF4A46681B637C6DE98889;
+struct IEnumerator_1_tA1DC395CD21D507FF785C8B4D6B4C319652A479B;
+struct IEnumerator_1_tCE517C3D91812689E8526823E7FFD8EF137D8963;
+struct IEnumerator_1_tEE52BEF646254C76E32C04C458DCD7D227B7EEE3;
+struct IIndexedCollectionPropertyBagEnumerator_1_t1BD98785BAA7410786994B7752674EBD1189C9DF;
+struct IIndexedCollectionPropertyBagEnumerator_1_t878ADDF1229719BC6C93EA8182296D8D2065961C;
+struct IIndexedCollectionPropertyBagEnumerator_1_tA48034DE7D620ACA0C45B1C8DECADB544A21D2E0;
+struct IIndexedCollectionPropertyBagEnumerator_1_tB7B419FE91A18ED94A7F61FDADBAB6AE4C5A562D;
+struct IProperty_1_t450B462BEC11CF6365A4848C36250AB317836465;
+struct IProperty_1_t832ED82D47DC151BD5CB382310E356E6CFFA0089;
+struct IProperty_1_tEBB8266DC6A35BE366DEDDADAC3058C4F9B09515;
+struct IProperty_1_tC8A9F7A47A6336EB9794E9A3C9FF3CDDBE47FC3F;
+struct List_1_tDF5D103086F37AE07D55D126A0A5A5407F500FEC;
+struct List_1_t6E710ABDED1ACF076416E01A0FB54D6C9B6EAE19;
+struct List_1_tF5A67096A0D68151D8E28B9AC51E2BEBA8BA6488;
+struct List_1_t02FDA4992BFC534B37236850E63707788E0AE2AE;
+struct List_1_t17C9C4E31E35A18BC8144B16B0813DCC83D27DA3;
+struct List_1_t8E67333AC5539884FC0DAE7293378C16F197B0D0;
+struct List_1_t0C03BB8D04810C036E129B4AA13C0CD045C619E4;
+struct List_1_t005866C9A942E85392723D93831723E1AB1D856E;
+struct List_1_tB751FDCEDAE7A97430AD924824F5D0193A720E52;
+struct List_1_t61FF0139870BC4E4F0FE8DFF2CD4AB6482C0EA7C;
+struct List_1_t0AFCE8A3BD0FB9189771F36DF68D3BA7A6FED88A;
+struct List_1_t0F3C26517D0B3AB47BCB2A7DA391431C4C77C9EE;
+struct List_1_tA11F1F146F045F5EC788CF43CF45AD16E9550272;
+struct List_1_t0EBD8BA582D3F66E8AC5DBDC4A635DEB08086465;
+struct List_1_tF144CCAA9ECC1473C88891AE61CDF91D5E85BCB4;
+struct List_1_t482A311257D18A4422413FA15AD5893D1D5041D5;
+struct List_1_t2EF0515F9247C0F480F55BF3E296366A47CB0324;
+struct List_1_t8292C421BBB00D7661DC07462822936152BAB446;
+struct List_1_tB9245BB1D4FD473F42A1B8E7641ACD72F355265B;
+struct List_1_t6988D2B11937CB8462E839C2DE1714ACD7797AF4;
+struct List_1_t1100962F75A3C1A8DDD989C01DEE91D38A84082A;
+struct List_1_tEE9D21067B06E9376583F5A60FB5D70AF940EE39;
+struct List_1_tE719CFD9827ECEC23BAC8452B125081998D08CC6;
+struct List_1_t67B4F73A05A1220FF45824DBE29F391490B25A0C;
+struct Stack_1_tEEC1F6968B6388E4800894946805617A2E7EDFDA;
+struct CharU5BU5D_t799905CF001DD5F13F7DBB310181FC4D8B7D0AAB;
+struct DecimalU5BU5D_t93BA0C88FA80728F73B792EE1A5199D0C060B615;
+struct PassDataU5BU5D_t6B4B9A102647B67F2ADC649949340DA5FD57B360;
+struct PassFragmentDataU5BU5D_t74AF17734798A0B2D6032AED2D98B03931A22F4F;
+struct PassInputDataU5BU5D_t61087C5ECFD1E76670512D4EA29F82623C0E109E;
+struct PassOutputDataU5BU5D_t496C39017D776EAE47F6B015EF8378FF78E4497B;
+struct PassRandomWriteDataU5BU5D_t9822DAC3FC5F75CAA6F126CF3F196DB6578DA5A0;
+struct PatchExtentsU5BU5D_tA31F13F7C5F2F8726998CFA38395494EEAEFB63B;
+struct PhysicsAABBU5BU5D_t89D1C4CB32AB92CDAEC15FE8E18F6CC5A92EEEF6;
+struct PhysicsBodyU5BU5D_t65BEE37BD433D1094F362529137C43C1977B4BF9;
+struct PhysicsBodyDefinitionU5BU5D_t2B9EB049B548ADBFD57DAE28B06C4F174542013F;
+struct PhysicsChainU5BU5D_t801050C2A8B496D17729E7FE5466039ADF7513C1;
+struct PhysicsComposerU5BU5D_t221D69E3B91D4487F43753F4B102265BF24AFFCC;
+struct PhysicsHandleU5BU5D_t2E494547C43983825E70272DE21E3BD8EB02A741;
+struct PhysicsJointU5BU5D_t8CD9101AF2A326541782B68AF3D4667882A6578E;
+struct PhysicsShapeU5BU5D_t3FEAA451FA177AFE0905D617339E47589CDD9874;
+struct PhysicsShape2DU5BU5D_tA1AB70893D21D57FB86D0DB946736CF973B9AA5B;
+struct PhysicsUserDataU5BU5D_t5B5E96218AF7F7D383FE86E884460521B693C2A5;
+struct PhysicsWorldU5BU5D_t039EEACDFAD89E6D666D12AFC80F1125F9E8D608;
+struct PlaneU5BU5D_t4EEF66BAA8B0140EFFF34F6183CE7F80546592BE;
+struct PlayerLoopSystemU5BU5D_t07C04E53AAC3CDA17603E8BA1B41D7E1AC083C6D;
+struct PointerModelU5BU5D_tE7B1CA281F392BD0840E1A81754AC94AF44FEE81;
+struct PolygonGeometryU5BU5D_t4C0E581A194A53EA9DBAA102501C9865F4CB54CA;
+struct PolygonIdU5BU5D_tA2C56BB65E59AAE44F0CD0D959B631C6EBD3CC42;
+struct ProbeSetIndexU5BU5D_tA0D66DD481715DD22EA05639888057F7A3990F60;
+struct ProfilerCategoryU5BU5D_t576894A7F4EFFCF033B601348134ED3FBB0E4E55;
+struct ProfilerRecorderHandleU5BU5D_tF4CE904192F8FC2BAF35F878A921F002B2FE865E;
+struct ProfilerRecorderSampleU5BU5D_t2A56495EC1998F8787BB7E87D794BFAF54EBB3B5;
+struct PropertyNameU5BU5D_tF8EB8D35ACE9248CE43AD11FCD1605D7988467DB;
+struct PropertyPathPartU5BU5D_t7994D542F14DDDDEABB1792C335C20149399AEBB;
+struct PropertySceneHandleU5BU5D_tF7F55161CB0EF92CB10F3A67AFB5D6EDE6AA8F7B;
+struct PropertyStreamHandleU5BU5D_t42B21219DCA0A51A9B116E03432CEAB4FA835D0C;
+struct QuaternionU5BU5D_t3C088AFB0F3D2763228C9CAB227021C5DC462AF7;
+struct RangeIntU5BU5D_tDA19CDA125B717AE0DA671E191F3E59CD9132A46;
+struct RangeKeyU5BU5D_tE89933C2D60CDA031ECA5B148D2A39D7DC548EC1;
+struct RayTracingSubMeshFlagsU5BU5D_t8C13D1A10A02C73D0D6CAF5AC15FD25AB8512F62;
+struct RaycastCommandU5BU5D_tC2C47F5D6FF856136FD749238777B5C22D24EEB8;
+struct RaycastHitU5BU5D_t008B8309DE422FE7567068D743D68054D5EBF1A8;
+struct RaycastHit2DU5BU5D_t28739C686586993113318B63C84927FD43063FC7;
+struct ReadCommandU5BU5D_t838C05BA8BD1A4B6532B37A4ABD30C658526667E;
+struct RectU5BU5D_t83297CB2E61BDF9D27DCB1A3E5C78EBCE9F7C993;
+struct RenderBufferU5BU5D_t243AD088CC8449166000DC2F429023524FD855F5;
+struct RenderBufferLoadActionU5BU5D_t49A752C09896D99A1F5734A4AFDE4588AB2883BA;
+struct RenderBufferStoreActionU5BU5D_tFEA8F5DD460573EA9F35FBEC5727D1804C5DCBF5;
+struct RenderStateBlockU5BU5D_tB3277DEBE81600D781CFFD366CF0B6E363775468;
+struct RenderTargetIdentifierU5BU5D_t179798C153B7CE381B41C57863F98CB24023C4CE;
+struct RendererListU5BU5D_t80C28472AABC27AC3809B9300B1F81D3AB423DDC;
+struct RendererListLegacyResourceU5BU5D_tEB1276E40F8D87935FAB65686AA2A4267B529F38;
+struct RendererListResourceU5BU5D_t466A5554891C5C5685BE25122B5C21F312288D5C;
+struct BaseRaycaster_t7DC8158FD3CA0193455344379DD5FF7CD5F1F832;
+struct BitSet_t89F906D542C052F4565FBEF32E1E9713B966026B;
+struct Byte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3;
+struct ExtendedPointerEventData_t164B462A9B123B2EE69B7DEC4F33F6AA3DE7937F;
+struct GameObject_t76FEDD663AB33C991A9C9A23129337651094216F;
+struct IEventHandler_tB1627CA1B7729F3E714572E69A79C91A1578C9A3;
+struct IPanelComponent_tD81E0440587CF3F01EBF4A2726F88D81C40D138F;
+struct PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD;
+struct PassFragmentData_t67D0B4EC16AF3DBC4233CC7537B93A27C78BFA8C;
+struct PassInputData_tA1B8624F31DDB24770D8E0C8FA54189A567FC2DE;
+struct PassOutputData_t8EA364E560775D19D285839BA06710B337503E0D;
+struct PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B;
+struct Plane_tB7D8CC6F7AACF5F3AA483AF005C1102A8577BC0C;
+struct RangeInt_tDFBE4FD13857C11F21F7C3DA6B60D05341B67268;
+struct ReflectionProbe_t7CFA63F0340447A0069E66DB261A8A1B79BA8A2D;
+struct String_t;
+struct Type_t;
+struct Void_t4861ACF8F4594C3437BB48B6E56783494B843915;
+struct UpdateFunction_t1C48B7EECBE47AC123A9D9D7D9D2A9EE951C56C4;
+
+struct Decimal_tDA6C877282B2D789CF97C0949661CC11D643969F;
+struct PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F_marshaled_com;
+struct PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F_marshaled_pinvoke;
+struct PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com;
+struct PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke;
+
+
+IL2CPP_EXTERN_C_BEGIN
+IL2CPP_EXTERN_C_END
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+struct ValueType_t6D9B272BD21782F0A9A14F2E41F85A50E97A986F  : public RuntimeObject
+{
+};
+struct ValueType_t6D9B272BD21782F0A9A14F2E41F85A50E97A986F_marshaled_pinvoke
+{
+};
+struct ValueType_t6D9B272BD21782F0A9A14F2E41F85A50E97A986F_marshaled_com
+{
+};
+struct Enumerator_tD2E8F0E679FE751040198815327E7E3D1CF4C4FF 
+{
+	List_1_tDF5D103086F37AE07D55D126A0A5A5407F500FEC* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RuntimeObject* ____current;
+};
+struct Enumerator_tE59B7900FC14C9BA32D5897C2AFD587D08C6D512 
+{
+	List_1_t6E710ABDED1ACF076416E01A0FB54D6C9B6EAE19* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RuntimeObject* ____current;
+};
+struct Enumerator_t4E3C57A1910AD6B9061B55336002098178EC7147 
+{
+	List_1_tF5A67096A0D68151D8E28B9AC51E2BEBA8BA6488* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RuntimeObject* ____current;
+};
+struct Enumerator_tEB9C676EAF9D13E6B316D2D4B7299CC719868712 
+{
+	List_1_t02FDA4992BFC534B37236850E63707788E0AE2AE* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RuntimeObject* ____current;
+};
+struct Enumerator_t4B3858413FBE1CEB7A50329891532AB9CEE6F776 
+{
+	PassDataU5BU5D_t6B4B9A102647B67F2ADC649949340DA5FD57B360* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t3AAAAB2D690ADA1AF7833BE4DC1A1EA213491924 
+{
+	PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_tF1142F35346FEA126C5B238D36239877240EC982 
+{
+	PassFragmentDataU5BU5D_t74AF17734798A0B2D6032AED2D98B03931A22F4F* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t0BC99340DC63C879C1171758654122E1878B6B37 
+{
+	PassFragmentData_t67D0B4EC16AF3DBC4233CC7537B93A27C78BFA8C* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_t710E1BEBE25AD47AE1375BFABCEB0083D268F988 
+{
+	PassInputDataU5BU5D_t61087C5ECFD1E76670512D4EA29F82623C0E109E* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t6837D36BD334CEF9D1D4063FB083E55E1AC7DF21 
+{
+	PassInputData_tA1B8624F31DDB24770D8E0C8FA54189A567FC2DE* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_t0172325C0BD9B0413147C19ED9096D93F0C99128 
+{
+	PassOutputDataU5BU5D_t496C39017D776EAE47F6B015EF8378FF78E4497B* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t481033C0F67C3849EA0FA8C9679920441F334C04 
+{
+	PassOutputData_t8EA364E560775D19D285839BA06710B337503E0D* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_t474527857D9CFEB9B3BA3A08B0DC3D965E555ECE 
+{
+	PassRandomWriteDataU5BU5D_t9822DAC3FC5F75CAA6F126CF3F196DB6578DA5A0* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t2794CC84D8D7238561821764C52A3C6AF26B3CFF 
+{
+	PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_tD6D484F773BC5A24B8D6E5F3411876144E7C7725 
+{
+	PatchExtentsU5BU5D_tA31F13F7C5F2F8726998CFA38395494EEAEFB63B* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t8C7CAF319FB34482258ABA890839C58F5F8ECAAA 
+{
+	PhysicsAABBU5BU5D_t89D1C4CB32AB92CDAEC15FE8E18F6CC5A92EEEF6* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t6D59590BBEF7D62E19B8B2547A34CB857AD0E77F 
+{
+	PhysicsBodyU5BU5D_t65BEE37BD433D1094F362529137C43C1977B4BF9* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tD2BF9E7E5A9480DD04DD444CAEFC7BFF03B8C152 
+{
+	PhysicsBodyDefinitionU5BU5D_t2B9EB049B548ADBFD57DAE28B06C4F174542013F* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t4D771878668B4EACDABC3F7D2CA7F146735F969C 
+{
+	PhysicsChainU5BU5D_t801050C2A8B496D17729E7FE5466039ADF7513C1* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t42D119C723EA19A73EC8A7DEBE99C85B58CDA171 
+{
+	PhysicsComposerU5BU5D_t221D69E3B91D4487F43753F4B102265BF24AFFCC* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t41A2EC7F36CEC93D1536E2C60D3AC022B7B0C0BE 
+{
+	PhysicsHandleU5BU5D_t2E494547C43983825E70272DE21E3BD8EB02A741* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t05CC23414279DA2CA31872B83B98DCCF7C1AC271 
+{
+	PhysicsJointU5BU5D_t8CD9101AF2A326541782B68AF3D4667882A6578E* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tCB252A32ED3A6E0E83A01A328D849AE07CF4C056 
+{
+	PhysicsShapeU5BU5D_t3FEAA451FA177AFE0905D617339E47589CDD9874* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t9F0FBAA759D079F6A690D54150477DB7984D6B53 
+{
+	PhysicsShape2DU5BU5D_tA1AB70893D21D57FB86D0DB946736CF973B9AA5B* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t9A107BDA1993B63A0CACCE6FF0CFE3DFC9F73A6D 
+{
+	PhysicsUserDataU5BU5D_t5B5E96218AF7F7D383FE86E884460521B693C2A5* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t274AC3794B7F6B3BC4823986651DFB709DB248E2 
+{
+	PhysicsWorldU5BU5D_t039EEACDFAD89E6D666D12AFC80F1125F9E8D608* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t398C2410C334C6C0A80F7CDE4E457D294800239B 
+{
+	PlaneU5BU5D_t4EEF66BAA8B0140EFFF34F6183CE7F80546592BE* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t268A98A2CA77D24323C79F7F3E3A1E369A6B2D04 
+{
+	Plane_tB7D8CC6F7AACF5F3AA483AF005C1102A8577BC0C* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_tB87B9A8451BB4BA4E6B67CD3C5BF61C7A349E05E 
+{
+	PolygonGeometryU5BU5D_t4C0E581A194A53EA9DBAA102501C9865F4CB54CA* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t117C31505083629B7E028785ED0E3780F9A220AF 
+{
+	PolygonIdU5BU5D_tA2C56BB65E59AAE44F0CD0D959B631C6EBD3CC42* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tC558432E1F8CB885380C7BDDE72AA8F743A0698E 
+{
+	ProbeSetIndexU5BU5D_tA0D66DD481715DD22EA05639888057F7A3990F60* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t90FDE7CC598F09161D2F049A14A67FF7A26060EC 
+{
+	ProfilerCategoryU5BU5D_t576894A7F4EFFCF033B601348134ED3FBB0E4E55* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t6B74900D2213C76517DA6BCE67354A5203D8080F 
+{
+	ProfilerRecorderHandleU5BU5D_tF4CE904192F8FC2BAF35F878A921F002B2FE865E* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t730A0964A53A2DCB340518BB2B52581A01402448 
+{
+	ProfilerRecorderSampleU5BU5D_t2A56495EC1998F8787BB7E87D794BFAF54EBB3B5* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t427D0D58D3723CCA1089CDE5ADFF238C387A0F89 
+{
+	PropertyNameU5BU5D_tF8EB8D35ACE9248CE43AD11FCD1605D7988467DB* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tB19B245DE4C1C2A8D089D93441A2E61F31F95345 
+{
+	PropertySceneHandleU5BU5D_tF7F55161CB0EF92CB10F3A67AFB5D6EDE6AA8F7B* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t95B7B9F7AAF94AF2E9606A6E8EBABA37F1DC17DB 
+{
+	PropertyStreamHandleU5BU5D_t42B21219DCA0A51A9B116E03432CEAB4FA835D0C* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t0641549C30FADB631675E6DF728ECDC3699F2590 
+{
+	QuaternionU5BU5D_t3C088AFB0F3D2763228C9CAB227021C5DC462AF7* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tA8506C8573F8210098292FE1068269D77AF78284 
+{
+	RangeIntU5BU5D_tDA19CDA125B717AE0DA671E191F3E59CD9132A46* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t9BD69A362C9B11D20D9262D7EC5C0B55C51D8423 
+{
+	RangeInt_tDFBE4FD13857C11F21F7C3DA6B60D05341B67268* ___m_Ptr;
+	int32_t ___m_Length;
+	int32_t ___m_Index;
+};
+struct Enumerator_tF7475BFB18DBD3970584DE75778CC97B241B6F61 
+{
+	RangeKeyU5BU5D_tE89933C2D60CDA031ECA5B148D2A39D7DC548EC1* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t9655809B8E72BB5E14787239E19CD84E173190DA 
+{
+	RayTracingSubMeshFlagsU5BU5D_t8C13D1A10A02C73D0D6CAF5AC15FD25AB8512F62* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tDB772CB1736B619BADC7120A90D846EDF386302C 
+{
+	RaycastCommandU5BU5D_tC2C47F5D6FF856136FD749238777B5C22D24EEB8* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tDCEA90242CEEC015C5D90AC0D30AD74F8F56D5B7 
+{
+	RaycastHitU5BU5D_t008B8309DE422FE7567068D743D68054D5EBF1A8* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tAA2FA748791B071355608DFD0593307E1C274449 
+{
+	RaycastHit2DU5BU5D_t28739C686586993113318B63C84927FD43063FC7* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t933084CBCDE82C693DAF789BC833C8E8BCAA5135 
+{
+	ReadCommandU5BU5D_t838C05BA8BD1A4B6532B37A4ABD30C658526667E* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t8A532D3FB06E7CE6C6C83AFA7C7C6F774AACCC30 
+{
+	RectU5BU5D_t83297CB2E61BDF9D27DCB1A3E5C78EBCE9F7C993* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t99E7D84A4A2CA9E8F6491F81A1EBD5792AC3E5BE 
+{
+	RenderBufferU5BU5D_t243AD088CC8449166000DC2F429023524FD855F5* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tFCFEBA4B3255A4A56A1CEF73DCC7762A8B72974D 
+{
+	RenderBufferLoadActionU5BU5D_t49A752C09896D99A1F5734A4AFDE4588AB2883BA* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t38BDE60FBA523CA46AB9BF048CB1B9F48A510BC1 
+{
+	RenderBufferStoreActionU5BU5D_tFEA8F5DD460573EA9F35FBEC5727D1804C5DCBF5* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_tB2D947A2525AF1FE55E13A56D35E3EC6DBBADF71 
+{
+	RenderStateBlockU5BU5D_tB3277DEBE81600D781CFFD366CF0B6E363775468* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t4CAC5E3EA4E62E7810DE24EAD68A08B957528329 
+{
+	RenderTargetIdentifierU5BU5D_t179798C153B7CE381B41C57863F98CB24023C4CE* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t9792B025BEB9C4D9DE1679B48870939239DAD415 
+{
+	RendererListU5BU5D_t80C28472AABC27AC3809B9300B1F81D3AB423DDC* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t4B5D6247D7E5C30D39DAE4ADA948D9161C1204BF 
+{
+	RendererListLegacyResourceU5BU5D_tEB1276E40F8D87935FAB65686AA2A4267B529F38* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct Enumerator_t5CA4F9391A896094CD72713D396E05A738B65AB8 
+{
+	RendererListResourceU5BU5D_t466A5554891C5C5685BE25122B5C21F312288D5C* ____array;
+	int32_t ____start;
+	int32_t ____end;
+	int32_t ____current;
+};
+struct NativeSlice_1_t66A798B4F8582ADF5BBC7C9B73523A0353D6EFF0 
+{
+	uint8_t* ___m_Buffer;
+	int32_t ___m_Stride;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t25228F5061073E2FC6F8FB46472DBB822D0262BC 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t0E8955497985C5A87D03079257194DAB9B61D5B2 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t73EBAE38265F7F61EC49B6FD6BAA0E0DC65F099B 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t9C122BE5858DECB23616D0A9A3CD8D921355BE8B 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tEE0557E3A969B1612FF5BEE53A689E3A445D20B5 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tFCBC221B146122978F4ABD0C6A87F22599D17021 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tC0520040F8980858276107D33AA5D46B9170C0D6 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t0D2D46E1552B975E08DFE0F178C08A9A7ED36106 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t8BE269F92F6261BA858E237EEE3E96F1A2CDC0DA 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t8D5DBE69B4452096171185B67137964FD2F5FA0A 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t021975EC171A49E2C58C549DC03764A43CACC20B 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t66BF6C1B52D3488D91E356C9BC15DD313584B257 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t65E7B711669FE9146EB41A99F9A093E2112B198E 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tEAA0471002F2ED1E5F28432038D9646184ED4DD9 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t58C419713CF91FCA0737E0F06E2E9C42F19BF590 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t74CD4E2BA3BB4A205C1D5F0F132C61F6CD3AC84E 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tD42A4C07A69A65A044E8413065F24941DE32E292 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tB5ECD2AFCD43A8226FF2905123D8120E7DEFFE58 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t7EFE09E4CBB9EEE345B5E45EA9A8B14E562AAD52 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t30573AC7623115594F0C7E7DEE00B9977CAE4F37 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t1478797B4E13660DB864F8BC9548BDB4EEAEB60C 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t02EDFDFEAAAF9C216BB52EA0C8A08CF75EE5CE58 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t88AA80980774DFB6D9AD4CB5B9ACA113720BC98E 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t1A09C874B651965A28673FA56974F5664FAB4D65 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t615F64CAEA6EE385FB3280DE2E7D6A3FEA2EFD99 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t81FEDE6A3F45049049E04E57790610A9FD1536C0 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_tB382E3AC8D13B2C46E86DC34115A9885911DC867 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct ReadOnly_t9E7D9185B359CEB198A6B7254F91F3809C4C4E7C 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+};
+struct DepthState_t798415D2C1D9202E555FEE5D4C5FDF6B3A077255 
+{
+	uint8_t ___m_WriteEnabled;
+	int8_t ___m_CompareFunction;
+};
+struct DiscreteTime_t0954C3B93A9A500A04D33E309649C1CD2780C41E 
+{
+	int64_t ___Value;
+};
+struct EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8 
+{
+	union
+	{
+		struct
+		{
+			uint64_t ___m_rawData;
+		};
+		uint8_t EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8__padding[8];
+	};
+};
+struct Enum_t2A1A94B24E3B776EEF4E5E485E290BB9D4D072E2  : public ValueType_t6D9B272BD21782F0A9A14F2E41F85A50E97A986F
+{
+};
+struct Enum_t2A1A94B24E3B776EEF4E5E485E290BB9D4D072E2_marshaled_pinvoke
+{
+};
+struct Enum_t2A1A94B24E3B776EEF4E5E485E290BB9D4D072E2_marshaled_com
+{
+};
+struct EventModifiers_t4B1B8EBE011383F2D6236E6B9F99AB156BCE35DD 
+{
+	uint32_t ____state;
+};
+struct IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79 
+{
+	int32_t ___Index;
+	bool ___IsReadOnly;
+};
+struct IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79_marshaled_pinvoke
+{
+	int32_t ___Index;
+	int32_t ___IsReadOnly;
+};
+struct IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79_marshaled_com
+{
+	int32_t ___Index;
+	int32_t ___IsReadOnly;
+};
+struct IntPtr_t 
+{
+	void* ___m_value;
+};
+struct PhysicsComposer_t0D54F067D6F10F1736E0A1667194CA45802E491B 
+{
+	int32_t ___m_Index1;
+	uint16_t ___m_Generation;
+};
+struct PhysicsHandle_tEC3DCC38ABB8395068171070539ABF8309A854C2 
+{
+	int32_t ___m_Index1;
+	uint16_t ___m_World0;
+	uint16_t ___m_Generation;
+};
+struct PhysicsMask_t3DD2C96AAEA0F639053D0EC7770BF403F296BFCC 
+{
+	uint64_t ___bitMask;
+};
+struct PhysicsScene_t55222DD37072E8560EE054A07C0E3FE391D9D9DE 
+{
+	int32_t ___m_index;
+	int32_t ___m_version;
+};
+struct PhysicsWorld_tD76337CF6B632797461123938E650738C9A18952 
+{
+	uint16_t ___m_Index1;
+	uint16_t ___m_Generation;
+};
+struct PolygonId_t8064F95ADA9FE8AC5F7DDF61A9F1E66FFDDE2449 
+{
+	uint64_t ___polyRef;
+};
+#pragma pack(push, tp, 1)
+struct ProfilerCategory_tA55212CD512C618AF6D2147791F20319896592AC 
+{
+	union
+	{
+		struct
+		{
+			union
+			{
+				#pragma pack(push, tp, 1)
+				struct
+				{
+					uint16_t ___m_CategoryId;
+				};
+				#pragma pack(pop, tp)
+				struct
+				{
+					uint16_t ___m_CategoryId_forAlignmentOnly;
+				};
+			};
+		};
+		uint8_t ProfilerCategory_tA55212CD512C618AF6D2147791F20319896592AC__padding[2];
+	};
+};
+#pragma pack(pop, tp)
+#pragma pack(push, tp, 1)
+struct ProfilerRecorderHandle_t1215F88C92BAED83BFC3665C0D1BBFD347A33FD4 
+{
+	union
+	{
+		struct
+		{
+			union
+			{
+				#pragma pack(push, tp, 1)
+				struct
+				{
+					uint64_t ___handle;
+				};
+				#pragma pack(pop, tp)
+				struct
+				{
+					uint64_t ___handle_forAlignmentOnly;
+				};
+			};
+		};
+		uint8_t ProfilerRecorderHandle_t1215F88C92BAED83BFC3665C0D1BBFD347A33FD4__padding[8];
+	};
+};
+#pragma pack(pop, tp)
+struct ProfilerRecorderSample_t1F59CC43F81B774053308543605585CA87C94C5F 
+{
+	int64_t ___value;
+	int64_t ___count;
+	int64_t ___refValue;
+};
+struct PropertySceneHandle_tB8CC36E4534888D6FCAC24F3337F4D436A327EE1 
+{
+	uint32_t ___valid;
+	int32_t ___handleIndex;
+};
+struct PropertyStreamHandle_tA4F5D5D4C6A47069B2D84EDDD84B8A7F982DA1B3 
+{
+	uint32_t ___m_AnimatorBindingsVersion;
+	int32_t ___handleIndex;
+	int32_t ___valueArrayIndex;
+	int32_t ___bindType;
+};
+struct Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 
+{
+	float ___x;
+	float ___y;
+	float ___z;
+	float ___w;
+};
+struct RangeInt_tDFBE4FD13857C11F21F7C3DA6B60D05341B67268 
+{
+	int32_t ___start;
+	int32_t ___length;
+};
+struct RangePositionInfo_t27BA7EB1EC12061DD5ACFD24BD71A915D412223F 
+{
+	BitSet_t89F906D542C052F4565FBEF32E1E9713B966026B* ___curpos;
+	DecimalU5BU5D_t93BA0C88FA80728F73B792EE1A5199D0C060B615* ___rangeCounters;
+};
+struct RangePositionInfo_t27BA7EB1EC12061DD5ACFD24BD71A915D412223F_marshaled_pinvoke
+{
+	BitSet_t89F906D542C052F4565FBEF32E1E9713B966026B* ___curpos;
+	Decimal_tDA6C877282B2D789CF97C0949661CC11D643969F* ___rangeCounters;
+};
+struct RangePositionInfo_t27BA7EB1EC12061DD5ACFD24BD71A915D412223F_marshaled_com
+{
+	BitSet_t89F906D542C052F4565FBEF32E1E9713B966026B* ___curpos;
+	Decimal_tDA6C877282B2D789CF97C0949661CC11D643969F* ___rangeCounters;
+};
+struct Ratio_t66C366BD5A2636748B25C00FD6A63F40A09712B3 
+{
+	float ___m_Value;
+};
+struct ReadCommand_t5DB46BD58D686FDDFBD8AB7600B9CF676DC7D97F 
+{
+	void* ___Buffer;
+	int64_t ___Offset;
+	int64_t ___Size;
+};
+struct Rect_tA04E0F8A1830E767F40FB27ECD8D309303571F0D 
+{
+	float ___m_XMin;
+	float ___m_YMin;
+	float ___m_Width;
+	float ___m_Height;
+};
+struct RectInt_t1744D10E1063135DA9D574F95205B98DAC600CB8 
+{
+	int32_t ___m_XMin;
+	int32_t ___m_YMin;
+	int32_t ___m_Width;
+	int32_t ___m_Height;
+};
+struct ReflectionProbeBlendInfo_t9E258E27B79B396F9D1693B972157A79AFBD9200 
+{
+	ReflectionProbe_t7CFA63F0340447A0069E66DB261A8A1B79BA8A2D* ___probe;
+	float ___weight;
+};
+struct ReflectionProbeBlendInfo_t9E258E27B79B396F9D1693B972157A79AFBD9200_marshaled_pinvoke
+{
+	ReflectionProbe_t7CFA63F0340447A0069E66DB261A8A1B79BA8A2D* ___probe;
+	float ___weight;
+};
+struct ReflectionProbeBlendInfo_t9E258E27B79B396F9D1693B972157A79AFBD9200_marshaled_com
+{
+	ReflectionProbe_t7CFA63F0340447A0069E66DB261A8A1B79BA8A2D* ___probe;
+	float ___weight;
+};
+struct RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 
+{
+	uint8_t ___m_WriteMask;
+	uint8_t ___m_SourceColorBlendMode;
+	uint8_t ___m_DestinationColorBlendMode;
+	uint8_t ___m_SourceAlphaBlendMode;
+	uint8_t ___m_DestinationAlphaBlendMode;
+	uint8_t ___m_ColorBlendOperation;
+	uint8_t ___m_AlphaBlendOperation;
+	uint8_t ___m_Padding;
+};
+struct StencilState_tBE5F7C1134E50C5E93B45A626D4FB4690F1C91A9 
+{
+	uint8_t ___m_Enabled;
+	uint8_t ___m_ReadMask;
+	uint8_t ___m_WriteMask;
+	uint8_t ___m_Padding;
+	uint8_t ___m_CompareFunctionFront;
+	uint8_t ___m_PassOperationFront;
+	uint8_t ___m_FailOperationFront;
+	uint8_t ___m_ZFailOperationFront;
+	uint8_t ___m_CompareFunctionBack;
+	uint8_t ___m_PassOperationBack;
+	uint8_t ___m_FailOperationBack;
+	uint8_t ___m_ZFailOperationBack;
+};
+struct UIntPtr_t 
+{
+	void* ____pointer;
+};
+struct Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 
+{
+	float ___x;
+	float ___y;
+};
+struct Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 
+{
+	float ___x;
+	float ___y;
+	float ___z;
+};
+struct ButtonsState_tC596C9B742AF4FDB4D32B05551EEDB23D243E996 
+{
+	uint32_t ____state;
+};
+struct ByReference_1_t341F8C08B35A185FBFAEC96A74442FFA74057F0B 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tCA902CDE792132BFB82E414335D24D0EDA9FC559 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tAF1677F5CC47801E99D4B73A467E457CFDA063F9 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t262F9DD539C2F73D7482B394D586E03B7CD1972B 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tDEBFA305DD44EB5DECC7D606D70182963FBA207D 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t2DF3BD16D90BA720C1C3CE9E5C782DD340F4E99F 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t12ADA7807C20492FD2CA20C5F3162FD283FFD837 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t72AEA6F5A8AC70E9317DF30D5406B6CDA233FA47 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t3EB95C01BA9368FD3D7681C8005F6170BA668C41 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tCC9A045B51FB146CAA7B27CCA0C26809BC72A96D 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tEA1F575F15907BE928F8021737B6F3B582942CD1 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t63DC3B42C6268111F7DA91848285336E2B03083D 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t48D809FB9F4EB741A72AB0FA1E09EA19588961AE 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t0023DF768313DF29DBD02152F58C1EF23E164803 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t789A7DAB8469893D7B5282F5ABEDF6332DC4A60A 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t837CFD5B5411F20D750157D2DCCDB46508BB8F92 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t294AE795726D74CBF829DDD5985FEB5230A8C375 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t1F5E2C34A1FBAE4940E57FD58CC1B1AD26FD0CA6 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t04F2D3470E0FCAD03955746F59E5B4B2142B3B35 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t7C905717FB39AA5DB3745E2324697190FA0C5E40 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tB892C73A7BBDD0BEE3CEE735FEF02AB1AC4CF5FC 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tED770338364927B813A2A1048FC068A6119E827B 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t273C38E9CB9E475B946C606A55FEE8B12E58154A 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t74F577441AB649D6CABC19A28B978C60F10E5B57 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t848FCA8796CED05D6A069506E645A4C1833BEBEC 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tF0132EC5AF5BAE558B1624A51AC63E48FB55327F 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t183FACCCA934CA9C9FF5D6F75166C328A5916889 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t5C6DE62736E82AA095944FAAB09E4574704959C3 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tE86CE265923F6BE3290C056F8FADF455DF34F6AD 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t8F6CF787BD5D87C78F6FC70F368D9FA35DCB8F5A 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tBB0670AFE2FF8ED93F1B5C70876E87B1B5A15C33 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t70AEEF48AACAF656D85503CA9266EFAF096410A5 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t5F4B4DE3FDC99036DCD566962F671576D8208F46 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t2C9EE6F0EEB9A48B9891A55AB01B889A5F567D60 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t60E9D5BC0CC636A7BBC9119CB88BD64476B03EA4 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tCF2455D9ABA389C2A166E759D2ABA3CF31E87293 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tD7CEB46AA10ADF9732D4418942B226987F48B44D 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tE3D6FB8692512B125160E81C45DD958AEB270CEF 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t10EF1E33A4F72ED5D5BAF059A901D7E0D04D3321 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tDFBD036ABE0C34FD32097C554020DCA179A48178 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tF13FEF1303000B3E98675ADD5EE72C9D346BAEF2 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t7D8CB0D20D6FA4F024F258F1AD01E21E98D3FFF2 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_t67FB8CF4098EB6840ECEA01771F8957ED7F6BC24 
+{
+	intptr_t ____value;
+};
+struct ByReference_1_tB6E2A252F6ACDBB3580BAC78A9A2D385FBAFEA3C 
+{
+	intptr_t ____value;
+};
+struct Enumerator_t0E9387D4FE3C08F27AFD286439E4DAA1BE28E6D1 
+{
+	ReadOnly_tC0520040F8980858276107D33AA5D46B9170C0D6 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsComposer_t0D54F067D6F10F1736E0A1667194CA45802E491B ___value;
+};
+struct Enumerator_tC10B15CACD0CE58AC87FF98CF0D64515632AADA8 
+{
+	ReadOnly_t0D2D46E1552B975E08DFE0F178C08A9A7ED36106 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsHandle_tEC3DCC38ABB8395068171070539ABF8309A854C2 ___value;
+};
+struct Enumerator_tBE87AC65AFA43FDCDBA0A01B820F070C101C85C6 
+{
+	ReadOnly_t65E7B711669FE9146EB41A99F9A093E2112B198E ___m_Array;
+	int32_t ___m_Index;
+	PhysicsWorld_tD76337CF6B632797461123938E650738C9A18952 ___value;
+};
+struct Enumerator_t986A7F6EEA231EA2721415F6B02E849E45057C22 
+{
+	NativeSlice_1_t66A798B4F8582ADF5BBC7C9B73523A0353D6EFF0 ___m_Array;
+	int32_t ___m_Index;
+};
+struct Enumerator_tF18E009DA46B465FC2850E38D14177D78022A36A 
+{
+	ReadOnly_t74CD4E2BA3BB4A205C1D5F0F132C61F6CD3AC84E ___m_Array;
+	int32_t ___m_Index;
+	PolygonId_t8064F95ADA9FE8AC5F7DDF61A9F1E66FFDDE2449 ___value;
+};
+struct Enumerator_t730B78BECF2161492BEB3F821D2A3017E38C67A2 
+{
+	ReadOnly_tD42A4C07A69A65A044E8413065F24941DE32E292 ___m_Array;
+	int32_t ___m_Index;
+	alignas(2) ProfilerCategory_tA55212CD512C618AF6D2147791F20319896592AC ___value;
+};
+struct Enumerator_t677C46D56F94FEAF74F8AA014F68A0865F0C2367 
+{
+	List_1_t0F3C26517D0B3AB47BCB2A7DA391431C4C77C9EE* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	ProfilerRecorderHandle_t1215F88C92BAED83BFC3665C0D1BBFD347A33FD4 ____current;
+};
+struct Enumerator_tB8B2A61145D90930EDE0A1D09E9235EB4F5BA0F5 
+{
+	List_1_tA11F1F146F045F5EC788CF43CF45AD16E9550272* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	ProfilerRecorderSample_t1F59CC43F81B774053308543605585CA87C94C5F ____current;
+};
+struct Enumerator_t610F6AA15FA8D5EEF4EA68CAA558495199AFB27C 
+{
+	ReadOnly_tB5ECD2AFCD43A8226FF2905123D8120E7DEFFE58 ___m_Array;
+	int32_t ___m_Index;
+	PropertySceneHandle_tB8CC36E4534888D6FCAC24F3337F4D436A327EE1 ___value;
+};
+struct Enumerator_t157160BB8B72CF4E5BB87673B922DB2FEFAD6074 
+{
+	ReadOnly_t7EFE09E4CBB9EEE345B5E45EA9A8B14E562AAD52 ___m_Array;
+	int32_t ___m_Index;
+	PropertyStreamHandle_tA4F5D5D4C6A47069B2D84EDDD84B8A7F982DA1B3 ___value;
+};
+struct Enumerator_tE4B72CA5C72004A04F0B5C857F8D454D374006A4 
+{
+	ReadOnly_t30573AC7623115594F0C7E7DEE00B9977CAE4F37 ___m_Array;
+	int32_t ___m_Index;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___value;
+};
+struct Enumerator_t676125824874C8DEF98607CA2FC89EB5C920D0F9 
+{
+	ReadOnly_t1478797B4E13660DB864F8BC9548BDB4EEAEB60C ___m_Array;
+	int32_t ___m_Index;
+	RangeInt_tDFBE4FD13857C11F21F7C3DA6B60D05341B67268 ___value;
+};
+struct Enumerator_t11F89EE2A0D0C5661F5495225AEA9D8BF02FAF27 
+{
+	List_1_t482A311257D18A4422413FA15AD5893D1D5041D5* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RangePositionInfo_t27BA7EB1EC12061DD5ACFD24BD71A915D412223F ____current;
+};
+struct Enumerator_tB5D8ED9CFD4D9934BD4673DEC25B691729400E49 
+{
+	ReadOnly_t81FEDE6A3F45049049E04E57790610A9FD1536C0 ___m_Array;
+	int32_t ___m_Index;
+	ReadCommand_t5DB46BD58D686FDDFBD8AB7600B9CF676DC7D97F ___value;
+};
+struct Enumerator_t99F47D1CB81F2D1769646650A8C9667DB4DC30E4 
+{
+	List_1_tB9245BB1D4FD473F42A1B8E7641ACD72F355265B* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	Rect_tA04E0F8A1830E767F40FB27ECD8D309303571F0D ____current;
+};
+struct Enumerator_t0757D472C179E7C385905619753AC7417A77B40A 
+{
+	Stack_1_tEEC1F6968B6388E4800894946805617A2E7EDFDA* ____stack;
+	int32_t ____version;
+	int32_t ____index;
+	Rect_tA04E0F8A1830E767F40FB27ECD8D309303571F0D ____currentElement;
+};
+struct Enumerator_tE317F0F4299AAF7FA39BE60361262F6AF1BB366C 
+{
+	ReadOnly_tB382E3AC8D13B2C46E86DC34115A9885911DC867 ___m_Array;
+	int32_t ___m_Index;
+	Rect_tA04E0F8A1830E767F40FB27ECD8D309303571F0D ___value;
+};
+struct Enumerator_t53306814952F2BCF542AB5E6AA6AA8DDD2B57964 
+{
+	List_1_t6988D2B11937CB8462E839C2DE1714ACD7797AF4* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RectInt_t1744D10E1063135DA9D574F95205B98DAC600CB8 ____current;
+};
+struct Enumerator_tF8DDFFC55F49D7DBCE39B185ED2265CA6FF42AC3 
+{
+	List_1_t1100962F75A3C1A8DDD989C01DEE91D38A84082A* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	ReflectionProbeBlendInfo_t9E258E27B79B396F9D1693B972157A79AFBD9200 ____current;
+};
+struct EnumeratorType_tC342F77502B5447BADC7BAD0CB1720C223D1553C 
+{
+	int32_t ___value__;
+};
+struct EnumeratorType_tFAA53D4D242F64F83109896590E7D6A1D89507ED 
+{
+	int32_t ___value__;
+};
+struct EnumeratorType_tD081460597383C99C3B0B54D7B4DEC02BB4B83D6 
+{
+	int32_t ___value__;
+};
+struct EnumeratorType_t683CADD220C0063FAF03200CCD569BA6FED06E74 
+{
+	int32_t ___value__;
+};
+struct IndexedCollectionPropertyBagEnumerator_1_t75297E5C49E3598D77FCA595B0B93567FEA782BF 
+{
+	RuntimeObject* ___m_Impl;
+	IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79 ___m_Previous;
+	Ratio_t66C366BD5A2636748B25C00FD6A63F40A09712B3 ___m_Container;
+	int32_t ___m_Position;
+};
+struct IndexedCollectionPropertyBagEnumerator_1_tE75CDBBA2E6CF968F214387DDF4CBA207BCA5600 
+{
+	RuntimeObject* ___m_Impl;
+	IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79 ___m_Previous;
+	Rect_tA04E0F8A1830E767F40FB27ECD8D309303571F0D ___m_Container;
+	int32_t ___m_Position;
+};
+struct IndexedCollectionPropertyBagEnumerator_1_t27E70BB9BB6D6E20D382062CAE16B19A199EB433 
+{
+	RuntimeObject* ___m_Impl;
+	IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79 ___m_Previous;
+	RectInt_t1744D10E1063135DA9D574F95205B98DAC600CB8 ___m_Container;
+	int32_t ___m_Position;
+};
+struct AccessFlags_tB7D400C853C05A1DB9C6B56DF14E43721F0B1739 
+{
+	int32_t ___value__;
+};
+struct Allocator_t996642592271AAD9EE688F142741D512C07B5824 
+{
+	int32_t ___value__;
+};
+struct BlendState_tC9B817349E49EF26CBCDC8FCE02789A661DC2630 
+{
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState0;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState1;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState2;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState3;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState4;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState5;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState6;
+	RenderTargetBlendState_t51229A3F09EE698F8E49731F1BC5BB77DBEDC4C7 ___m_BlendState7;
+	uint8_t ___m_SeparateMRTBlendStates;
+	uint8_t ___m_AlphaToMask;
+	int16_t ___m_Padding;
+};
+struct CullMode_t049B71889E4E981866E205A3F71DC8B856306D50 
+{
+	int32_t ___value__;
+};
+struct EventSource_t395F7AD9932CE73777C8DB122DE6638A61AAA07E 
+{
+	int32_t ___value__;
+};
+struct ExtendedFeatureFlags_t736CECC24E1DDF78CDF8A2B134DFF9B1CA2BE01F 
+{
+	int32_t ___value__;
+};
+struct MotionVectorGenerationMode_tE87C61556749260EF5429A0F8FE55DAD30EEAFCB 
+{
+	int32_t ___value__;
+};
+struct ParticleSystemVertexStream_tFC6A07E7476C2DD5FFC571004365658A0E53F2CC 
+{
+	int32_t ___value__;
+};
+struct PassMergeState_t7815130D2990D177421E7CB405CE173EC704A117 
+{
+	int32_t ___value__;
+};
+struct PerformanceBottleneck_t8FB75622048BB8C659D66BA1D6B09EF60D6B14CA 
+{
+	int32_t ___value__;
+};
+struct PhysicsBody_t4D9A16A318F8485217B0416E238278FA77455CD0 
+{
+	PhysicsHandle_tEC3DCC38ABB8395068171070539ABF8309A854C2 ___m_PhysicsHandle;
+};
+struct PhysicsJoint_tC54739697A353F8507A40D3B105421EE91B33884 
+{
+	PhysicsHandle_tEC3DCC38ABB8395068171070539ABF8309A854C2 ___m_PhysicsHandle;
+};
+struct PhysicsShape_t5332F05C66BD392AFDBAE441571781A22AABED7E 
+{
+	PhysicsHandle_tEC3DCC38ABB8395068171070539ABF8309A854C2 ___m_PhysicsHandle;
+};
+struct PhysicsShapeType2D_t44AE2DF9DE93C130AF36529B830CDCD34D55223B 
+{
+	int32_t ___value__;
+};
+struct PhysicsUserData_t767769E7B130D2A0974D0FA6F9477DF8AED0D113 
+{
+	EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8 ___m_EntityId;
+	PhysicsMask_t3DD2C96AAEA0F639053D0EC7770BF403F296BFCC ___m_PhysicsMask;
+	float ___m_Float;
+	int32_t ___m_Int;
+	uint64_t ___m_Int64;
+	bool ___m_Bool;
+};
+struct PhysicsUserData_t767769E7B130D2A0974D0FA6F9477DF8AED0D113_marshaled_pinvoke
+{
+	EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8 ___m_EntityId;
+	PhysicsMask_t3DD2C96AAEA0F639053D0EC7770BF403F296BFCC ___m_PhysicsMask;
+	float ___m_Float;
+	int32_t ___m_Int;
+	uint64_t ___m_Int64;
+	int32_t ___m_Bool;
+};
+struct PhysicsUserData_t767769E7B130D2A0974D0FA6F9477DF8AED0D113_marshaled_com
+{
+	EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8 ___m_EntityId;
+	PhysicsMask_t3DD2C96AAEA0F639053D0EC7770BF403F296BFCC ___m_PhysicsMask;
+	float ___m_Float;
+	int32_t ___m_Int;
+	uint64_t ___m_Int64;
+	int32_t ___m_Bool;
+};
+struct Plane_tB7D8CC6F7AACF5F3AA483AF005C1102A8577BC0C 
+{
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___m_Normal;
+	float ___m_Distance;
+};
+struct PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F 
+{
+	Type_t* ___type;
+	PlayerLoopSystemU5BU5D_t07C04E53AAC3CDA17603E8BA1B41D7E1AC083C6D* ___subSystemList;
+	UpdateFunction_t1C48B7EECBE47AC123A9D9D7D9D2A9EE951C56C4* ___updateDelegate;
+	intptr_t ___updateFunction;
+	intptr_t ___loopConditionFunction;
+};
+struct PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F_marshaled_pinvoke
+{
+	Type_t* ___type;
+	PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F_marshaled_pinvoke* ___subSystemList;
+	Il2CppMethodPointer ___updateDelegate;
+	intptr_t ___updateFunction;
+	intptr_t ___loopConditionFunction;
+};
+struct PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F_marshaled_com
+{
+	Type_t* ___type;
+	PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F_marshaled_com* ___subSystemList;
+	Il2CppMethodPointer ___updateDelegate;
+	intptr_t ___updateFunction;
+	intptr_t ___loopConditionFunction;
+};
+struct PlayerLoopSystemInternal_tA4BFB5E55A895153CF14333B866219B77AAF1BC5 
+{
+	Type_t* ___type;
+	UpdateFunction_t1C48B7EECBE47AC123A9D9D7D9D2A9EE951C56C4* ___updateDelegate;
+	intptr_t ___updateFunction;
+	intptr_t ___loopConditionFunction;
+	int32_t ___numSubSystems;
+};
+struct PlayerLoopSystemInternal_tA4BFB5E55A895153CF14333B866219B77AAF1BC5_marshaled_pinvoke
+{
+	Type_t* ___type;
+	Il2CppMethodPointer ___updateDelegate;
+	intptr_t ___updateFunction;
+	intptr_t ___loopConditionFunction;
+	int32_t ___numSubSystems;
+};
+struct PlayerLoopSystemInternal_tA4BFB5E55A895153CF14333B866219B77AAF1BC5_marshaled_com
+{
+	Type_t* ___type;
+	Il2CppMethodPointer ___updateDelegate;
+	intptr_t ___updateFunction;
+	intptr_t ___loopConditionFunction;
+	int32_t ___numSubSystems;
+};
+struct Position_t066B59B8657DAFCFBEDDAE8CBCE96E88796E1319 
+{
+	int32_t ___value__;
+};
+struct PropertyPathPartKind_t82152825D88A0E450DDCE8503272A10595047F87 
+{
+	int32_t ___value__;
+};
+struct QueryTriggerInteraction_t5AA443202C8B671F391534A002B7CF48A1412D23 
+{
+	int32_t ___value__;
+};
+struct RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5 
+{
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___m_Point;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___m_Normal;
+	uint32_t ___m_FaceID;
+	float ___m_Distance;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_UV;
+	EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8 ___m_Collider;
+};
+struct RaycastHit2D_t3EAAA06E6603C6BC61AC1291DD881C5C1E23BDFA 
+{
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Centroid;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Point;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Normal;
+	float ___m_Distance;
+	float ___m_Fraction;
+	EntityId_t982FBD037EAC5CA077B1602A7EA40E3523AA0FC8 ___m_Collider;
+};
+struct RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023 
+{
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_GameObject;
+	BaseRaycaster_t7DC8158FD3CA0193455344379DD5FF7CD5F1F832* ___module;
+	float ___distance;
+	float ___index;
+	int32_t ___depth;
+	int32_t ___sortingGroupID;
+	int32_t ___sortingGroupOrder;
+	int32_t ___sortingLayer;
+	int32_t ___sortingOrder;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___origin;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldPosition;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldNormal;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___screenPosition;
+	int32_t ___displayIndex;
+	RuntimeObject* ___panelComponent;
+	RuntimeObject* ___m_element;
+};
+struct RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023_marshaled_pinvoke
+{
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_GameObject;
+	BaseRaycaster_t7DC8158FD3CA0193455344379DD5FF7CD5F1F832* ___module;
+	float ___distance;
+	float ___index;
+	int32_t ___depth;
+	int32_t ___sortingGroupID;
+	int32_t ___sortingGroupOrder;
+	int32_t ___sortingLayer;
+	int32_t ___sortingOrder;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___origin;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldPosition;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldNormal;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___screenPosition;
+	int32_t ___displayIndex;
+	RuntimeObject* ___panelComponent;
+	RuntimeObject* ___m_element;
+};
+struct RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023_marshaled_com
+{
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_GameObject;
+	BaseRaycaster_t7DC8158FD3CA0193455344379DD5FF7CD5F1F832* ___module;
+	float ___distance;
+	float ___index;
+	int32_t ___depth;
+	int32_t ___sortingGroupID;
+	int32_t ___sortingGroupOrder;
+	int32_t ___sortingLayer;
+	int32_t ___sortingOrder;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___origin;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldPosition;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldNormal;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___screenPosition;
+	int32_t ___displayIndex;
+	RuntimeObject* ___panelComponent;
+	RuntimeObject* ___m_element;
+};
+struct RegexOptions_tE9DA9C4DF8FB26DD1C7E0F8AA022C1164A423F6B 
+{
+	int32_t ___value__;
+};
+struct RenderGraphPassType_tD00EC2DAA135C660EE7E71652291A4672104EA2D 
+{
+	int32_t ___value__;
+};
+struct RenderGraphResourceType_t5F552AF06E38DEC5775B77F13C8783A895FCD086 
+{
+	int32_t ___value__;
+};
+struct RenderStateMask_tC9C95BF62EADEE4D622D4E16CDE1DF94E2A9EF57 
+{
+	int32_t ___value__;
+};
+struct RendererList_t608CE60421616EF4211F5B8AC62E3C36D4BDDF85 
+{
+	uintptr_t ___context;
+	uint32_t ___index;
+	uint32_t ___frame;
+	uint32_t ___type;
+	uint32_t ___contextID;
+};
+struct RendererListHandleType_tF4A920C02D6273E876EA0E5E7BF6B7096E278E57 
+{
+	int32_t ___value__;
+};
+struct ShadingRateCombiner_tF7F5DDD676DF45F67B2A7BC7F14373F4DFAD2B1C 
+{
+	int32_t ___value__;
+};
+struct ShadingRateFragmentSize_tE61BBA9B957F4537F04519746FCABE0F5FA94C9F 
+{
+	int32_t ___value__;
+};
+struct ShadowCastingMode_tF30806698B37CF120A1A506BD7549EAF308E7C6D 
+{
+	int32_t ___value__;
+};
+struct ShapeArray_t2A670C62560EDC01830CE8DEA9AE860765152E61 
+{
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex0;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex1;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex2;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex3;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex4;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex5;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex6;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Vertex7;
+};
+struct Button_tA3E7AF5F245F630CB38476BAB013B509F53B35B8 
+{
+	uint32_t ___value__;
+};
+struct Type_tAD126B1DC1FD450FB4C782B18131374A55C28858 
+{
+	int32_t ___value__;
+};
+struct FramePressState_t1C7FDAE5827219BC328972DD7E496343581BDF95 
+{
+	int32_t ___value__;
+};
+struct Enumerator_tAEFCFD3B5DC5A8264325AA87611A33CBAC258918 
+{
+	List_1_t17C9C4E31E35A18BC8144B16B0813DCC83D27DA3* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	int32_t ____current;
+};
+struct Enumerator_t75D81DFC7C3B765652BEF1837F6761E03058D2F7 
+{
+	List_1_t0C03BB8D04810C036E129B4AA13C0CD045C619E4* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	int32_t ____current;
+};
+struct Enumerator_tC4EF02B422AFB775B84E72464A06E09E78AAF7CC 
+{
+	ReadOnly_tFCBC221B146122978F4ABD0C6A87F22599D17021 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsBody_t4D9A16A318F8485217B0416E238278FA77455CD0 ___value;
+};
+struct Enumerator_t2A0CAA89A52BE77928F08A212A65C85206ACB397 
+{
+	ReadOnly_t8BE269F92F6261BA858E237EEE3E96F1A2CDC0DA ___m_Array;
+	int32_t ___m_Index;
+	PhysicsJoint_tC54739697A353F8507A40D3B105421EE91B33884 ___value;
+};
+struct Enumerator_t84F4A163272E1CD3E13A1E062B04CF7B4231057E 
+{
+	ReadOnly_t8D5DBE69B4452096171185B67137964FD2F5FA0A ___m_Array;
+	int32_t ___m_Index;
+	PhysicsShape_t5332F05C66BD392AFDBAE441571781A22AABED7E ___value;
+};
+struct Enumerator_t93823B272029A6EB018DE2EEF3C3610759DA768E 
+{
+	ReadOnly_t66BF6C1B52D3488D91E356C9BC15DD313584B257 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsUserData_t767769E7B130D2A0974D0FA6F9477DF8AED0D113 ___value;
+};
+struct Enumerator_t9ECC3067BEAE4C618F592FBF5EE9D56AD7AEAD07 
+{
+	ReadOnly_tEAA0471002F2ED1E5F28432038D9646184ED4DD9 ___m_Array;
+	int32_t ___m_Index;
+	Plane_tB7D8CC6F7AACF5F3AA483AF005C1102A8577BC0C ___value;
+};
+struct Enumerator_tB025B2FCAB9376692902C91754C98265C07AEA9A 
+{
+	List_1_tB751FDCEDAE7A97430AD924824F5D0193A720E52* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PlayerLoopSystem_t8AED6BF1C8A309CAA6FF71AC91DD33BDDFF7CF1F ____current;
+};
+struct Enumerator_t3FEEFAB4DB41EE7C7F366BB8298DF5B7F3B2667B 
+{
+	List_1_t61FF0139870BC4E4F0FE8DFF2CD4AB6482C0EA7C* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PlayerLoopSystemInternal_tA4BFB5E55A895153CF14333B866219B77AAF1BC5 ____current;
+};
+struct Enumerator_tFBAE9D59349ACFA3D59039D7932C27163387C806 
+{
+	int32_t ___m_Type;
+	RuntimeObject* ___m_Enumerator;
+	Enumerator_tE59B7900FC14C9BA32D5897C2AFD587D08C6D512 ___m_Properties;
+	IndexedCollectionPropertyBagEnumerator_1_t75297E5C49E3598D77FCA595B0B93567FEA782BF ___m_IndexedCollectionPropertyBag;
+	RuntimeObject* ___U3CCurrentU3Ek__BackingField;
+};
+struct Enumerator_t2F717C680FFAC4CB23F164BC78CDB5E1C4442948 
+{
+	ReadOnly_t1A09C874B651965A28673FA56974F5664FAB4D65 ___m_Array;
+	int32_t ___m_Index;
+	RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5 ___value;
+};
+struct Enumerator_t2CEF225D2605B62ED98F365273E2A70098997301 
+{
+	List_1_t2EF0515F9247C0F480F55BF3E296366A47CB0324* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RaycastHit2D_t3EAAA06E6603C6BC61AC1291DD881C5C1E23BDFA ____current;
+};
+struct Enumerator_tA9E207EF1525AAFD0101E73D011B7A82BC11A998 
+{
+	ReadOnly_t615F64CAEA6EE385FB3280DE2E7D6A3FEA2EFD99 ___m_Array;
+	int32_t ___m_Index;
+	RaycastHit2D_t3EAAA06E6603C6BC61AC1291DD881C5C1E23BDFA ___value;
+};
+struct Enumerator_tFEA671794CD7ED9545DB6E9B1D2E744410E5EB1C 
+{
+	List_1_t8292C421BBB00D7661DC07462822936152BAB446* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023 ____current;
+};
+struct Enumerator_tC142E1B25179E73F715775BE4232786AABFAC28B 
+{
+	int32_t ___m_Type;
+	RuntimeObject* ___m_Enumerator;
+	Enumerator_t4E3C57A1910AD6B9061B55336002098178EC7147 ___m_Properties;
+	IndexedCollectionPropertyBagEnumerator_1_tE75CDBBA2E6CF968F214387DDF4CBA207BCA5600 ___m_IndexedCollectionPropertyBag;
+	RuntimeObject* ___U3CCurrentU3Ek__BackingField;
+};
+struct Enumerator_t526699C51083C81F479578A07408F02E9732FF3A 
+{
+	int32_t ___m_Type;
+	RuntimeObject* ___m_Enumerator;
+	Enumerator_tEB9C676EAF9D13E6B316D2D4B7299CC719868712 ___m_Properties;
+	IndexedCollectionPropertyBagEnumerator_1_t27E70BB9BB6D6E20D382062CAE16B19A199EB433 ___m_IndexedCollectionPropertyBag;
+	RuntimeObject* ___U3CCurrentU3Ek__BackingField;
+};
+struct Enumerator_t461BE16E358DE1FC84C0BCD0B6C793A70C976B63 
+{
+	List_1_tEE9D21067B06E9376583F5A60FB5D70AF940EE39* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	int32_t ____current;
+};
+struct Enumerator_t78E42A7518AFA41627A8E01604D961B42BB4EE87 
+{
+	List_1_tE719CFD9827ECEC23BAC8452B125081998D08CC6* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RendererList_t608CE60421616EF4211F5B8AC62E3C36D4BDDF85 ____current;
+};
+struct IndexedCollectionPropertyBagEnumerator_1_t475B5E77EE8C836A3570B58E2EBDA33512978AC7 
+{
+	RuntimeObject* ___m_Impl;
+	IndexedCollectionSharedPropertyState_t1E4ED168A72271A87F5FCFCBBF19BBB63F95FC79 ___m_Previous;
+	int32_t ___m_Container;
+	int32_t ___m_Position;
+};
+struct NativeArray_1_tBD6501FD237AB9D275988A6E9281666C95937C57 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_tBA536E4EFD1CB2160664BDBEF13DC67ECB32E79A 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_tDD79324C48394834DB786BABDB44D2CD9B0A6C77 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t196FB7C2715A99B8FF3F20599B6BBAA704FE0A15 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t808F096A7B1C709645F38913EE6FE8116232AABE 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t1955F5A2D6B6CF9C74B693C6993640945C206182 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_tFBB41680F508846EF66B64B909CF1C94F028D751 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t513290E0A324DCD182DCA6498DBAF3A05E5CD9B5 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t7EE56341AC682502E85A5EF49CC27E17E9690BEB 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t52D6C05C06C1C10CBE2B796B376B3C7266352646 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_tA30AFFAED90698EAB9FE0374D70A3065B7472558 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t2E2285B626C87F8E3108409F3D80DC1200D3E426 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_tFACF37504B027B37F837C5C512620EA6C6C34D17 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t4020B6981295FB915DCE82EF368535F680C13A49 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t4F89B4E62AB90AEF10712018502913808FD186BC 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t6A4CE53C1C05F4D2955C2AA488103D7F32BCA658 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_tD522AE8EDEC4C3DB588255D2A8810957678E2C5C 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t798B180994A003D789E550668FB8C34394A61C2C 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t49E030AAA071A257CED2C04428CE048534E26719 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t033CD013BF2CA1D8A5909650F2E75960C527E638 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t5A95C09E69493A633A9543326E74D2FE73F00395 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t8E236FFFE7B598011354300BFCED0A15647BBC5D 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t3363B8E835CEFCA68080BBA7E14CB78552879E45 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t0E2917029F593D82CA97EC0B8B09C05F2718B3D1 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t880C01E5EE92F4CE738A6229CF0AC0560328BE3A 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t8F42F28201309C196AF229870A1018B17FD2342C 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t4C3E9FEA6892CF91EE24D2228BBAB24FBFEB696B 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct NativeArray_1_t0AB49EE6A37F6BC668C15EDFBE9BE92A22B2F0DB 
+{
+	void* ___m_Buffer;
+	int32_t ___m_Length;
+	int32_t ___m_AllocatorLabel;
+};
+struct ReadOnlySpan_1_t6F821E77CE04DFEFFE7D580322B9AE0E970D3EAC 
+{
+	ByReference_1_t341F8C08B35A185FBFAEC96A74442FFA74057F0B ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t7757FD353EBEBCCEB9A915C9409F036D59CBB91D 
+{
+	ByReference_1_tCA902CDE792132BFB82E414335D24D0EDA9FC559 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t78DDDA91D3B852BA5CC6CB683C25798669394299 
+{
+	ByReference_1_tAF1677F5CC47801E99D4B73A467E457CFDA063F9 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tDAF4105BB07ED8FF6685C401967838F0DA25C893 
+{
+	ByReference_1_t262F9DD539C2F73D7482B394D586E03B7CD1972B ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t018614F605F46379EE13B48E466D84493953A32A 
+{
+	ByReference_1_tDEBFA305DD44EB5DECC7D606D70182963FBA207D ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tE65ADDA676D9E1E10FBABBC43E6D77B76418998B 
+{
+	ByReference_1_t2DF3BD16D90BA720C1C3CE9E5C782DD340F4E99F ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t3C61525F946CD8897B31DB62B0592F9262F722F3 
+{
+	ByReference_1_t12ADA7807C20492FD2CA20C5F3162FD283FFD837 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t441C80460E9ED5C52FB584048677700403ECC6CB 
+{
+	ByReference_1_t72AEA6F5A8AC70E9317DF30D5406B6CDA233FA47 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tA21046B398B234A9F61C62E539445FCE91F2A177 
+{
+	ByReference_1_t3EB95C01BA9368FD3D7681C8005F6170BA668C41 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tB4EA09669F7C6079DBEEC9389912196B2C98CBC7 
+{
+	ByReference_1_tCC9A045B51FB146CAA7B27CCA0C26809BC72A96D ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t1C2E7B44675C8A207AE9D146B0B9B0CEFB0ACBAA 
+{
+	ByReference_1_tEA1F575F15907BE928F8021737B6F3B582942CD1 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tB2DAA1F840065A2F6995E885307F706B80289674 
+{
+	ByReference_1_t63DC3B42C6268111F7DA91848285336E2B03083D ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tD02BCE91A1065660A52B465E9E082B47E48304AA 
+{
+	ByReference_1_t48D809FB9F4EB741A72AB0FA1E09EA19588961AE ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t9D58CB53B97489AD302CB3B5E987B44E1CDB040F 
+{
+	ByReference_1_t0023DF768313DF29DBD02152F58C1EF23E164803 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tEBFBB86154B8F846CDA49C4A8FDDF723E53CDAB4 
+{
+	ByReference_1_t789A7DAB8469893D7B5282F5ABEDF6332DC4A60A ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tB92EBA06176BD5D3BC3B64586C601E12719B9D5D 
+{
+	ByReference_1_t837CFD5B5411F20D750157D2DCCDB46508BB8F92 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t92F72357E333762D2794A157777CCF4357A429E4 
+{
+	ByReference_1_t294AE795726D74CBF829DDD5985FEB5230A8C375 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t54DF11CFCD3DFF6AD7E9A5CE86AB90DA37CC6455 
+{
+	ByReference_1_t1F5E2C34A1FBAE4940E57FD58CC1B1AD26FD0CA6 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t24D5B379F1F952E5A59D3978DA083ABA4112FC44 
+{
+	ByReference_1_t04F2D3470E0FCAD03955746F59E5B4B2142B3B35 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tDDF73876F1321C012BBAA81983863A4AA515F80B 
+{
+	ByReference_1_t7C905717FB39AA5DB3745E2324697190FA0C5E40 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t389652FA4CBB547A07093B49B5B206A4FBF7971D 
+{
+	ByReference_1_tB892C73A7BBDD0BEE3CEE735FEF02AB1AC4CF5FC ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t63503A2F8983657F52CF102FF2DDFE383DFE103D 
+{
+	ByReference_1_tED770338364927B813A2A1048FC068A6119E827B ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t5CB9ACAEB30D65743A5996AEBB4CCD5B6A1E16C3 
+{
+	ByReference_1_t273C38E9CB9E475B946C606A55FEE8B12E58154A ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t44AEE3A9AAAAD126402F236A68995AF87A3EABF9 
+{
+	ByReference_1_t74F577441AB649D6CABC19A28B978C60F10E5B57 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t4C6A9B0A9A2C0F1695512B05DE7258A25AC8F945 
+{
+	ByReference_1_t848FCA8796CED05D6A069506E645A4C1833BEBEC ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t4581D400E0C16D3722378504982F549B0B0B0A21 
+{
+	ByReference_1_tF0132EC5AF5BAE558B1624A51AC63E48FB55327F ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t2585694BD2CD8FA6C789EFB4C75314AF1518C905 
+{
+	ByReference_1_t183FACCCA934CA9C9FF5D6F75166C328A5916889 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t025228F2A4E88EA3541E45F1B2E22CBE768D2EDE 
+{
+	ByReference_1_t5C6DE62736E82AA095944FAAB09E4574704959C3 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tDE8983102D42568E6127FA7BE5CE63380CD7A820 
+{
+	ByReference_1_tE86CE265923F6BE3290C056F8FADF455DF34F6AD ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t6661B8EC8167F5F6DC57AEB0633C8639D20BAB06 
+{
+	ByReference_1_t8F6CF787BD5D87C78F6FC70F368D9FA35DCB8F5A ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t8B44068056227156EB6AED6DD877ACCAD25EA0AD 
+{
+	ByReference_1_tBB0670AFE2FF8ED93F1B5C70876E87B1B5A15C33 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tBC935FAED6028979343406929A2E7C328EB0403C 
+{
+	ByReference_1_t70AEEF48AACAF656D85503CA9266EFAF096410A5 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tDE628E6CFFE92B602FD432DDA6E2957CFAC0F9EF 
+{
+	ByReference_1_t5F4B4DE3FDC99036DCD566962F671576D8208F46 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t7232E7F75E265E4B3C1307678DB3C0971CB211AD 
+{
+	ByReference_1_t2C9EE6F0EEB9A48B9891A55AB01B889A5F567D60 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tEAF479AB1B366DD09B770333CBF4B8EBAFA8D3CC 
+{
+	ByReference_1_t60E9D5BC0CC636A7BBC9119CB88BD64476B03EA4 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t0CE4C215C0282815877915215841B7B4043BA832 
+{
+	ByReference_1_tCF2455D9ABA389C2A166E759D2ABA3CF31E87293 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tFBE8D2D2BD65AF66CCA037F9325667D6C571127C 
+{
+	ByReference_1_tD7CEB46AA10ADF9732D4418942B226987F48B44D ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t59240FF5BA5E8BA29C9A3BB4BB1A89BD01537278 
+{
+	ByReference_1_tE3D6FB8692512B125160E81C45DD958AEB270CEF ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tC55BE9937AD4F2CBFE27189BEFF650C9028BAF14 
+{
+	ByReference_1_t10EF1E33A4F72ED5D5BAF059A901D7E0D04D3321 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t224ED10405C1DFE9B888E811A322366D612E16D6 
+{
+	ByReference_1_tDFBD036ABE0C34FD32097C554020DCA179A48178 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t091D261654C31BC48A1AA8A179812F123D71360A 
+{
+	ByReference_1_tF13FEF1303000B3E98675ADD5EE72C9D346BAEF2 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tC6268754B70517D9508992D0F1EEDF834B4A1309 
+{
+	ByReference_1_t7D8CB0D20D6FA4F024F258F1AD01E21E98D3FFF2 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_t9A3C693B1D8C4E985F08C5CFD0F4EF8138E98100 
+{
+	ByReference_1_t67FB8CF4098EB6840ECEA01771F8957ED7F6BC24 ____pointer;
+	int32_t ____length;
+};
+struct ReadOnlySpan_1_tBEAFDCD5A343518729D38712AEF2C00B11AE1B1E 
+{
+	ByReference_1_tB6E2A252F6ACDBB3580BAC78A9A2D385FBAFEA3C ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t8AED387EE27BB5B7354874BF694250017F1F8DCF 
+{
+	ByReference_1_t341F8C08B35A185FBFAEC96A74442FFA74057F0B ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t523D2CE3B5F655807FB4BC78A52E74C92DC3BE17 
+{
+	ByReference_1_tCA902CDE792132BFB82E414335D24D0EDA9FC559 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tD7FF76FBBDD84B10CE5BD20592DFC9FB1EB02FC8 
+{
+	ByReference_1_tAF1677F5CC47801E99D4B73A467E457CFDA063F9 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tE3B31C76C32B3397FB97A288B247D1C9CD2229E6 
+{
+	ByReference_1_t262F9DD539C2F73D7482B394D586E03B7CD1972B ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tDEBCBBAC838D2D9B8C8C10D3CE18ABB709618EF3 
+{
+	ByReference_1_tDEBFA305DD44EB5DECC7D606D70182963FBA207D ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t6A6A3769584271FB10F6DC5FDAC656CB07ED8B00 
+{
+	ByReference_1_t2DF3BD16D90BA720C1C3CE9E5C782DD340F4E99F ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t6F26BF8EA73E12CEF40686EDC7F510874F8012E2 
+{
+	ByReference_1_t12ADA7807C20492FD2CA20C5F3162FD283FFD837 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tEFAD961E8A7055DAAB8175B75E62C25DD2800E6F 
+{
+	ByReference_1_t72AEA6F5A8AC70E9317DF30D5406B6CDA233FA47 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t70CE464AFE42E1867635F9FF2B736AEA733D74E3 
+{
+	ByReference_1_t3EB95C01BA9368FD3D7681C8005F6170BA668C41 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t56D01758BC7D274BE635550048C48A40FD43C94A 
+{
+	ByReference_1_tCC9A045B51FB146CAA7B27CCA0C26809BC72A96D ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t5824B3DE5D44BDF815B8DDF8E99ACEB8A0334895 
+{
+	ByReference_1_tEA1F575F15907BE928F8021737B6F3B582942CD1 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t93F8241D92C25E4AC4B980B00945C222A7123667 
+{
+	ByReference_1_t63DC3B42C6268111F7DA91848285336E2B03083D ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t3DE45BE7CBF12819A5CBBD84ACAAD97287964031 
+{
+	ByReference_1_t48D809FB9F4EB741A72AB0FA1E09EA19588961AE ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tFE7F4BA6235CC999371AD5E30634E232DF532455 
+{
+	ByReference_1_t0023DF768313DF29DBD02152F58C1EF23E164803 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t6A78DDEC3CF4D6F4480D7100C372ADAABE2E63C0 
+{
+	ByReference_1_t789A7DAB8469893D7B5282F5ABEDF6332DC4A60A ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t4B164F0F744F7C2CFAE59A6936FA72C8A5B1EE90 
+{
+	ByReference_1_t837CFD5B5411F20D750157D2DCCDB46508BB8F92 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t4298E501E62E1D33846B592D4CAD6795881BAF30 
+{
+	ByReference_1_t294AE795726D74CBF829DDD5985FEB5230A8C375 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t10DBE51B0712209E5A9CFEC76015FCBF7D42EAE8 
+{
+	ByReference_1_t1F5E2C34A1FBAE4940E57FD58CC1B1AD26FD0CA6 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t7C6A40A7633287607E27FAFA675B7DBCED97B1F6 
+{
+	ByReference_1_t04F2D3470E0FCAD03955746F59E5B4B2142B3B35 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tF241E22CD0A1DD096E6046A9236DE1025A5CF5FA 
+{
+	ByReference_1_t7C905717FB39AA5DB3745E2324697190FA0C5E40 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t0A66015DBA4463F7112604D6A63CFCBACFC0834B 
+{
+	ByReference_1_tB892C73A7BBDD0BEE3CEE735FEF02AB1AC4CF5FC ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tD7063A62DFCB1CEC40923F6E680FE0B4F585793E 
+{
+	ByReference_1_tED770338364927B813A2A1048FC068A6119E827B ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t96BF9BDB40BA0FAA4755CB4504C4A37DEF558877 
+{
+	ByReference_1_t273C38E9CB9E475B946C606A55FEE8B12E58154A ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t90DADE2208C7622D631BBB7095AB0CAA37D96642 
+{
+	ByReference_1_t74F577441AB649D6CABC19A28B978C60F10E5B57 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t5FEC03D6F352F29D877A5254CB82EF9FDDDAE1E8 
+{
+	ByReference_1_t848FCA8796CED05D6A069506E645A4C1833BEBEC ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t7BF0F91F205E0B9879C4C8CEE83452F81D5C4128 
+{
+	ByReference_1_tF0132EC5AF5BAE558B1624A51AC63E48FB55327F ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t9DE13737E064D3D83A84CC5B0334879CD439BC08 
+{
+	ByReference_1_t183FACCCA934CA9C9FF5D6F75166C328A5916889 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t9ED00D900304462EB5E7DE022755F1DE7DC4F5E9 
+{
+	ByReference_1_t5C6DE62736E82AA095944FAAB09E4574704959C3 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t391B794BE458E4BEE6117AD64D9AC077EDC512C6 
+{
+	ByReference_1_tE86CE265923F6BE3290C056F8FADF455DF34F6AD ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t67B354B7480ABD4B9B0CC224963BF3FA97C32364 
+{
+	ByReference_1_t8F6CF787BD5D87C78F6FC70F368D9FA35DCB8F5A ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t6AB8F26FC501723514D191BF010128EE5F36C807 
+{
+	ByReference_1_tBB0670AFE2FF8ED93F1B5C70876E87B1B5A15C33 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t1F8D46BB4E905CF376E65FC87E4711D184F3CB2A 
+{
+	ByReference_1_t70AEEF48AACAF656D85503CA9266EFAF096410A5 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t4FA1948AC186A6ED20A3E3200DD2D5037A82FBA1 
+{
+	ByReference_1_t5F4B4DE3FDC99036DCD566962F671576D8208F46 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tBEC7C4E9169E4140C814175AFCBB22857D8132A3 
+{
+	ByReference_1_t2C9EE6F0EEB9A48B9891A55AB01B889A5F567D60 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tF4D9B4B87977A720F1E351D58C2CB052497FA060 
+{
+	ByReference_1_t60E9D5BC0CC636A7BBC9119CB88BD64476B03EA4 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tF7F68B4B17E8230235ACFE1BB9EF32253F3581D9 
+{
+	ByReference_1_tCF2455D9ABA389C2A166E759D2ABA3CF31E87293 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tA921127FB82E829329A2ACB82FDCCED88A4A97B2 
+{
+	ByReference_1_tD7CEB46AA10ADF9732D4418942B226987F48B44D ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tAF1B65508DB0515635C2F3D5C9E16B39E45633A5 
+{
+	ByReference_1_tE3D6FB8692512B125160E81C45DD958AEB270CEF ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t2E1AE89AD49E87367588C4AD25480CAB6E044D35 
+{
+	ByReference_1_t10EF1E33A4F72ED5D5BAF059A901D7E0D04D3321 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_t4111BDF1060282B8B5BE606ED2ACB02AA689BA23 
+{
+	ByReference_1_tDFBD036ABE0C34FD32097C554020DCA179A48178 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tD5D5E3F8554AA42D7966331175E097F481E3E518 
+{
+	ByReference_1_tF13FEF1303000B3E98675ADD5EE72C9D346BAEF2 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tCCB5D978C3C7E6E75960C5E974F7A2F5567C4E90 
+{
+	ByReference_1_t7D8CB0D20D6FA4F024F258F1AD01E21E98D3FFF2 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tDC36E4BFE79F0174B4DE4389E7C5CAA2F0511F84 
+{
+	ByReference_1_t67FB8CF4098EB6840ECEA01771F8957ED7F6BC24 ____pointer;
+	int32_t ____length;
+};
+struct Span_1_tA6492479EFB02BBE1C02ABAE39B547234EDA2962 
+{
+	ByReference_1_tB6E2A252F6ACDBB3580BAC78A9A2D385FBAFEA3C ____pointer;
+	int32_t ____length;
+};
+struct PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD 
+{
+	int32_t ___passId;
+	int32_t ___type;
+	bool ___hasFoveatedRasterization;
+	int32_t ___extendedFeatureFlags;
+	int32_t ___tag;
+	int32_t ___shadingRateFragmentSize;
+	int32_t ___primitiveShadingRateCombiner;
+	int32_t ___fragmentShadingRateCombiner;
+	int32_t ___mergeState;
+	int32_t ___nativePassIndex;
+	int32_t ___nativeSubPassIndex;
+	int32_t ___firstInput;
+	int32_t ___numInputs;
+	int32_t ___firstOutput;
+	int32_t ___numOutputs;
+	int32_t ___firstFragment;
+	int32_t ___numFragments;
+	int32_t ___firstFragmentInput;
+	int32_t ___numFragmentInputs;
+	int32_t ___firstSampledOnlyRaster;
+	int32_t ___numSampledOnlyRaster;
+	int32_t ___firstRandomAccessResource;
+	int32_t ___numRandomAccessResources;
+	int32_t ___firstCreate;
+	int32_t ___numCreated;
+	int32_t ___firstDestroy;
+	int32_t ___numDestroyed;
+	int32_t ___shadingRateImageIndex;
+	int32_t ___fragmentInfoWidth;
+	int32_t ___fragmentInfoHeight;
+	int32_t ___fragmentInfoVolumeDepth;
+	int32_t ___fragmentInfoSamples;
+	int32_t ___waitOnGraphicsFencePassId;
+	int32_t ___awaitingMyGraphicsFencePassId;
+	bool ___asyncCompute;
+	bool ___hasSideEffects;
+	bool ___culled;
+	bool ___beginNativeSubpass;
+	bool ___fragmentInfoValid;
+	bool ___fragmentInfoHasDepth;
+	bool ___insertGraphicsFence;
+	bool ___hasShadingRateStates;
+};
+struct PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD_marshaled_pinvoke
+{
+	int32_t ___passId;
+	int32_t ___type;
+	int32_t ___hasFoveatedRasterization;
+	int32_t ___extendedFeatureFlags;
+	int32_t ___tag;
+	int32_t ___shadingRateFragmentSize;
+	int32_t ___primitiveShadingRateCombiner;
+	int32_t ___fragmentShadingRateCombiner;
+	int32_t ___mergeState;
+	int32_t ___nativePassIndex;
+	int32_t ___nativeSubPassIndex;
+	int32_t ___firstInput;
+	int32_t ___numInputs;
+	int32_t ___firstOutput;
+	int32_t ___numOutputs;
+	int32_t ___firstFragment;
+	int32_t ___numFragments;
+	int32_t ___firstFragmentInput;
+	int32_t ___numFragmentInputs;
+	int32_t ___firstSampledOnlyRaster;
+	int32_t ___numSampledOnlyRaster;
+	int32_t ___firstRandomAccessResource;
+	int32_t ___numRandomAccessResources;
+	int32_t ___firstCreate;
+	int32_t ___numCreated;
+	int32_t ___firstDestroy;
+	int32_t ___numDestroyed;
+	int32_t ___shadingRateImageIndex;
+	int32_t ___fragmentInfoWidth;
+	int32_t ___fragmentInfoHeight;
+	int32_t ___fragmentInfoVolumeDepth;
+	int32_t ___fragmentInfoSamples;
+	int32_t ___waitOnGraphicsFencePassId;
+	int32_t ___awaitingMyGraphicsFencePassId;
+	int32_t ___asyncCompute;
+	int32_t ___hasSideEffects;
+	int32_t ___culled;
+	int32_t ___beginNativeSubpass;
+	int32_t ___fragmentInfoValid;
+	int32_t ___fragmentInfoHasDepth;
+	int32_t ___insertGraphicsFence;
+	int32_t ___hasShadingRateStates;
+};
+struct PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD_marshaled_com
+{
+	int32_t ___passId;
+	int32_t ___type;
+	int32_t ___hasFoveatedRasterization;
+	int32_t ___extendedFeatureFlags;
+	int32_t ___tag;
+	int32_t ___shadingRateFragmentSize;
+	int32_t ___primitiveShadingRateCombiner;
+	int32_t ___fragmentShadingRateCombiner;
+	int32_t ___mergeState;
+	int32_t ___nativePassIndex;
+	int32_t ___nativeSubPassIndex;
+	int32_t ___firstInput;
+	int32_t ___numInputs;
+	int32_t ___firstOutput;
+	int32_t ___numOutputs;
+	int32_t ___firstFragment;
+	int32_t ___numFragments;
+	int32_t ___firstFragmentInput;
+	int32_t ___numFragmentInputs;
+	int32_t ___firstSampledOnlyRaster;
+	int32_t ___numSampledOnlyRaster;
+	int32_t ___firstRandomAccessResource;
+	int32_t ___numRandomAccessResources;
+	int32_t ___firstCreate;
+	int32_t ___numCreated;
+	int32_t ___firstDestroy;
+	int32_t ___numDestroyed;
+	int32_t ___shadingRateImageIndex;
+	int32_t ___fragmentInfoWidth;
+	int32_t ___fragmentInfoHeight;
+	int32_t ___fragmentInfoVolumeDepth;
+	int32_t ___fragmentInfoSamples;
+	int32_t ___waitOnGraphicsFencePassId;
+	int32_t ___awaitingMyGraphicsFencePassId;
+	int32_t ___asyncCompute;
+	int32_t ___hasSideEffects;
+	int32_t ___culled;
+	int32_t ___beginNativeSubpass;
+	int32_t ___fragmentInfoValid;
+	int32_t ___fragmentInfoHasDepth;
+	int32_t ___insertGraphicsFence;
+	int32_t ___hasShadingRateStates;
+};
+struct PhysicsShape2D_t443155710C4DE7DE8C48EADA86BC4DC7EA70226E 
+{
+	int32_t ___m_ShapeType;
+	float ___m_Radius;
+	int32_t ___m_VertexStartIndex;
+	int32_t ___m_VertexCount;
+	int32_t ___m_UseAdjacentStart;
+	int32_t ___m_UseAdjacentEnd;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_AdjacentStart;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_AdjacentEnd;
+};
+struct PointerEvent_tC25A522EBDFCAF2CDEEE1D70428C281F78C1FA05 
+{
+	int32_t ___type;
+	int32_t ___pointerIndex;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___position;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___deltaPosition;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldPosition;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___worldOrientation;
+	float ___maxDistance;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___scroll;
+	int32_t ___displayIndex;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___tilt;
+	float ___twist;
+	float ___pressure;
+	bool ___isInverted;
+	uint32_t ___button;
+	ButtonsState_tC596C9B742AF4FDB4D32B05551EEDB23D243E996 ___buttonsState;
+	int32_t ___clickCount;
+	DiscreteTime_t0954C3B93A9A500A04D33E309649C1CD2780C41E ___U3CtimestampU3Ek__BackingField;
+	int32_t ___U3CeventSourceU3Ek__BackingField;
+	uint32_t ___U3CplayerIdU3Ek__BackingField;
+	EventModifiers_t4B1B8EBE011383F2D6236E6B9F99AB156BCE35DD ___U3CeventModifiersU3Ek__BackingField;
+};
+struct PointerEvent_tC25A522EBDFCAF2CDEEE1D70428C281F78C1FA05_marshaled_pinvoke
+{
+	int32_t ___type;
+	int32_t ___pointerIndex;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___position;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___deltaPosition;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldPosition;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___worldOrientation;
+	float ___maxDistance;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___scroll;
+	int32_t ___displayIndex;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___tilt;
+	float ___twist;
+	float ___pressure;
+	int32_t ___isInverted;
+	uint32_t ___button;
+	ButtonsState_tC596C9B742AF4FDB4D32B05551EEDB23D243E996 ___buttonsState;
+	int32_t ___clickCount;
+	DiscreteTime_t0954C3B93A9A500A04D33E309649C1CD2780C41E ___U3CtimestampU3Ek__BackingField;
+	int32_t ___U3CeventSourceU3Ek__BackingField;
+	uint32_t ___U3CplayerIdU3Ek__BackingField;
+	EventModifiers_t4B1B8EBE011383F2D6236E6B9F99AB156BCE35DD ___U3CeventModifiersU3Ek__BackingField;
+};
+struct PointerEvent_tC25A522EBDFCAF2CDEEE1D70428C281F78C1FA05_marshaled_com
+{
+	int32_t ___type;
+	int32_t ___pointerIndex;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___position;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___deltaPosition;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___worldPosition;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___worldOrientation;
+	float ___maxDistance;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___scroll;
+	int32_t ___displayIndex;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___tilt;
+	float ___twist;
+	float ___pressure;
+	int32_t ___isInverted;
+	uint32_t ___button;
+	ButtonsState_tC596C9B742AF4FDB4D32B05551EEDB23D243E996 ___buttonsState;
+	int32_t ___clickCount;
+	DiscreteTime_t0954C3B93A9A500A04D33E309649C1CD2780C41E ___U3CtimestampU3Ek__BackingField;
+	int32_t ___U3CeventSourceU3Ek__BackingField;
+	uint32_t ___U3CplayerIdU3Ek__BackingField;
+	EventModifiers_t4B1B8EBE011383F2D6236E6B9F99AB156BCE35DD ___U3CeventModifiersU3Ek__BackingField;
+};
+struct PolygonGeometry_t9303EFE027FA294B7D25B4E5AD0BAAFEF9154491 
+{
+	ShapeArray_t2A670C62560EDC01830CE8DEA9AE860765152E61 ___vertices;
+	ShapeArray_t2A670C62560EDC01830CE8DEA9AE860765152E61 ___normals;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Centroid;
+	float ___m_Radius;
+	int32_t ___m_Count;
+};
+struct PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF 
+{
+	int32_t ___m_Kind;
+	String_t* ___m_Name;
+	int32_t ___m_Index;
+	RuntimeObject* ___m_Key;
+};
+struct PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke
+{
+	int32_t ___m_Kind;
+	char* ___m_Name;
+	int32_t ___m_Index;
+	Il2CppIUnknown* ___m_Key;
+};
+struct PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com
+{
+	int32_t ___m_Kind;
+	Il2CppChar* ___m_Name;
+	int32_t ___m_Index;
+	Il2CppIUnknown* ___m_Key;
+};
+struct QueryParameters_t5BC1A5A2C4ADB170380559863B0F65BAA02BA1D1 
+{
+	int32_t ___layerMask;
+	bool ___hitMultipleFaces;
+	int32_t ___hitTriggers;
+	bool ___hitBackfaces;
+};
+struct QueryParameters_t5BC1A5A2C4ADB170380559863B0F65BAA02BA1D1_marshaled_pinvoke
+{
+	int32_t ___layerMask;
+	int32_t ___hitMultipleFaces;
+	int32_t ___hitTriggers;
+	int32_t ___hitBackfaces;
+};
+struct QueryParameters_t5BC1A5A2C4ADB170380559863B0F65BAA02BA1D1_marshaled_com
+{
+	int32_t ___layerMask;
+	int32_t ___hitMultipleFaces;
+	int32_t ___hitTriggers;
+	int32_t ___hitBackfaces;
+};
+struct RangeKey_t6D4869B364ADC52DCAE541898513EF33CEE8878C 
+{
+	uint8_t ___layer;
+	uint32_t ___renderingLayerMask;
+	int32_t ___motionMode;
+	int32_t ___shadowCastingMode;
+	bool ___staticShadowCaster;
+	int32_t ___rendererPriority;
+	bool ___supportsIndirect;
+};
+struct RangeKey_t6D4869B364ADC52DCAE541898513EF33CEE8878C_marshaled_pinvoke
+{
+	uint8_t ___layer;
+	uint32_t ___renderingLayerMask;
+	int32_t ___motionMode;
+	int32_t ___shadowCastingMode;
+	int32_t ___staticShadowCaster;
+	int32_t ___rendererPriority;
+	int32_t ___supportsIndirect;
+};
+struct RangeKey_t6D4869B364ADC52DCAE541898513EF33CEE8878C_marshaled_com
+{
+	uint8_t ___layer;
+	uint32_t ___renderingLayerMask;
+	int32_t ___motionMode;
+	int32_t ___shadowCastingMode;
+	int32_t ___staticShadowCaster;
+	int32_t ___rendererPriority;
+	int32_t ___supportsIndirect;
+};
+struct RasterState_tA30E8336EA5D1E2152A6C7252F15384985B98A26 
+{
+	int32_t ___m_CullingMode;
+	int32_t ___m_OffsetUnits;
+	float ___m_OffsetFactor;
+	uint8_t ___m_DepthClip;
+	uint8_t ___m_Conservative;
+	uint8_t ___m_Padding1;
+	uint8_t ___m_Padding2;
+};
+struct RendererListHandle_t2DFC72A560B979AE0BAFBABBD8B9AF5DC1FEFEBA 
+{
+	int32_t ___type;
+	bool ___m_IsValid;
+	int32_t ___U3ChandleU3Ek__BackingField;
+};
+struct RendererListHandle_t2DFC72A560B979AE0BAFBABBD8B9AF5DC1FEFEBA_marshaled_pinvoke
+{
+	int32_t ___type;
+	int32_t ___m_IsValid;
+	int32_t ___U3ChandleU3Ek__BackingField;
+};
+struct RendererListHandle_t2DFC72A560B979AE0BAFBABBD8B9AF5DC1FEFEBA_marshaled_com
+{
+	int32_t ___type;
+	int32_t ___m_IsValid;
+	int32_t ___U3ChandleU3Ek__BackingField;
+};
+struct ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C 
+{
+	uint32_t ___m_VersionIndex;
+	uint32_t ___m_Validity;
+	int32_t ___m_Type;
+};
+struct ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69 
+{
+	bool ___m_IsPressed;
+	int32_t ___m_FramePressState;
+	float ___m_PressTime;
+	RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023 ___m_PressRaycast;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_PressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_RawPressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_LastPressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_DragObject;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_PressPosition;
+	float ___m_ClickTime;
+	int32_t ___m_ClickCount;
+	bool ___m_Dragging;
+	bool ___m_ClickedOnSameGameObject;
+	bool ___m_IgnoreNextClick;
+};
+struct ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_pinvoke
+{
+	int32_t ___m_IsPressed;
+	int32_t ___m_FramePressState;
+	float ___m_PressTime;
+	RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023_marshaled_pinvoke ___m_PressRaycast;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_PressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_RawPressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_LastPressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_DragObject;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_PressPosition;
+	float ___m_ClickTime;
+	int32_t ___m_ClickCount;
+	int32_t ___m_Dragging;
+	int32_t ___m_ClickedOnSameGameObject;
+	int32_t ___m_IgnoreNextClick;
+};
+struct ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_com
+{
+	int32_t ___m_IsPressed;
+	int32_t ___m_FramePressState;
+	float ___m_PressTime;
+	RaycastResult_tEC6A7B7CABA99C386F054F01E498AEC426CF8023_marshaled_com ___m_PressRaycast;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_PressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_RawPressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_LastPressObject;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___m_DragObject;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_PressPosition;
+	float ___m_ClickTime;
+	int32_t ___m_ClickCount;
+	int32_t ___m_Dragging;
+	int32_t ___m_ClickedOnSameGameObject;
+	int32_t ___m_IgnoreNextClick;
+};
+struct Enumerator_t69E8C5CD20FDF6CB4D9CB57FD5D5874403A28F59 
+{
+	ReadOnlySpan_1_t6F821E77CE04DFEFFE7D580322B9AE0E970D3EAC ____span;
+	int32_t ____index;
+};
+struct Enumerator_tC425873F3A552820EBCD2A613F1FFB19A50ABB7E 
+{
+	Span_1_t8AED387EE27BB5B7354874BF694250017F1F8DCF ____span;
+	int32_t ____index;
+};
+struct Enumerator_tA72EB96DC7D19F355C54984BE9C42C71EA079868 
+{
+	List_1_t8E67333AC5539884FC0DAE7293378C16F197B0D0* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD ____current;
+};
+struct Enumerator_t9E1C376F4020103977EB22B6AB5EFC686A739CF7 
+{
+	NativeArray_1_tBD6501FD237AB9D275988A6E9281666C95937C57 ___m_Array;
+	int32_t ___m_Index;
+	PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD ___value;
+};
+struct Enumerator_t11628AB4651C9B9C46CF76A03DE34AA908FC8EB4 
+{
+	ReadOnlySpan_1_t7757FD353EBEBCCEB9A915C9409F036D59CBB91D ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB4CACD5A5066477AC9489C89DFB8156FC3CF8587 
+{
+	Span_1_t523D2CE3B5F655807FB4BC78A52E74C92DC3BE17 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t1CB0F37D51814FDA7F453266E24A10358B59DE6D 
+{
+	ReadOnly_t25228F5061073E2FC6F8FB46472DBB822D0262BC ___m_Array;
+	int32_t ___m_Index;
+	PassData_t88911D47229A306D70A3F6A7D3B2FC8FF12F8BAD ___value;
+};
+struct Enumerator_tD2759B63FD8BD3C1721AE432FE87D62B94778376 
+{
+	ReadOnlySpan_1_t78DDDA91D3B852BA5CC6CB683C25798669394299 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tC921C4FB6F7944E79F1B0A07D0652335D92C202F 
+{
+	Span_1_tD7FF76FBBDD84B10CE5BD20592DFC9FB1EB02FC8 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t44955BF13D951CDE3062BCF003946C1F065464C5 
+{
+	ReadOnlySpan_1_tDAF4105BB07ED8FF6685C401967838F0DA25C893 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t4335393D9B521F1102A0ADF58B67BF99C191915B 
+{
+	Span_1_tE3B31C76C32B3397FB97A288B247D1C9CD2229E6 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t601B0C640D6B5BED0B2C569C742E2DD9C57C3362 
+{
+	ReadOnlySpan_1_t018614F605F46379EE13B48E466D84493953A32A ____span;
+	int32_t ____index;
+};
+struct Enumerator_t545C44A196C952B11AFACB384E203C325E033870 
+{
+	Span_1_tDEBCBBAC838D2D9B8C8C10D3CE18ABB709618EF3 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t3F97A2E8C8D35AB74209ACC856FD15F1A8680A89 
+{
+	ReadOnlySpan_1_tE65ADDA676D9E1E10FBABBC43E6D77B76418998B ____span;
+	int32_t ____index;
+};
+struct Enumerator_tE3B26A6833063EBEF6905F4DAD6C31CF6F9AF033 
+{
+	Span_1_t6A6A3769584271FB10F6DC5FDAC656CB07ED8B00 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tD53F377B8BB8FAF58A67431F44EDFC3B9FD5F987 
+{
+	ReadOnlySpan_1_t3C61525F946CD8897B31DB62B0592F9262F722F3 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t603ADD694E88D780E64C96E63F6E959CC89F9E2A 
+{
+	Span_1_t6F26BF8EA73E12CEF40686EDC7F510874F8012E2 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tC5D2AA7A4E392423FEF31BCBAC58454B59ED9BDB 
+{
+	ReadOnlySpan_1_t441C80460E9ED5C52FB584048677700403ECC6CB ____span;
+	int32_t ____index;
+};
+struct Enumerator_t5780B1721A33184F05609E480F962A8C30E851D4 
+{
+	Span_1_tEFAD961E8A7055DAAB8175B75E62C25DD2800E6F ____span;
+	int32_t ____index;
+};
+struct Enumerator_tC8841356EC6D764810A17FBD81012BDDABA38A53 
+{
+	NativeArray_1_t1955F5A2D6B6CF9C74B693C6993640945C206182 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsBody_t4D9A16A318F8485217B0416E238278FA77455CD0 ___value;
+};
+struct Enumerator_tB28B7B111D81AE22DA730021222CA1B794B2445A 
+{
+	ReadOnlySpan_1_tA21046B398B234A9F61C62E539445FCE91F2A177 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tD27059B64FEFB87600FE134C55DE4A8AE00E6CCA 
+{
+	Span_1_t70CE464AFE42E1867635F9FF2B736AEA733D74E3 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t079D099FEA3D135593EB97BDB27BBB4275E3A67B 
+{
+	ReadOnlySpan_1_tB4EA09669F7C6079DBEEC9389912196B2C98CBC7 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t15EA07CFE72FBA6E27FF0483182EDCDD0FF9B219 
+{
+	Span_1_t56D01758BC7D274BE635550048C48A40FD43C94A ____span;
+	int32_t ____index;
+};
+struct Enumerator_t4128C0ACD93F2CA2DD1E897E5FD2C4C5C2AADD07 
+{
+	ReadOnlySpan_1_t1C2E7B44675C8A207AE9D146B0B9B0CEFB0ACBAA ____span;
+	int32_t ____index;
+};
+struct Enumerator_t5345AC9EF1495FD4FDCF0124B18BDB80FC75D0FC 
+{
+	Span_1_t5824B3DE5D44BDF815B8DDF8E99ACEB8A0334895 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tCD6EE59E7408E11CCD07CE2FA2FB447B78CD61C6 
+{
+	NativeArray_1_tFBB41680F508846EF66B64B909CF1C94F028D751 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsComposer_t0D54F067D6F10F1736E0A1667194CA45802E491B ___value;
+};
+struct Enumerator_t73038F0FB3B86F6C19A267E44B912798F22956D2 
+{
+	ReadOnlySpan_1_tB2DAA1F840065A2F6995E885307F706B80289674 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tFC2050F8CBFC3D06BF6749574CD2CA678B2218C6 
+{
+	Span_1_t93F8241D92C25E4AC4B980B00945C222A7123667 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t854BB580370A91CE1CF0EB383F60ED75693D7B20 
+{
+	NativeArray_1_t513290E0A324DCD182DCA6498DBAF3A05E5CD9B5 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsHandle_tEC3DCC38ABB8395068171070539ABF8309A854C2 ___value;
+};
+struct Enumerator_tD0A7ABA899BD59431E8C0C69A0F10C16893EA145 
+{
+	ReadOnlySpan_1_tD02BCE91A1065660A52B465E9E082B47E48304AA ____span;
+	int32_t ____index;
+};
+struct Enumerator_t076CD1A5CC1BA6D4060DC35DFBDF012203F6A6AC 
+{
+	Span_1_t3DE45BE7CBF12819A5CBBD84ACAAD97287964031 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t70A772862D6D6F6EBD16F7611409F9F170132C4A 
+{
+	NativeArray_1_t7EE56341AC682502E85A5EF49CC27E17E9690BEB ___m_Array;
+	int32_t ___m_Index;
+	PhysicsJoint_tC54739697A353F8507A40D3B105421EE91B33884 ___value;
+};
+struct Enumerator_t0AF62BBABD27AA6057186E56A214C933B1D33EB2 
+{
+	ReadOnlySpan_1_t9D58CB53B97489AD302CB3B5E987B44E1CDB040F ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB14006E07A25B520A453762301474ACD341EA351 
+{
+	Span_1_tFE7F4BA6235CC999371AD5E30634E232DF532455 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t0BA22C2A62BB485001ACC99100747BC2A32CBAE8 
+{
+	NativeArray_1_t52D6C05C06C1C10CBE2B796B376B3C7266352646 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsShape_t5332F05C66BD392AFDBAE441571781A22AABED7E ___value;
+};
+struct Enumerator_t289E91E115924B441647BBAF11A360CCEE3254C6 
+{
+	ReadOnlySpan_1_tEBFBB86154B8F846CDA49C4A8FDDF723E53CDAB4 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB68C67E0DE20F64D2087690DD59B1204CDE230C1 
+{
+	Span_1_t6A78DDEC3CF4D6F4480D7100C372ADAABE2E63C0 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t51183CA7D8A90A7AA7E35A7C73EED0BAA06294CE 
+{
+	List_1_t005866C9A942E85392723D93831723E1AB1D856E* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PhysicsShape2D_t443155710C4DE7DE8C48EADA86BC4DC7EA70226E ____current;
+};
+struct Enumerator_t3D56162073D6E0CF13C0FF91331EE2FBA1229BB6 
+{
+	NativeArray_1_tA30AFFAED90698EAB9FE0374D70A3065B7472558 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsShape2D_t443155710C4DE7DE8C48EADA86BC4DC7EA70226E ___value;
+};
+struct Enumerator_tB95F056DF5475D4131EA29ACAB1B1AA54AC76AD3 
+{
+	ReadOnlySpan_1_tB92EBA06176BD5D3BC3B64586C601E12719B9D5D ____span;
+	int32_t ____index;
+};
+struct Enumerator_tD12403AE4D85B7BB2D3A882CCBBC6E59198D76FC 
+{
+	Span_1_t4B164F0F744F7C2CFAE59A6936FA72C8A5B1EE90 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t9569908D71FB88C201F566CDFE63A8F9AEAC5581 
+{
+	ReadOnly_t021975EC171A49E2C58C549DC03764A43CACC20B ___m_Array;
+	int32_t ___m_Index;
+	PhysicsShape2D_t443155710C4DE7DE8C48EADA86BC4DC7EA70226E ___value;
+};
+struct Enumerator_t16152C82719A5762451E0921B91FE1BAE717D523 
+{
+	NativeArray_1_t2E2285B626C87F8E3108409F3D80DC1200D3E426 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsUserData_t767769E7B130D2A0974D0FA6F9477DF8AED0D113 ___value;
+};
+struct Enumerator_tAE7899D1D66C58719B3DC8367E8D6C253792B909 
+{
+	ReadOnlySpan_1_t92F72357E333762D2794A157777CCF4357A429E4 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t6871EAB2ADFCEAB7C363C1C4752EAFAB1565DDFD 
+{
+	Span_1_t4298E501E62E1D33846B592D4CAD6795881BAF30 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB6C895079CE538B6CD934E8F3CF6270BDBA4837E 
+{
+	NativeArray_1_tFACF37504B027B37F837C5C512620EA6C6C34D17 ___m_Array;
+	int32_t ___m_Index;
+	PhysicsWorld_tD76337CF6B632797461123938E650738C9A18952 ___value;
+};
+struct Enumerator_t7A71EA7BC7F7B1851EB7E2CD6D2D679B3B71BCB5 
+{
+	ReadOnlySpan_1_t54DF11CFCD3DFF6AD7E9A5CE86AB90DA37CC6455 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tA6A00CC354A58DC3ED67A66E75AB50E7228648EF 
+{
+	Span_1_t10DBE51B0712209E5A9CFEC76015FCBF7D42EAE8 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tDFAE6BBA51655284DDAECBB6C65D06AE0778708B 
+{
+	NativeArray_1_t4020B6981295FB915DCE82EF368535F680C13A49 ___m_Array;
+	int32_t ___m_Index;
+	Plane_tB7D8CC6F7AACF5F3AA483AF005C1102A8577BC0C ___value;
+};
+struct Enumerator_t4D2516BDBFF0CA3F227622E164DDC33493CC3CA8 
+{
+	ReadOnlySpan_1_t24D5B379F1F952E5A59D3978DA083ABA4112FC44 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tF2FF196A081F7DA73C7537C3EE5B738BBF7A8411 
+{
+	Span_1_t7C6A40A7633287607E27FAFA675B7DBCED97B1F6 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t62F595C842480033A52139D7243859EA1C8EF40F 
+{
+	List_1_t0AFCE8A3BD0FB9189771F36DF68D3BA7A6FED88A* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PointerEvent_tC25A522EBDFCAF2CDEEE1D70428C281F78C1FA05 ____current;
+};
+struct Enumerator_t24E61AD7FDE4B983AD65C7E58713BE976B47A24E 
+{
+	NativeArray_1_t4F89B4E62AB90AEF10712018502913808FD186BC ___m_Array;
+	int32_t ___m_Index;
+	PolygonGeometry_t9303EFE027FA294B7D25B4E5AD0BAAFEF9154491 ___value;
+};
+struct Enumerator_tEC585D26415627F6670E7ADA0778CAD101A3054D 
+{
+	ReadOnlySpan_1_tDDF73876F1321C012BBAA81983863A4AA515F80B ____span;
+	int32_t ____index;
+};
+struct Enumerator_t072DD51CE0E9EFAC6D2AAC08411F80F431D1D1AC 
+{
+	Span_1_tF241E22CD0A1DD096E6046A9236DE1025A5CF5FA ____span;
+	int32_t ____index;
+};
+struct Enumerator_tA2B7EE7831BD33951172223DBDFDD0C65280FC30 
+{
+	ReadOnly_t58C419713CF91FCA0737E0F06E2E9C42F19BF590 ___m_Array;
+	int32_t ___m_Index;
+	PolygonGeometry_t9303EFE027FA294B7D25B4E5AD0BAAFEF9154491 ___value;
+};
+struct Enumerator_tA8BB3111E37B43F3D006E4FBB18979C2CDFDB159 
+{
+	NativeArray_1_t6A4CE53C1C05F4D2955C2AA488103D7F32BCA658 ___m_Array;
+	int32_t ___m_Index;
+	PolygonId_t8064F95ADA9FE8AC5F7DDF61A9F1E66FFDDE2449 ___value;
+};
+struct Enumerator_tB63A32D61B3D2964FDF3FB2443FF7319354C9823 
+{
+	ReadOnlySpan_1_t389652FA4CBB547A07093B49B5B206A4FBF7971D ____span;
+	int32_t ____index;
+};
+struct Enumerator_t1925260D368B3F87C33599C1062F551A14243CAF 
+{
+	Span_1_t0A66015DBA4463F7112604D6A63CFCBACFC0834B ____span;
+	int32_t ____index;
+};
+struct Enumerator_t644028DE390BB3320DD1CF1CA5532820C328EA3C 
+{
+	int32_t ___m_Type;
+	RuntimeObject* ___m_Enumerator;
+	Enumerator_tD2E8F0E679FE751040198815327E7E3D1CF4C4FF ___m_Properties;
+	IndexedCollectionPropertyBagEnumerator_1_t475B5E77EE8C836A3570B58E2EBDA33512978AC7 ___m_IndexedCollectionPropertyBag;
+	RuntimeObject* ___U3CCurrentU3Ek__BackingField;
+};
+struct Enumerator_t57B7E1BE02A3CCDA32107E4ECE47ADCCDACC6E94 
+{
+	ReadOnlySpan_1_t63503A2F8983657F52CF102FF2DDFE383DFE103D ____span;
+	int32_t ____index;
+};
+struct Enumerator_t4ED19531173F2173C09184DDA8BBEF982B539EE7 
+{
+	Span_1_tD7063A62DFCB1CEC40923F6E680FE0B4F585793E ____span;
+	int32_t ____index;
+};
+struct Enumerator_t2CE91A9455C405730CDD23F6C7A5F2B4F1FA27D7 
+{
+	NativeArray_1_tD522AE8EDEC4C3DB588255D2A8810957678E2C5C ___m_Array;
+	int32_t ___m_Index;
+	alignas(2) ProfilerCategory_tA55212CD512C618AF6D2147791F20319896592AC ___value;
+};
+struct Enumerator_tB451B3CC3F263FAA620FF2A45D1B99DB6260822D 
+{
+	ReadOnlySpan_1_t5CB9ACAEB30D65743A5996AEBB4CCD5B6A1E16C3 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tEE780598DBEFE32CE8824706B4C56C6BD7AB37CA 
+{
+	Span_1_t96BF9BDB40BA0FAA4755CB4504C4A37DEF558877 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t4CE91DE1225CDD53B8298E94912FCE51338901D2 
+{
+	ReadOnlySpan_1_t44AEE3A9AAAAD126402F236A68995AF87A3EABF9 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tD203D4F3F509CD125DF9E8C60000DEC5B58613DB 
+{
+	Span_1_t90DADE2208C7622D631BBB7095AB0CAA37D96642 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t9A1358EB3F132ADB2369B6634EFB2D82487191CE 
+{
+	ReadOnlySpan_1_t4C6A9B0A9A2C0F1695512B05DE7258A25AC8F945 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tCFCC7DA1ED07A380B94D027E9CE059163EABED4D 
+{
+	Span_1_t5FEC03D6F352F29D877A5254CB82EF9FDDDAE1E8 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t91403D21EBABC767F94C951821C23462750F33C2 
+{
+	ReadOnlySpan_1_t4581D400E0C16D3722378504982F549B0B0B0A21 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t79082F6EECE7FBB69658FA261F40481B77857747 
+{
+	Span_1_t7BF0F91F205E0B9879C4C8CEE83452F81D5C4128 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t150659966D7B206A0CA03A40FCF274CEB25867A2 
+{
+	List_1_tF144CCAA9ECC1473C88891AE61CDF91D5E85BCB4* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF ____current;
+};
+struct Enumerator_tDB3919A1D001D04532C62735370E331C59F3529A 
+{
+	NativeArray_1_t798B180994A003D789E550668FB8C34394A61C2C ___m_Array;
+	int32_t ___m_Index;
+	PropertySceneHandle_tB8CC36E4534888D6FCAC24F3337F4D436A327EE1 ___value;
+};
+struct Enumerator_t6E05BC3D8BD6E27CD0CFE79B21FE229BC5590CE3 
+{
+	ReadOnlySpan_1_t2585694BD2CD8FA6C789EFB4C75314AF1518C905 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tDD2F5E3BD3D3B0915A2D300A70151F27A8D6EB65 
+{
+	Span_1_t9DE13737E064D3D83A84CC5B0334879CD439BC08 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t7DA8F485BE9D2CFEA8EB453601A66ABF7174F7CB 
+{
+	NativeArray_1_t49E030AAA071A257CED2C04428CE048534E26719 ___m_Array;
+	int32_t ___m_Index;
+	PropertyStreamHandle_tA4F5D5D4C6A47069B2D84EDDD84B8A7F982DA1B3 ___value;
+};
+struct Enumerator_t31247B17A693EAA1D1746D8FD7EFC62632D18C90 
+{
+	ReadOnlySpan_1_t025228F2A4E88EA3541E45F1B2E22CBE768D2EDE ____span;
+	int32_t ____index;
+};
+struct Enumerator_t12BA5A61A6A734E80FD76A81E23BEACD36932CD0 
+{
+	Span_1_t9ED00D900304462EB5E7DE022755F1DE7DC4F5E9 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t8DE999352B1CC59B0285A544D539C9AFB1E207CD 
+{
+	NativeArray_1_t033CD013BF2CA1D8A5909650F2E75960C527E638 ___m_Array;
+	int32_t ___m_Index;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___value;
+};
+struct Enumerator_tAE7D0DD71D41C13EF4D202F06D198D6E7ECD4D62 
+{
+	ReadOnlySpan_1_tDE8983102D42568E6127FA7BE5CE63380CD7A820 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tE122593FEC0D5A0AD510CE90484B45F420125150 
+{
+	Span_1_t391B794BE458E4BEE6117AD64D9AC077EDC512C6 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t4F65100C45533D41930E549E2E77B7A5FD94A24F 
+{
+	NativeArray_1_t5A95C09E69493A633A9543326E74D2FE73F00395 ___m_Array;
+	int32_t ___m_Index;
+	RangeInt_tDFBE4FD13857C11F21F7C3DA6B60D05341B67268 ___value;
+};
+struct Enumerator_tDB9AFDA4C2554476CF7A3436B4145A11844A02BF 
+{
+	ReadOnlySpan_1_t6661B8EC8167F5F6DC57AEB0633C8639D20BAB06 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tA46137F1461691A734D4B96D09931426C2DA729B 
+{
+	Span_1_t67B354B7480ABD4B9B0CC224963BF3FA97C32364 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tDF9BDE4FA4F13EC418ADE3F4C5E78A172BC37BCD 
+{
+	NativeArray_1_t8E236FFFE7B598011354300BFCED0A15647BBC5D ___m_Array;
+	int32_t ___m_Index;
+	RangeKey_t6D4869B364ADC52DCAE541898513EF33CEE8878C ___value;
+};
+struct Enumerator_t8D3696A19FF90F414D7B333F1E4F82C182B12D5F 
+{
+	ReadOnlySpan_1_t8B44068056227156EB6AED6DD877ACCAD25EA0AD ____span;
+	int32_t ____index;
+};
+struct Enumerator_t32317518438C6698BD42B05638CB460FD3E56603 
+{
+	Span_1_t6AB8F26FC501723514D191BF010128EE5F36C807 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t633C73DB12CEA5844C58EE3F7935E76A38BC58F2 
+{
+	ReadOnly_t02EDFDFEAAAF9C216BB52EA0C8A08CF75EE5CE58 ___m_Array;
+	int32_t ___m_Index;
+	RangeKey_t6D4869B364ADC52DCAE541898513EF33CEE8878C ___value;
+};
+struct Enumerator_t31E1A7FBD6EBEC41D7E123BD3C9932EDF4FA9A2B 
+{
+	ReadOnlySpan_1_tBC935FAED6028979343406929A2E7C328EB0403C ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB7B41AF5633D77554808C20C36A1796C2DF638CB 
+{
+	Span_1_t1F8D46BB4E905CF376E65FC87E4711D184F3CB2A ____span;
+	int32_t ____index;
+};
+struct Enumerator_tA43E81A9BA9D601B52AA8CE6A719B48426744CE5 
+{
+	ReadOnlySpan_1_tDE628E6CFFE92B602FD432DDA6E2957CFAC0F9EF ____span;
+	int32_t ____index;
+};
+struct Enumerator_tFFA90678DF2D8DB2090A6D60ACE1469C2DCDC9D7 
+{
+	Span_1_t4FA1948AC186A6ED20A3E3200DD2D5037A82FBA1 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB18853DF0D7B7BEA6C5BA64DA8CAC9B3E675BDBE 
+{
+	NativeArray_1_t0E2917029F593D82CA97EC0B8B09C05F2718B3D1 ___m_Array;
+	int32_t ___m_Index;
+	RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5 ___value;
+};
+struct Enumerator_t7BC5AA039BB6BE923A4064B7464E6A3BBF654FAA 
+{
+	ReadOnlySpan_1_t7232E7F75E265E4B3C1307678DB3C0971CB211AD ____span;
+	int32_t ____index;
+};
+struct Enumerator_t1651327DAD1EF7A0C2D0892623A3273B44DEB65A 
+{
+	Span_1_tBEC7C4E9169E4140C814175AFCBB22857D8132A3 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t19AF03FB327910E3EEB38DEC64B462E0AB56E363 
+{
+	NativeArray_1_t880C01E5EE92F4CE738A6229CF0AC0560328BE3A ___m_Array;
+	int32_t ___m_Index;
+	RaycastHit2D_t3EAAA06E6603C6BC61AC1291DD881C5C1E23BDFA ___value;
+};
+struct Enumerator_tB5833E3178992525193ED15A6A709EEB98498AEA 
+{
+	ReadOnlySpan_1_tEAF479AB1B366DD09B770333CBF4B8EBAFA8D3CC ____span;
+	int32_t ____index;
+};
+struct Enumerator_tE1809CAE04FF80AD06BA2B7E23381E5F4804151D 
+{
+	Span_1_tF4D9B4B87977A720F1E351D58C2CB052497FA060 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t04CF54778BF4BE4F350090C0753538F0B60503BB 
+{
+	NativeArray_1_t8F42F28201309C196AF229870A1018B17FD2342C ___m_Array;
+	int32_t ___m_Index;
+	ReadCommand_t5DB46BD58D686FDDFBD8AB7600B9CF676DC7D97F ___value;
+};
+struct Enumerator_tB49705ACC63862366E638B7DBF13E9FF5A398A12 
+{
+	ReadOnlySpan_1_t0CE4C215C0282815877915215841B7B4043BA832 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t1F4F76FCC8F1838098D82B7FA504CF67D498409C 
+{
+	Span_1_tF7F68B4B17E8230235ACFE1BB9EF32253F3581D9 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tFDDFE90105E49406509C3F1DD5D1E48567B9FBC0 
+{
+	NativeArray_1_t4C3E9FEA6892CF91EE24D2228BBAB24FBFEB696B ___m_Array;
+	int32_t ___m_Index;
+	Rect_tA04E0F8A1830E767F40FB27ECD8D309303571F0D ___value;
+};
+struct Enumerator_t5F88573CAC5EC04D5C9D6E9497D66E117D7A1FD4 
+{
+	ReadOnlySpan_1_tFBE8D2D2BD65AF66CCA037F9325667D6C571127C ____span;
+	int32_t ____index;
+};
+struct Enumerator_tC55DDB1EEB1C59027BAD1ED63D183971CD0EE52F 
+{
+	Span_1_tA921127FB82E829329A2ACB82FDCCED88A4A97B2 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tED0CB605A393B0CE9A559792D68DF3CDDA75F35B 
+{
+	ReadOnlySpan_1_t59240FF5BA5E8BA29C9A3BB4BB1A89BD01537278 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t86F7A3E611155B8F6525F08C81B1C997CCE5CEB2 
+{
+	Span_1_tAF1B65508DB0515635C2F3D5C9E16B39E45633A5 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t727E4263F94BA41FD420C026D4D0F4CD6CB97F68 
+{
+	ReadOnlySpan_1_tC55BE9937AD4F2CBFE27189BEFF650C9028BAF14 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tAC0AEBC0AA3EC3196175209D2F6802112054DA61 
+{
+	Span_1_t2E1AE89AD49E87367588C4AD25480CAB6E044D35 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB637631DE96B031D59ADBE18F81777A6337C9E52 
+{
+	ReadOnlySpan_1_t224ED10405C1DFE9B888E811A322366D612E16D6 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tF69994FF13CBC4F32DB7C7352F2B9EA85A04DE8B 
+{
+	Span_1_t4111BDF1060282B8B5BE606ED2ACB02AA689BA23 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t1A98490B8A6F5BCD5BFDA96433AD766A1B5DD378 
+{
+	ReadOnlySpan_1_t091D261654C31BC48A1AA8A179812F123D71360A ____span;
+	int32_t ____index;
+};
+struct Enumerator_t481013C3ACA76B4BBDAE39B439593049234C3DFD 
+{
+	Span_1_tD5D5E3F8554AA42D7966331175E097F481E3E518 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tB865EEA4BFA614F3976C5801E8F3D1DEDBABD76B 
+{
+	ReadOnlySpan_1_tC6268754B70517D9508992D0F1EEDF834B4A1309 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t0C02B71E24D7CEDD51F34CE44D1D5DB83020B346 
+{
+	Span_1_tCCB5D978C3C7E6E75960C5E974F7A2F5567C4E90 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tF5BFA844EAE229498636233CA1680F10D353FEDF 
+{
+	ReadOnlySpan_1_t9A3C693B1D8C4E985F08C5CFD0F4EF8138E98100 ____span;
+	int32_t ____index;
+};
+struct Enumerator_tD8ABC2719253579D3557AF6E6912D37EDBD1AAAC 
+{
+	Span_1_tDC36E4BFE79F0174B4DE4389E7C5CAA2F0511F84 ____span;
+	int32_t ____index;
+};
+struct Enumerator_t77342C7F759AE3B60849E4F1826EBC5D151CD998 
+{
+	List_1_t67B4F73A05A1220FF45824DBE29F391490B25A0C* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	RendererListHandle_t2DFC72A560B979AE0BAFBABBD8B9AF5DC1FEFEBA ____current;
+};
+struct Enumerator_tC58784BC2B09FB7C392CAC50C6891E7F5278C53D 
+{
+	ReadOnlySpan_1_tBEAFDCD5A343518729D38712AEF2C00B11AE1B1E ____span;
+	int32_t ____index;
+};
+struct Enumerator_tFF23C339CE459B7965DCEB3288956F7B58FECAC3 
+{
+	Span_1_tA6492479EFB02BBE1C02ABAE39B547234EDA2962 ____span;
+	int32_t ____index;
+};
+struct PassFragmentData_t67D0B4EC16AF3DBC4233CC7537B93A27C78BFA8C 
+{
+	ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C ___resource;
+	int32_t ___accessFlags;
+	int32_t ___mipLevel;
+	int32_t ___depthSlice;
+};
+struct PassInputData_tA1B8624F31DDB24770D8E0C8FA54189A567FC2DE 
+{
+	ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C ___resource;
+};
+struct PassOutputData_t8EA364E560775D19D285839BA06710B337503E0D 
+{
+	ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C ___resource;
+};
+struct PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B 
+{
+	ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C ___resource;
+	int32_t ___index;
+	bool ___preserveCounterValue;
+};
+struct PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B_marshaled_pinvoke
+{
+	ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C ___resource;
+	int32_t ___index;
+	int32_t ___preserveCounterValue;
+};
+struct PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B_marshaled_com
+{
+	ResourceHandle_tD3B1FFBD59EB9C23F0A020351836F834C4BD276C ___resource;
+	int32_t ___index;
+	int32_t ___preserveCounterValue;
+};
+struct PointerModel_t6E979AA49D01ACA529A68AF8F48624E73484CD42 
+{
+	bool ___changedThisFrame;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69 ___leftButton;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69 ___rightButton;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69 ___middleButton;
+	ExtendedPointerEventData_t164B462A9B123B2EE69B7DEC4F33F6AA3DE7937F* ___eventData;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_ScreenPosition;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_ScrollDelta;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___m_WorldPosition;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___m_WorldOrientation;
+	float ___m_Pressure;
+	float ___m_AzimuthAngle;
+	float ___m_AltitudeAngle;
+	float ___m_Twist;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Radius;
+};
+struct PointerModel_t6E979AA49D01ACA529A68AF8F48624E73484CD42_marshaled_pinvoke
+{
+	int32_t ___changedThisFrame;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_pinvoke ___leftButton;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_pinvoke ___rightButton;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_pinvoke ___middleButton;
+	ExtendedPointerEventData_t164B462A9B123B2EE69B7DEC4F33F6AA3DE7937F* ___eventData;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_ScreenPosition;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_ScrollDelta;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___m_WorldPosition;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___m_WorldOrientation;
+	float ___m_Pressure;
+	float ___m_AzimuthAngle;
+	float ___m_AltitudeAngle;
+	float ___m_Twist;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Radius;
+};
+struct PointerModel_t6E979AA49D01ACA529A68AF8F48624E73484CD42_marshaled_com
+{
+	int32_t ___changedThisFrame;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_com ___leftButton;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_com ___rightButton;
+	ButtonState_tC90005D9F1E87688352A8F97B40400D0319CFC69_marshaled_com ___middleButton;
+	ExtendedPointerEventData_t164B462A9B123B2EE69B7DEC4F33F6AA3DE7937F* ___eventData;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_ScreenPosition;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_ScrollDelta;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___m_WorldPosition;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___m_WorldOrientation;
+	float ___m_Pressure;
+	float ___m_AzimuthAngle;
+	float ___m_AltitudeAngle;
+	float ___m_Twist;
+	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___m_Radius;
+};
+struct PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79 
+{
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF ___m_Part0;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF ___m_Part1;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF ___m_Part2;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF ___m_Part3;
+	PropertyPathPartU5BU5D_t7994D542F14DDDDEABB1792C335C20149399AEBB* ___m_AdditionalParts;
+	int32_t ___U3CLengthU3Ek__BackingField;
+};
+struct PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79_marshaled_pinvoke
+{
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke ___m_Part0;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke ___m_Part1;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke ___m_Part2;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke ___m_Part3;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_pinvoke* ___m_AdditionalParts;
+	int32_t ___U3CLengthU3Ek__BackingField;
+};
+struct PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79_marshaled_com
+{
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com ___m_Part0;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com ___m_Part1;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com ___m_Part2;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com ___m_Part3;
+	PropertyPathPart_tFB308743948D2298957DC1898D90AF2ACFED9DFF_marshaled_com* ___m_AdditionalParts;
+	int32_t ___U3CLengthU3Ek__BackingField;
+};
+struct RaycastCommand_t4EB71893B65E7E4E56292BC591E8B256FBBAAE29 
+{
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___U3CfromU3Ek__BackingField;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___U3CdirectionU3Ek__BackingField;
+	PhysicsScene_t55222DD37072E8560EE054A07C0E3FE391D9D9DE ___U3CphysicsSceneU3Ek__BackingField;
+	float ___U3CdistanceU3Ek__BackingField;
+	QueryParameters_t5BC1A5A2C4ADB170380559863B0F65BAA02BA1D1 ___queryParameters;
+};
+struct RaycastCommand_t4EB71893B65E7E4E56292BC591E8B256FBBAAE29_marshaled_pinvoke
+{
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___U3CfromU3Ek__BackingField;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___U3CdirectionU3Ek__BackingField;
+	PhysicsScene_t55222DD37072E8560EE054A07C0E3FE391D9D9DE ___U3CphysicsSceneU3Ek__BackingField;
+	float ___U3CdistanceU3Ek__BackingField;
+	QueryParameters_t5BC1A5A2C4ADB170380559863B0F65BAA02BA1D1_marshaled_pinvoke ___queryParameters;
+};
+struct RaycastCommand_t4EB71893B65E7E4E56292BC591E8B256FBBAAE29_marshaled_com
+{
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___U3CfromU3Ek__BackingField;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___U3CdirectionU3Ek__BackingField;
+	PhysicsScene_t55222DD37072E8560EE054A07C0E3FE391D9D9DE ___U3CphysicsSceneU3Ek__BackingField;
+	float ___U3CdistanceU3Ek__BackingField;
+	QueryParameters_t5BC1A5A2C4ADB170380559863B0F65BAA02BA1D1_marshaled_com ___queryParameters;
+};
+struct RenderStateBlock_tFC570EF2C8F3A817FECD578E385D18CEEEA06733 
+{
+	BlendState_tC9B817349E49EF26CBCDC8FCE02789A661DC2630 ___m_BlendState;
+	RasterState_tA30E8336EA5D1E2152A6C7252F15384985B98A26 ___m_RasterState;
+	DepthState_t798415D2C1D9202E555FEE5D4C5FDF6B3A077255 ___m_DepthState;
+	StencilState_tBE5F7C1134E50C5E93B45A626D4FB4690F1C91A9 ___m_StencilState;
+	int32_t ___m_StencilReference;
+	int32_t ___m_Mask;
+};
+struct Enumerator_t1AA9491F87130FBCCAFE1D0FE3797328BD4F6B7D 
+{
+	NativeArray_1_tBA536E4EFD1CB2160664BDBEF13DC67ECB32E79A ___m_Array;
+	int32_t ___m_Index;
+	PassFragmentData_t67D0B4EC16AF3DBC4233CC7537B93A27C78BFA8C ___value;
+};
+struct Enumerator_t079D405551914A7B89375417A761DE24C9954AC9 
+{
+	ReadOnly_t0E8955497985C5A87D03079257194DAB9B61D5B2 ___m_Array;
+	int32_t ___m_Index;
+	PassFragmentData_t67D0B4EC16AF3DBC4233CC7537B93A27C78BFA8C ___value;
+};
+struct Enumerator_t1C63A99805D66B3C7138BAFB60DC859805D06559 
+{
+	NativeArray_1_tDD79324C48394834DB786BABDB44D2CD9B0A6C77 ___m_Array;
+	int32_t ___m_Index;
+	PassInputData_tA1B8624F31DDB24770D8E0C8FA54189A567FC2DE ___value;
+};
+struct Enumerator_t678658498A6D125D0417DAE7F3609E2F16E3B01A 
+{
+	ReadOnly_t73EBAE38265F7F61EC49B6FD6BAA0E0DC65F099B ___m_Array;
+	int32_t ___m_Index;
+	PassInputData_tA1B8624F31DDB24770D8E0C8FA54189A567FC2DE ___value;
+};
+struct Enumerator_tF66D183FAF8E2DCE780DBEEB03D7B1A556D51777 
+{
+	NativeArray_1_t196FB7C2715A99B8FF3F20599B6BBAA704FE0A15 ___m_Array;
+	int32_t ___m_Index;
+	PassOutputData_t8EA364E560775D19D285839BA06710B337503E0D ___value;
+};
+struct Enumerator_tD02D1D19017D547244E97FA992D44F76B770FEC3 
+{
+	ReadOnly_t9C122BE5858DECB23616D0A9A3CD8D921355BE8B ___m_Array;
+	int32_t ___m_Index;
+	PassOutputData_t8EA364E560775D19D285839BA06710B337503E0D ___value;
+};
+struct Enumerator_t304EC8FB4B7A270562BD983B168450CE4A7E7AA6 
+{
+	NativeArray_1_t808F096A7B1C709645F38913EE6FE8116232AABE ___m_Array;
+	int32_t ___m_Index;
+	PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B ___value;
+};
+struct Enumerator_tF3047234D9249882AB7D404DED775616AB862B22 
+{
+	ReadOnly_tEE0557E3A969B1612FF5BEE53A689E3A445D20B5 ___m_Array;
+	int32_t ___m_Index;
+	PassRandomWriteData_t5C298F6D2CA84B027F3D8A145304B0DCFDA1961B ___value;
+};
+struct Enumerator_tF8E69BF07F9F02F7353403E775CC0C7C9D5920A7 
+{
+	HashSet_1_t4FBFDDA1AD07FFD212AA59BAB18C9A86185C2243* ____set;
+	int32_t ____index;
+	int32_t ____version;
+	PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79 ____current;
+};
+struct Enumerator_tE88DFEEF06C7DB550143D437F20397DF9DF2DEFD 
+{
+	NativeArray_1_t3363B8E835CEFCA68080BBA7E14CB78552879E45 ___m_Array;
+	int32_t ___m_Index;
+	RaycastCommand_t4EB71893B65E7E4E56292BC591E8B256FBBAAE29 ___value;
+};
+struct Enumerator_tCC0ECE71599D9E5EF5C02A0D5E9628FBE1A60834 
+{
+	ReadOnly_t88AA80980774DFB6D9AD4CB5B9ACA113720BC98E ___m_Array;
+	int32_t ___m_Index;
+	RaycastCommand_t4EB71893B65E7E4E56292BC591E8B256FBBAAE29 ___value;
+};
+struct Enumerator_t800DF6A72F8D011A4E442A7D799C77D3E8C8ABAF 
+{
+	NativeArray_1_t0AB49EE6A37F6BC668C15EDFBE9BE92A22B2F0DB ___m_Array;
+	int32_t ___m_Index;
+	RenderStateBlock_tFC570EF2C8F3A817FECD578E385D18CEEEA06733 ___value;
+};
+struct Enumerator_t4D20DF0A71E0694686A0DF99912F2E5BF9F73A2E 
+{
+	ReadOnly_t9E7D9185B359CEB198A6B7254F91F3809C4C4E7C ___m_Array;
+	int32_t ___m_Index;
+	RenderStateBlock_tFC570EF2C8F3A817FECD578E385D18CEEEA06733 ___value;
+};
+struct InlinedArray_1_t6E2851F85C23093EDE233F71F5CE3D6D08FAE920 
+{
+	int32_t ___length;
+	PointerModel_t6E979AA49D01ACA529A68AF8F48624E73484CD42 ___firstValue;
+	PointerModelU5BU5D_tE7B1CA281F392BD0840E1A81754AC94AF44FEE81* ___additionalValues;
+};
+struct PropertyPathInfo_t4F516150FF223D10399DC8E09E5DA06F616C124C 
+{
+	PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79 ___propertyPath;
+	Type_t* ___type;
+};
+struct PropertyPathInfo_t4F516150FF223D10399DC8E09E5DA06F616C124C_marshaled_pinvoke
+{
+	PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79_marshaled_pinvoke ___propertyPath;
+	Type_t* ___type;
+};
+struct PropertyPathInfo_t4F516150FF223D10399DC8E09E5DA06F616C124C_marshaled_com
+{
+	PropertyPath_tA523CA2740853534DF6C009C588464B45A6D0A79_marshaled_com ___propertyPath;
+	Type_t* ___type;
+};
+struct Enumerator_tB97D1B25981D8606B18A0E598C3DBE5059CCDBE0 
+{
+	InlinedArray_1_t6E2851F85C23093EDE233F71F5CE3D6D08FAE920 ___array;
+	int32_t ___index;
+};
+struct Enumerator_t9C06DEC9817CDE2093261D2B959193217C69168F 
+{
+	List_1_t0EBD8BA582D3F66E8AC5DBDC4A635DEB08086465* ____list;
+	int32_t ____index;
+	int32_t ____version;
+	PropertyPathInfo_t4F516150FF223D10399DC8E09E5DA06F616C124C ____current;
+};
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
