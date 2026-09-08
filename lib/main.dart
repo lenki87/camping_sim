@@ -732,8 +732,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
 
-        // Untergrund-Leitungen
-        if (undergroundWater[x][y])
+        // Untergrund-Leitungen (NUR IM RÖNTGENBLICK SICHTBAR)
+        if (isUndergroundView && undergroundWater[x][y])
           CustomPaint(
             size: const Size(double.infinity, double.infinity),
             painter: PipePainter(
@@ -745,7 +745,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
               offset: -6.0,
             ),
           ),
-        if (undergroundWaste[x][y])
+        if (isUndergroundView && undergroundWaste[x][y])
           CustomPaint(
             size: const Size(double.infinity, double.infinity),
             painter: PipePainter(
@@ -757,7 +757,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
               offset: 0.0,
             ),
           ),
-        if (undergroundPower[x][y])
+        if (isUndergroundView && undergroundPower[x][y])
           CustomPaint(
             size: const Size(double.infinity, double.infinity),
             painter: PipePainter(
