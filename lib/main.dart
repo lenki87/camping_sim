@@ -896,73 +896,85 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       if (state == 0) return const SizedBox.shrink();
       bool isCaravan = parcelIsCaravan[x][y];
 
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center, // Zentriert alles auf unseren neuen Anker
-        children: [
-          Transform(
-            alignment: Alignment.center,
-            transform: billboardMatrix,
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.bottomCenter, // Räder setzen am Boden auf
-              children: [
-                // 1. Bodenschatten (Minimal nach unten gedrückt)
-                Transform.translate(
-                  offset: const Offset(0, 5), 
-                  child: Container(
-                    width: 50,
-                    height: 22,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.35),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                ),
-                
-                // 2. Das Fahrzeug / Zelt (Ohne jeden Offset, steht perfekt mittig!)
-                Opacity(
-                  opacity: state == 1 ? 0.45 : 1.0,
-                  child: Image.asset(
-                    isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                    width: 72,
-                    height: 72,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                
-                // 3. Picknicktisch (Nach links neben den Wagen geschoben)
-                Transform.translate(
-                  offset: const Offset(-20, 10), 
-                  child: Opacity(
-                    opacity: state == 1 ? 0.45 : 1.0,
-                    child: Image.asset(
-                      'assets/table.png', 
-                      width: 25, 
-                      height: 25,
-                      errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
-                    ),
-                  ),
-                ),
-                
-                // 4. Ladebalken beim Aufbauen (Schwebend über dem Dach)
-                if (state == 1)
+      // OverflowBox sprengt die 40x40 Kachel-Grenze, damit nichts gequetscht wird
+      return OverflowBox(
+        maxWidth: 200,
+        maxHeight: 200,
+        alignment: Alignment.center, // Der absolute, exakte Mittelpunkt des Schotterplatzes
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center, // Alles klammert sich an diesen einen Mittelpunkt
+          children: [
+            
+            // --- 1. DER SCHATTEN (Flach auf dem Boden) ---
+            // Wichtig: Liegt AUSSERHALB der billboardMatrix! 
+            // So wird aus dem Kreis automatisch eine perfekte isometrische Ellipse auf dem Boden.
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.35),
+                shape: BoxShape.circle, 
+              ),
+            ),
+            
+            // --- 2. DIE OBJEKTE (Stehen aufrecht zur Kamera) ---
+            Transform(
+              alignment: Alignment.center,
+              transform: billboardMatrix,
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  
+                  // Fahrzeug / Zelt
                   Transform.translate(
-                    offset: const Offset(0, -60), 
-                    child: SizedBox(
-                      width: 35,
-                      height: 5,
-                      child: LinearProgressIndicator(
-                        value: setupProgress[x][y], 
-                        backgroundColor: Colors.black54, 
-                        color: Colors.greenAccent,
+                    // Y negativ = zieht das Bild nach OBEN, damit die Räder genau auf dem Schatten aufsetzen!
+                    offset: const Offset(0, -25), 
+                    child: Opacity(
+                      opacity: state == 1 ? 0.45 : 1.0,
+                      child: Image.asset(
+                        isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
+                        width: 72,
+                        height: 72,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
-              ],
+                  
+                  // Picknicktisch
+                  Transform.translate(
+                    offset: const Offset(-25, 0), // Nach links neben die Tür geschoben
+                    child: Opacity(
+                      opacity: state == 1 ? 0.45 : 1.0,
+                      child: Image.asset(
+                        'assets/table.png', 
+                        width: 25, 
+                        height: 25,
+                        errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
+                      ),
+                    ),
+                  ),
+                  
+                  // Ladebalken
+                  if (state == 1)
+                    Transform.translate(
+                      offset: const Offset(0, -65), // Hoch über das Dach geschoben
+                      child: SizedBox(
+                        width: 35,
+                        height: 5,
+                        child: LinearProgressIndicator(
+                          value: setupProgress[x][y], 
+                          backgroundColor: Colors.black54, 
+                          color: Colors.greenAccent,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     }
 
