@@ -1405,80 +1405,42 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                               int type = mapData[x][y];
 
                               if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
-                                // Exakte Mitte der 4 Kacheln (2x2 Parzelle)
-                                double anchorX = x + 1.0; 
-                                double anchorY = y + 1.0;
-
+                                double anchorX = x + 0.5; // Exakte Mitte der Kachel, unabhängig von Parzellen-Größe
+                                double anchorY = y + 0.5;
                                 objectList.add(WorldObject(
-                                  x: anchorX,
-                                  y: anchorY,
-                                  sinZ: sinZ,
-                                  cosZ: cosZ,
-                                  widget: Positioned(
-                                    left: anchorX * tileSize - (tileSize / 2),
-                                    top: anchorY * tileSize - (tileSize / 2),
-                                    width: tileSize,
-                                    height: tileSize,
-                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                  ),
+                                  x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
+                                  widget: _buildObjectWidget(type, x, y, anchorX, anchorY, tileSize, billboardMatrix),
                                 ));
                               } else if (type == 3 || type == 6 || type == 14 || type == 15 || (type >= 16 && type <= 18)) {
-                                // NEU: Exakte Mitte der einzelnen Kachel für Rezeption, Bäume, Steine etc.
                                 double anchorX = x + 0.5;
                                 double anchorY = y + 0.5;
-
                                 objectList.add(WorldObject(
-                                  x: anchorX,
-                                  y: anchorY,
-                                  sinZ: sinZ,
-                                  cosZ: cosZ,
-                                  widget: Positioned(
-                                    left: anchorX * tileSize - (tileSize / 2),
-                                    top: anchorY * tileSize - (tileSize / 2),
-                                    width: tileSize,
-                                    height: tileSize,
-                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                  ),
+                                  x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
+                                  widget: _buildObjectWidget(type, x, y, anchorX, anchorY, tileSize, billboardMatrix),
                                 ));
                               }
                             }
                           }
 
                           for (var car in activeCars) {
+                            double cx = car.x * tileSize;
+                            double cy = car.y * tileSize;
                             objectList.add(WorldObject(
-                              x: car.x,
-                              y: car.y,
-                              sinZ: sinZ,
-                              cosZ: cosZ,
+                              x: car.x, y: car.y, sinZ: sinZ, cosZ: cosZ,
                               widget: Positioned(
-                                left: car.x * tileSize,
-                                top: car.y * tileSize,
-                                width: tileSize,
-                                height: tileSize,
-                                child: Transform(
-                                  alignment: Alignment.bottomCenter,
-                                  transform: billboardMatrix,
-                                  child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent),
-                                ),
+                                left: cx - 14, top: cy - 28, width: 28, height: 28,
+                                child: Transform(alignment: Alignment.bottomCenter, transform: billboardMatrix, child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent)),
                               ),
                             ));
                           }
 
+                          double gCx = guestX * tileSize;
+                          double gCy = guestY * tileSize;
                           objectList.add(WorldObject(
-                            x: guestX,
-                            y: guestY,
-                            sinZ: sinZ,
-                            cosZ: cosZ,
+                            x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
                             widget: Positioned(
-                              left: guestX * tileSize,
-                              top: guestY * tileSize,
-                              width: tileSize,
-                              height: tileSize,
-                              child: Transform(
-                                alignment: Alignment.bottomCenter,
-                                transform: billboardMatrix,
-                                child: const Icon(Icons.emoji_people, size: 32, color: Colors.white),
-                              ),
+                              left: gCx - 16, top: gCy - 32, width: 32, height: 32,
+                              child: Transform(alignment: Alignment.bottomCenter, transform: billboardMatrix, child: const Icon(Icons.emoji_people, size: 32, color: Colors.white)),
                             ),
                           ));
 
