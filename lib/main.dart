@@ -770,7 +770,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         children: [
           // Flacher Bodenschatten
           Positioned(
-            bottom: 4,
+            bottom: 2,
             child: Container(
               width: 55,
               height: 25,
@@ -782,7 +782,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           ),
           // Aufrechtes Rezeptionsgebäude
           Positioned(
-            bottom: 6,
+            bottom: -15,
             child: Transform(
               alignment: Alignment.bottomCenter,
               transform: billboardMatrix,
@@ -799,7 +799,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           ),
           // Schranke
           Positioned(
-            bottom: 8,
+            bottom: -13,
             right: -10,
             child: Transform(
               alignment: Alignment.bottomCenter,
@@ -859,7 +859,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         children: [
           // Flacher Bodenschatten
           Positioned(
-            bottom: 4,
+            bottom: 2,
             child: Container(
               width: 52,
               height: 24,
@@ -871,7 +871,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           ),
           // Fahrzeug / Hauptzelt
           Positioned(
-            bottom: 6,
+            bottom: -15,
             child: Transform(
               alignment: Alignment.bottomCenter,
               transform: billboardMatrix,
@@ -895,7 +895,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           ),
           // Picknicktisch
           Positioned(
-            bottom: 2,
+            bottom: -15,
             left: -12,
             child: Transform(
               alignment: Alignment.bottomCenter,
@@ -917,7 +917,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           // Zusatzzelt
           if (extraTent)
             Positioned(
-              bottom: 2,
+              bottom: -15,
               right: -10,
               child: Transform(
                 alignment: Alignment.bottomCenter,
@@ -935,7 +935,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           // Aufbau-Ladebalken
           if (state == 1)
             Positioned(
-              bottom: 65,
+              bottom: 45,
               child: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()..rotateZ(-cameraZ),
@@ -972,7 +972,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
           Positioned(
-            bottom: 4,
+            bottom: -12,
             child: Transform(
               alignment: Alignment.bottomCenter,
               transform: billboardMatrix,
@@ -1009,7 +1009,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
           Positioned(
-            bottom: 4,
+            bottom: -12,
             child: Transform(
               alignment: Alignment.bottomCenter,
               transform: billboardMatrix,
@@ -1046,7 +1046,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
           Positioned(
-            bottom: 4,
+            bottom: -12,
             child: Transform(
               alignment: Alignment.bottomCenter,
               transform: billboardMatrix,
