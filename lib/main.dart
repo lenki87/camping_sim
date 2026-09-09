@@ -8,6 +8,12 @@ void main() {
   runApp(const CampingSimApp());
 }
 
+Offset worldToScreen(double wx, double wy, double tileSize) {
+  double sx = wx * tileSize;
+  double sy = wy * tileSize;
+  return Offset(sx, sy);
+}
+
 class WorldObject {
   final double x;
   final double y;
@@ -23,6 +29,14 @@ class VisitingCar {
   final int targetX, targetY;
   VisitingCar(this.x, this.y, this.targetX, this.targetY);
 }
+
+final Map<String, int> categoryUnlockPrestige = {
+  "WEGE": 0,
+  "NETZE": 100,
+  "ZONING": 0,
+  "NATUR": 0,
+  "ABRISS": 0,
+};
 
 class CampingSimApp extends StatelessWidget {
   const CampingSimApp({super.key});
@@ -50,14 +64,14 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   final int gridSize = 20; // Zurück auf die Originalgröße
   late List<List<int>> mapData;
-  
+
   // Kamera-Winkel für Isometrie
-  double cameraZ = -pi / 4; 
-  final double cameraTilt = 0.95; 
-  bool usePerspective = false; 
+  double cameraZ = -pi / 4;
+  final double cameraTilt = 0.95;
+  bool usePerspective = false;
 
   // Werkzeug-ID
-  int selectedTool = 5; 
+  int selectedTool = 5;
   bool isDragging = false;
 
   final FocusNode _focusNode = FocusNode();
@@ -80,13 +94,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   bool _isLegendVisible = false;
   int _selectedTab = -1; // -1 = Menü geschlossen
   String _activeToolName = 'Straße'; // Für die Anzeige im Chip
-
-  // ... (Rest bleibt gleich)
+  bool _isGodMode = false;
 
   // Untergrund-Netze
-  late List<List<bool>> undergroundWater; 
-  late List<List<bool>> undergroundWaste; 
-  late List<List<bool>> undergroundPower; 
+  late List<List<bool>> undergroundWater;
+  late List<List<bool>> undergroundWaste;
+  late List<List<bool>> undergroundPower;
 
   // Netzwerk-Status
   late List<List<bool>> connectedWater;
@@ -106,24 +119,24 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   late List<List<bool>> parcelIsCaravan;
 
   // Wirtschafts-Variablen
-  double money = 15000.0; 
+  double money = 15000.0;
   double dailyIncome = 0.0;
   double prestige = 0.0; // NEU: Prestige-Wert des Platzes
 
   // Tech-Tree
-  bool hasWaterUnlocked = false; 
-  double waterUpgradeCost = 5000.0; 
+  bool hasWaterUnlocked = false;
+  double waterUpgradeCost = 5000.0;
 
   // Simulation
   Timer? gameLoop;
   Timer? renderLoop;
-  double guestX = 1.0; 
-  double guestY = 10.0; 
+  double guestX = 1.0;
+  double guestY = 10.0;
   double waterWaveOffset = 0.0;
-  double timeOfDay = 0.25; 
+  double timeOfDay = 0.25;
   int inGameDay = 1;
   int activeCampers = 0;
-  int maxCapacity = 0; 
+  int maxCapacity = 0;
 
   List<VisitingCar> activeCars = [];
   double barrierAngle = 0.0;
@@ -159,7 +172,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     super.initState();
     _generatePrototypeMap();
     _startGameLoop();
-    
+
     // Ticker für flüssige Kamerabewegung starten
     _ticker = createTicker(_onTick)..start();
 
@@ -170,17 +183,17 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
     renderLoop = Timer.periodic(const Duration(milliseconds: 16), (timer) {
       setState(() {
-        guestX += 0.03; 
-        if (guestX > 13.0) guestX = 1.0; 
+        guestX += 0.03;
+        if (guestX > 13.0) guestX = 1.0;
 
         waterWaveOffset += 0.03;
 
         for (int x = 0; x < gridSize; x++) {
           for (int y = 0; y < gridSize; y++) {
             if (parcelState[x][y] == 1) {
-              setupProgress[x][y] += 0.005; 
+              setupProgress[x][y] += 0.005;
               if (setupProgress[x][y] >= 1.0) {
-                parcelState[x][y] = 2; 
+                parcelState[x][y] = 2;
               }
             }
           }
@@ -196,7 +209,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         activeCars.removeWhere((car) {
           bool arrived = (car.x - car.targetX).abs() < 0.1 && (car.y - car.targetY).abs() < 0.1;
           if (arrived) {
-            parcelState[car.targetX][car.targetY] = 1; 
+            parcelState[car.targetX][car.targetY] = 1;
             setupProgress[car.targetX][car.targetY] = 0.0;
           }
           return arrived;
@@ -216,13 +229,13 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       _lastTick = elapsed;
       return;
     }
-    
+
     final double dt = (elapsed - _lastTick).inMilliseconds / 1000.0;
     _lastTick = elapsed;
 
     if (!_wPressed && !_sPressed && !_aPressed && !_dPressed) return;
 
-    const double speed = 500.0; 
+    const double speed = 500.0;
     double dx = 0.0;
     double dy = 0.0;
 
@@ -241,8 +254,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     _ticker.dispose();
     _focusNode.dispose();
     _mapController.dispose();
-    gameLoop?.cancel(); 
-    renderLoop?.cancel(); 
+    gameLoop?.cancel();
+    renderLoop?.cancel();
     super.dispose();
   }
 
@@ -259,17 +272,17 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
         // Gäste-Ankunft an der Rezeption
         // Chance steigt mit Prestige: Basis 20% + Bonus durch Prestige
-        double arrivalChance = 0.2 + (prestige / 200); 
+        double arrivalChance = 0.2 + (prestige / 200);
         if (Random().nextDouble() < arrivalChance && activeCampers < maxCapacity) {
           // Sucht den ersten leeren, funktionierenden Stellplatz
           for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
               if (isParcelAnchor[x][y] && parcelState[x][y] == 0) {
-                parcelState[x][y] = 3; 
+                parcelState[x][y] = 3;
                 activeCampers++;
-                parcelIsCaravan[x][y] = Random().nextBool(); 
+                parcelIsCaravan[x][y] = Random().nextBool();
                 activeCars.add(VisitingCar(1.0, 9.0, x, y));
-                return; 
+                return;
               }
             }
           }
@@ -283,7 +296,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   // Generiert die Startkarte mit Wiese, 10 Parzellen, Meer, Hauptstraße und Rezeption
   void _generatePrototypeMap() {
     mapData = List.generate(gridSize, (x) => List.generate(gridSize, (y) => (x >= gridSize - 3) ? 1 : 0));
-    
+
     undergroundWater = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
     undergroundWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
     undergroundPower = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
@@ -306,26 +319,26 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
     // Öffentliche Hauptstraße am linken Rand
     for (int y = 0; y < gridSize; y++) {
-      mapData[0][y] = 5; 
+      mapData[0][y] = 5;
     }
 
     // Rezeption & Schranke in der Mitte der Straße
     int midY = gridSize ~/ 2;
-    mapData[1][midY] = 6;  
-    mapData[1][midY + 1] = 5; 
+    mapData[1][midY] = 6;
+    mapData[1][midY + 1] = 5;
 
     // Campingplatz-Hauptstraße von der Schranke ein Stück in den Platz hinein
     for (int x = 2; x <= 15; x++) {
-      mapData[x][midY + 1] = 5; 
+      mapData[x][midY + 1] = 5;
     }
 
     // 10 Start-Parzellen platzieren
     int parcelCount = 0;
     for (int col = 0; col < 2; col++) {
       for (int row = 0; row < 5; row++) {
-        int startX = 4 + (col * 6); 
-        int startY = (midY - 4) + (row * 3); 
-        
+        int startX = 4 + (col * 6);
+        int startY = (midY - 4) + (row * 3);
+
         if (startX + 1 < gridSize && startY + 1 < gridSize) {
           mapData[startX][startY] = 2;
           mapData[startX+1][startY] = 2;
@@ -340,27 +353,27 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
     // Organischer Sandstrand entlang des Wassers
     for (int y = 0; y < gridSize; y++) {
-      mapData[gridSize - 4][y] = 15; 
+      mapData[gridSize - 4][y] = 15;
     }
 
-    _updateNetworks(); 
+    _updateNetworks();
   }
 
   // Prüft, ob eine Parzelle (Startpunkt) eine gültige Verbindung zur Straße/Rezeption (Typ 5 oder 6) hat
   bool checkRoadConnection(int startX, int startY) {
     List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
     List<Point<int>> queue = [Point(startX, startY)];
-    
+
     while (queue.isNotEmpty) {
       Point<int> p = queue.removeAt(0);
       if (p.x < 0 || p.x >= gridSize || p.y < 0 || p.y >= gridSize) continue;
       if (visited[p.x][p.y]) continue;
       visited[p.x][p.y] = true;
-      
+
       int tileType = mapData[p.x][p.y];
       // Verbindung zur Straße (5) oder Rezeption (6) gefunden
       if (tileType == 5 || tileType == 6) return true;
-      
+
       // Erlaubte Fortbewegung auf Wegen (4), Straßen (5), Parzellen (2) oder Rezeption (6)
       if (tileType == 2 || tileType == 4 || tileType == 5 || tileType == 6) {
         queue.add(Point(p.x + 1, p.y));
@@ -404,9 +417,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     }
 
     // Oberfläche: Nur das Meer ist gesperrt!
-    if (mapData[x][y] == 1) return; 
+    if (mapData[x][y] == 1) return;
     if (mapData[x][y] == selectedTool) return;
-    
+
     double cost = getCost(selectedTool);
     if (money < cost) return;
 
@@ -414,7 +427,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       money -= cost;
       mapData[x][y] = selectedTool;
       // Wichtig: Netzwerke neu berechnen, falls ein Hauptanschluss gebaut/abgerissen wird
-      _updateNetworks(); 
+      _updateNetworks();
     });
   }
 
@@ -478,7 +491,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           while (queue.isNotEmpty) {
             Point<int> p = queue.removeAt(0);
             zone.add(p);
-            
+
             List<Point<int>> neighbors = [Point(p.x + 1, p.y), Point(p.x - 1, p.y), Point(p.x, p.y + 1), Point(p.x, p.y - 1)];
             for (var n in neighbors) {
               if (n.x >= 0 && n.x < gridSize && n.y >= 0 && n.y < gridSize) {
@@ -491,7 +504,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           }
 
           // Ab 4 Kacheln Gesamtfläche (egal welche Form!) ist genug Platz für einen Wohnwagen
-          bool isBig = zone.length >= 4; 
+          bool isBig = zone.length >= 4;
 
           // Den optisch besten Platz für das Fahrzeug finden (am weitesten oben links)
           Point<int> anchor = zone[0];
@@ -515,7 +528,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void _runMultiBFS(List<Point<int>> starts, List<List<bool>> pipeLayer, List<List<bool>> connectedLayer) {
     List<Point<int>> queue = [];
     List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    
+
     for (var start in starts) {
       queue.add(start);
       visited[start.x][start.y] = true;
@@ -524,7 +537,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     while (queue.isNotEmpty) {
       Point<int> p = queue.removeAt(0);
       List<Point<int>> neighbors = [Point(p.x + 1, p.y), Point(p.x - 1, p.y), Point(p.x, p.y + 1), Point(p.x, p.y - 1)];
-      
+
       for (var n in neighbors) {
         if (n.x >= 0 && n.x < gridSize && n.y >= 0 && n.y < gridSize) {
           if (!visited[n.x][n.y] && pipeLayer[n.x][n.y]) {
@@ -558,7 +571,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   int _getCoastMask(int x, int y) {
     int mask = 0;
     // 1 = Meer. Wenn der Nachbar KEIN Meer ist (oder der Kartenrand), brauchen wir dort Strand.
-    
+
     // Nord (y - 1)
     if (y == 0 || mapData[x][y - 1] != 1) mask += 1;
     // Ost (x + 1)
@@ -582,11 +595,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     double income = 0.0;
     int capacity = 0;
     double currentPrestige = 0.0;
-    
+
     for (int x = 0; x < gridSize; x++) {
       for (int y = 0; y < gridSize; y++) {
         int tile = mapData[x][y];
-        
+
         // Prestige-Berechnung
         if (tile == 3) currentPrestige += 5;   // Baum
         if (tile == 16) currentPrestige += 2;  // Pflanze
@@ -596,13 +609,13 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         if (tile == 2) {
           bool hasRoad = checkRoadConnection(x, y);
           bool hasPipe = parcelWater[x][y];
-          
+
           if (hasRoad && hasPipe) {
-            income += 150.0; 
-            capacity++; 
+            income += 150.0;
+            capacity++;
           } else if (hasRoad || hasPipe) {
-            income += 70.0; 
-            capacity++; 
+            income += 70.0;
+            capacity++;
           }
         }
       }
@@ -613,27 +626,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     prestige = currentPrestige;
   }
 
-  Color getTileColor(int type) {
-    switch (type) {
-      case 1: return Colors.blue[800]!; // Meer
-      case 2: return Colors.orange[200]!; // Parzelle
-      case 3: return Colors.green[800]!; // Baum
-      case 4: return Colors.grey[500]!; // Fußweg
-      case 5: return Colors.grey[900]!; // Asphalt-Straße (Fahrweg)
-      case 6: return Colors.amber[800]!; // Rezeption / Schranke (Einfahrt)
-      case 7: return Colors.cyan[900]!;  // Hauptanschluss Wasser
-      case 12: return Colors.brown[800]!; // Abwasser Stadt
-      case 13: return Colors.yellow[800]!; // Strom Stadt
-      case 14: return Colors.lightGreen; // Hecke / Zaun
-      case 15: return const Color(0xFFE2C499); // Strand / Sandstrand
-      default: return Colors.green[400]!; // Wiese
-    }
-  }
-
   Widget _buildGroundTile(int x, int y, int tileType) {
     bool isUndergroundView = selectedTool >= 8;
     // NEU: Ein zentraler Wert, der alle Böden beim Röntgen auf 30% dimmt
-    double groundOpacity = isUndergroundView ? 0.3 : 1.0; 
+    double groundOpacity = isUndergroundView ? 0.3 : 1.0;
 
     return Stack(
       fit: StackFit.expand,
@@ -649,7 +645,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                   'assets/water.png',
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.none,
-                  errorBuilder: (c, e, s) => Container(color: getTileColor(1)),
+                  errorBuilder: (c, e, s) => Container(color: Colors.blue[800]),
                 ),
               ),
               Opacity(
@@ -670,56 +666,56 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           )
         else if (tileType == 2 || tileType == 6) // Schotter (Parzelle & Rezeption)
-          Opacity(
-            opacity: groundOpacity,
-            child: Image.asset(
-              'assets/gravel.png',
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.none,
-              errorBuilder: (c, e, s) => Container(color: getTileColor(tileType)),
-            ),
-          )
-        else if (tileType == 4 || tileType == 5) // Straßen & Wege
-          Opacity(
-            opacity: groundOpacity,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image.asset('assets/grass.png', fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(color: getTileColor(0))),
-                CustomPaint(
-                  painter: RoadPainter(
-                    hasTop: _isRoadConnection(x, y - 1),
-                    hasRight: _isRoadConnection(x + 1, y),
-                    hasBottom: _isRoadConnection(x, y + 1),
-                    hasLeft: _isRoadConnection(x - 1, y),
-                    roadColor: tileType == 5 ? Colors.grey[700]! : Colors.brown[300]!,
-                  ),
-                ),
-              ],
-            ),
-          )
-        else // Standard Wiese (Typ 0 & 3)
-          Opacity(
-            opacity: groundOpacity,
-            child: Builder(
-              builder: (context) {
-                int variant = (x * 13 + y * 37) % 4;
-                return Stack(
+            Opacity(
+              opacity: groundOpacity,
+              child: Image.asset(
+                'assets/gravel.png',
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.none,
+                errorBuilder: (c, e, s) => Container(color: Colors.grey),
+              ),
+            )
+          else if (tileType == 4 || tileType == 5) // Straßen & Wege
+              Opacity(
+                opacity: groundOpacity,
+                child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.asset(
-                      'assets/grass.png',
-                      fit: BoxFit.cover,
-                      filterQuality: FilterQuality.none,
-                      errorBuilder: (c, e, s) => Container(color: getTileColor(0)),
+                    Image.asset('assets/grass.png', fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(color: Colors.green)),
+                    CustomPaint(
+                      painter: RoadPainter(
+                        hasTop: _isRoadConnection(x, y - 1),
+                        hasRight: _isRoadConnection(x + 1, y),
+                        hasBottom: _isRoadConnection(x, y + 1),
+                        hasLeft: _isRoadConnection(x - 1, y),
+                        roadColor: tileType == 5 ? Colors.grey[700]! : Colors.brown[300]!,
+                      ),
                     ),
-                    if (!isUndergroundView && variant == 1)
-                      const Center(child: Icon(Icons.eco, size: 12, color: Colors.black12)),
                   ],
-                );
-              },
-            ),
-          ),
+                ),
+              )
+            else // Standard Wiese (Typ 0 & 3)
+              Opacity(
+                opacity: groundOpacity,
+                child: Builder(
+                  builder: (context) {
+                    int variant = (x * 13 + y * 37) % 4;
+                    return Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.asset(
+                          'assets/grass.png',
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.none,
+                          errorBuilder: (c, e, s) => Container(color: Colors.green),
+                        ),
+                        if (!isUndergroundView && variant == 1)
+                          const Center(child: Icon(Icons.eco, size: 12, color: Colors.black12)),
+                      ],
+                    );
+                  },
+                ),
+              ),
 
         // --- NEU: DER GHOST (VORSCHAU) ---
         if (x == _hoveredX && y == _hoveredY && selectedTool != 0)
@@ -728,7 +724,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
               // Kollisionsprüfung: Darf man hier bauen?
               bool isBlocked = (mapData[x][y] == 1 || mapData[x][y] == 2);
               Color previewColor = isBlocked ? Colors.red : Colors.white;
-              
+
               return Container(
                 decoration: BoxDecoration(
                   color: previewColor.withOpacity(0.4),
@@ -736,10 +732,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 ),
                 child: Center(
                   child: Icon(
-                    selectedTool == 3 ? Icons.park : 
-                    selectedTool == 16 ? Icons.grass : 
-                    selectedTool == 17 ? Icons.local_florist : 
-                    selectedTool == 18 ? Icons.landscape : 
+                    selectedTool == 3 ? Icons.park :
+                    selectedTool == 16 ? Icons.grass :
+                    selectedTool == 17 ? Icons.local_florist :
+                    selectedTool == 18 ? Icons.landscape :
                     selectedTool == 5 ? Icons.directions_car :
                     selectedTool == 8 ? Icons.water_drop :
                     Icons.add_box,
@@ -804,115 +800,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
       ],
-    );
-  }
-
-  Widget _buildObjectWidget(int tileType, int x, int y, double anchorX, double anchorY, double tileSize, Matrix4 billboardMatrix) {
-    // Die absolute, unrotierte X/Y Pixel-Koordinate auf dem Spielfeld
-    double cx = anchorX * tileSize;
-    double cy = anchorY * tileSize;
-
-    // 1. REZEPTION MIT SCHRANKE
-    if (tileType == 6) {
-      double w = 90; // Etwas breiter wegen der Schranke
-      double h = 80;
-      return Positioned(
-        left: cx - (w / 2),
-        top: cy - h, // Die Unterkante des 80px Bildes berührt exakt die (cx, cy) Koordinate
-        width: w,
-        height: h,
-        child: Transform(
-          alignment: Alignment.bottomCenter, // Rotiert exakt um den Berührungspunkt am Boden
-          transform: billboardMatrix,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              Image.asset('assets/reception.png', width: 80, height: 80, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown)),
-              Positioned(
-                right: 0, bottom: 0,
-                child: SizedBox(
-                  width: 35, height: 35,
-                  child: Stack(
-                    children: [
-                      Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
-                      Positioned(bottom: 12, left: 17, child: Transform(alignment: Alignment.bottomLeft, transform: Matrix4.identity()..rotateZ(-barrierAngle), child: Container(width: 30, height: 4, color: Colors.red[700]))),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    // 2. PARZELLEN-INHALTE
-    if (tileType == 2 && isParcelAnchor[x][y]) {
-      int state = parcelState[x][y];
-      if (state == 0) return const SizedBox.shrink();
-      bool isCaravan = parcelIsCaravan[x][y];
-
-      double w = 72;
-      double h = 72;
-      return Positioned(
-        left: cx - (w / 2),
-        top: cy - h,
-        width: w,
-        height: h,
-        child: Transform(
-          alignment: Alignment.bottomCenter,
-          transform: billboardMatrix,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              Opacity(
-                opacity: state == 1 ? 0.45 : 1.0,
-                child: Image.asset(isCaravan ? 'assets/caravan.png' : 'assets/tent.png', width: 72, height: 72, fit: BoxFit.contain),
-              ),
-              Positioned(
-                left: -5, bottom: 5,
-                child: Opacity(
-                  opacity: state == 1 ? 0.45 : 1.0,
-                  child: Image.asset('assets/table.png', width: 25, height: 25, errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown)),
-                ),
-              ),
-              if (state == 1)
-                Positioned(top: -10, child: SizedBox(width: 35, height: 5, child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent))),
-            ],
-          ),
-        ),
-      );
-    }
-
-    // 3. NATUR, BÄUME, STRAND, HECKEN
-    double w = 60;
-    double h = 60;
-    Widget content = const SizedBox.shrink();
-
-    if (tileType == 3 || (tileType >= 16 && tileType <= 18)) {
-      IconData icon = Icons.park; Color iconColor = Colors.green[800]!; double size = 60;
-      if (tileType == 16) { icon = Icons.grass; iconColor = Colors.lightGreen; size = 45; }
-      if (tileType == 17) { icon = Icons.local_florist; iconColor = Colors.pinkAccent; size = 40; }
-      if (tileType == 18) { icon = Icons.landscape; iconColor = Colors.grey; size = 50; }
-      content = Icon(icon, size: size, color: iconColor);
-    } else if (tileType == 14) {
-      content = Image.asset('assets/hedge.png', width: 55, height: 55, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen));
-    } else if (tileType == 15) {
-      content = Image.asset('assets/parasol.png', width: 40, height: 40, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent));
-    }
-
-    return Positioned(
-      left: cx - (w / 2),
-      top: cy - h,
-      width: w,
-      height: h,
-      child: Transform(
-        alignment: Alignment.bottomCenter,
-        transform: billboardMatrix,
-        child: Align(alignment: Alignment.bottomCenter, child: content),
-      ),
     );
   }
 
@@ -1169,6 +1056,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    int activeStars = (prestige / 100).floor().clamp(0, 10);
+    List<String> visibleCategories = categoryUnlockPrestige.keys.where((cat) {
+      return categoryUnlockPrestige[cat]! <= prestige || _isGodMode;
+    }).toList();
+
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.keyQ): () => setState(() => cameraZ -= pi / 2),
@@ -1179,7 +1071,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         autofocus: true,
         onKeyEvent: (FocusNode node, KeyEvent event) {
           bool isPressed = event is KeyDownEvent || event is KeyRepeatEvent;
-          
+
           if (event.logicalKey == LogicalKeyboardKey.keyW) {
             _wPressed = isPressed;
           } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
@@ -1198,183 +1090,250 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           backgroundColor: Colors.blueGrey[900],
           body: Stack(
             children: [
-          // 1. Spielfeld (2-Pass 2.5D Isometrie)
-          Positioned.fill(
-            child: InteractiveViewer(
-              transformationController: _mapController,
-              boundaryMargin: const EdgeInsets.all(500),
-              minScale: 0.1,
-              maxScale: 4.0,
-              constrained: false,
-              child: Center(
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..scale(1.0, 0.5)
-                    ..rotateZ(cameraZ),
-                  alignment: FractionalOffset.center,
-                  child: GestureDetector(
-                    onPanStart: (details) => isDragging = true,
-                    onPanEnd: (details) => isDragging = false,
-                    child: Container(
-                    width: 800,
-                    height: 800,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white10, width: 2),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
-                      ]
-                    ),
-                      child: Builder(
-                        builder: (context) {
-                          Matrix4 parentMatrix = Matrix4.identity()
-                            ..scale(1.0, 0.5)
-                            ..rotateZ(cameraZ);
-                          Matrix4 billboardMatrix = Matrix4.copy(parentMatrix)..invert();
+              // 1. Spielfeld (2-Pass 2.5D Isometrie)
+              Positioned.fill(
+                child: InteractiveViewer(
+                  transformationController: _mapController,
+                  boundaryMargin: const EdgeInsets.all(500),
+                  minScale: 0.1,
+                  maxScale: 4.0,
+                  constrained: false,
+                  child: Center(
+                    child: Transform(
+                      transform: Matrix4.identity()
+                        ..scale(1.0, 0.5)
+                        ..rotateZ(cameraZ),
+                      alignment: FractionalOffset.center,
+                      child: GestureDetector(
+                        onPanStart: (details) => isDragging = true,
+                        onPanEnd: (details) => isDragging = false,
+                        child: Container(
+                          width: 800,
+                          height: 800,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white10, width: 2),
+                              boxShadow: const [
+                                BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
+                              ]
+                          ),
+                          child: Builder(
+                            builder: (context) {
+                              Matrix4 parentMatrix = Matrix4.identity()
+                                ..scale(1.0, 0.5)
+                                ..rotateZ(cameraZ);
+                              Matrix4 billboardMatrix = Matrix4.copy(parentMatrix)..invert();
 
-                          double sinZ = sin(cameraZ);
-                          double cosZ = cos(cameraZ);
-                          const double tileSize = 40.0;
+                              double sinZ = sin(cameraZ);
+                              double cosZ = cos(cameraZ);
+                              const double tileSize = 40.0;
 
-                          // PASS 1: Alle flachen Bodenkacheln
-                          List<Widget> groundLayer = [];
-                          for (int x = 0; x < gridSize; x++) {
-                            for (int y = 0; y < gridSize; y++) {
-                              groundLayer.add(
-                                Positioned(
-                                  left: x * tileSize,
-                                  top: y * tileSize,
-                                  width: tileSize,
-                                  height: tileSize,
-                                  child: MouseRegion(
-                                    onEnter: (_) {
-                                      setState(() {
-                                        _hoveredX = x;
-                                        _hoveredY = y;
-                                      });
-                                      if (isDragging) buildTile(x, y);
-                                    },
-                                    onExit: (_) {
-                                      setState(() {
-                                        _hoveredX = -1;
-                                        _hoveredY = -1;
-                                      });
-                                    },
-                                    child: GestureDetector(
-                                      onTap: () => buildTile(x, y),
-                                      child: _buildGroundTile(x, y, mapData[x][y]),
+                              // PASS 1: Alle flachen Bodenkacheln
+                              List<Widget> groundLayer = [];
+                              for (int x = 0; x < gridSize; x++) {
+                                for (int y = 0; y < gridSize; y++) {
+                                  groundLayer.add(
+                                    Positioned(
+                                      left: x * tileSize,
+                                      top: y * tileSize,
+                                      width: tileSize,
+                                      height: tileSize,
+                                      child: MouseRegion(
+                                        onEnter: (_) {
+                                          setState(() {
+                                            _hoveredX = x;
+                                            _hoveredY = y;
+                                          });
+                                          if (isDragging) buildTile(x, y);
+                                        },
+                                        onExit: (_) {
+                                          setState(() {
+                                            _hoveredX = -1;
+                                            _hoveredY = -1;
+                                          });
+                                        },
+                                        child: GestureDetector(
+                                          onTap: () => buildTile(x, y),
+                                          child: _buildGroundTile(x, y, mapData[x][y]),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+
+                              // PASS 2: Aufrechte 3D-Objekte einsammeln & sortieren
+                              List<WorldObject> objectList = [];
+
+                              // DIE OPENTTD-METHODE: 0x0 Pixel Anker!
+                              // 1. Positioned(width: 0, height: 0) verhindert jede diagonale Verzerrung.
+                              // 2. OverflowBox zwingt das Bild in Originalgröße auf den Bildschirm.
+                              // 3. Transform.translate schiebt nur noch senkrecht nach oben/unten.
+                              Widget buildTycoonObject(double gridX, double gridY, double width, double height, Widget image, {double yOffset = 0}) {
+                                return Positioned(
+                                  left: gridX * tileSize,
+                                  top: gridY * tileSize,
+                                  width: 0,
+                                  height: 0, // Der Anker ist nur ein mathematischer Punkt!
+                                  child: Transform(
+                                    alignment: Alignment.center, // Rotiert den 0x0 Punkt
+                                    transform: billboardMatrix,
+                                    child: OverflowBox(
+                                      minWidth: width, maxWidth: width,
+                                      minHeight: height, maxHeight: height,
+                                      alignment: Alignment.bottomCenter, // Bild-Unterkante steht exakt auf dem 0x0 Punkt
+                                      child: Transform.translate(
+                                        offset: Offset(0, yOffset), // Feinjustierung kerzengerade nach unten (falls nötig)
+                                        child: image,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }
-                          }
+                                );
+                              }
 
-                          // PASS 2: Aufrechte 3D-Objekte einsammeln & sortieren
-                          List<WorldObject> objectList = [];
+                              for (int x = 0; x < gridSize; x++) {
+                                for (int y = 0; y < gridSize; y++) {
+                                  int type = mapData[x][y];
 
-                          for (int x = 0; x < gridSize; x++) {
-                            for (int y = 0; y < gridSize; y++) {
-                              int type = mapData[x][y];
+                                  // --- 1. PARZELLEN ---
+                                  if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
+                                    int state = parcelState[x][y];
+                                    bool isCaravan = parcelIsCaravan[x][y];
+                                    bool isBig = isBigParcel[x][y];
 
-                              if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
-                                double anchorX = x + 0.5; // Exakte Mitte der Kachel, unabhängig von Parzellen-Größe
-                                double anchorY = y + 0.5;
+                                    // Zentriert das Fahrzeug auf 2x2 (x+1.0) oder 1x1 (x+0.5) Plätzen
+                                    double anchorX = isBig ? x + 1.0 : x + 0.5;
+                                    double anchorY = isBig ? y + 1.0 : y + 0.5;
+
+                                    Widget content = Stack(
+                                      clipBehavior: Clip.none,
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        Opacity(opacity: state == 1 ? 0.45 : 1.0, child: Image.asset(isCaravan ? 'assets/caravan.png' : 'assets/tent.png', width: 72, height: 72, fit: BoxFit.contain)),
+                                        Positioned(left: -20, bottom: 5, child: Opacity(opacity: state == 1 ? 0.45 : 1.0, child: Image.asset('assets/table.png', width: 25, height: 25, errorBuilder: (c,e,s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown)))),
+                                        if (state == 1) Positioned(top: -15, child: SizedBox(width: 35, height: 5, child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent))),
+                                      ],
+                                    );
+
+                                    objectList.add(WorldObject(
+                                      x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
+                                      widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 12.0),
+                                    ));
+                                  }
+                                  // --- 2. REZEPTION ---
+                                  else if (type == 6) {
+                                    Widget content = Stack(
+                                      clipBehavior: Clip.none,
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        Image.asset('assets/reception.png', width: 80, height: 80, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.house, size: 50, color: Colors.brown)),
+                                        Positioned(right: -10, bottom: 0, child: SizedBox(width: 35, height: 35, child: Stack(clipBehavior: Clip.none, children: [
+                                          Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
+                                          Positioned(bottom: 12, left: 17, child: Transform(alignment: Alignment.bottomLeft, transform: Matrix4.identity()..rotateZ(-barrierAngle), child: Container(width: 30, height: 4, color: Colors.red[700]))),
+                                        ]))),
+                                      ],
+                                    );
+                                    objectList.add(WorldObject(
+                                      x: x + 0.5, y: y + 0.5, sinZ: sinZ, cosZ: cosZ,
+                                      widget: buildTycoonObject(x + 0.5, y + 0.5, 90, 80, content, yOffset: 15.0),
+                                    ));
+                                  }
+                                  // --- 3. BÄUME, STRAND & DEKO ---
+                                  else if (type == 3 || type == 14 || type == 15 || (type >= 16 && type <= 18)) {
+                                    IconData icon = Icons.park; Color iconColor = Colors.green[800]!; double size = 60;
+                                    if (type == 16) { icon = Icons.grass; iconColor = Colors.lightGreen; size = 45; }
+                                    if (type == 17) { icon = Icons.local_florist; iconColor = Colors.pinkAccent; size = 40; }
+                                    if (type == 18) { icon = Icons.landscape; iconColor = Colors.grey; size = 50; }
+
+                                    Widget content;
+                                    if (type >= 3 && type <= 18 && type != 14 && type != 15) {
+                                      content = Icon(icon, size: size, color: iconColor);
+                                    } else if (type == 14) {
+                                      content = Image.asset('assets/hedge.png', width: 55, height: 55, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen));
+                                    } else {
+                                      content = Image.asset('assets/parasol.png', width: 40, height: 40, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent));
+                                    }
+
+                                    objectList.add(WorldObject(
+                                      x: x + 0.5, y: y + 0.5, sinZ: sinZ, cosZ: cosZ,
+                                      widget: buildTycoonObject(x + 0.5, y + 0.5, size, size, content, yOffset: 5.0),
+                                    ));
+                                  }
+                                }
+                              }
+
+                              // --- 4. FAHRZEUGE & GÄSTE ---
+                              for (var car in activeCars) {
                                 objectList.add(WorldObject(
-                                  x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
-                                  widget: _buildObjectWidget(type, x, y, anchorX, anchorY, tileSize, billboardMatrix),
-                                ));
-                              } else if (type == 3 || type == 6 || type == 14 || type == 15 || (type >= 16 && type <= 18)) {
-                                double anchorX = x + 0.5;
-                                double anchorY = y + 0.5;
-                                objectList.add(WorldObject(
-                                  x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
-                                  widget: _buildObjectWidget(type, x, y, anchorX, anchorY, tileSize, billboardMatrix),
+                                  x: car.x, y: car.y, sinZ: sinZ, cosZ: cosZ,
+                                  widget: buildTycoonObject(car.x, car.y, 28, 28, const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent), yOffset: 0.0),
                                 ));
                               }
-                            }
-                          }
 
-                          for (var car in activeCars) {
-                            double cx = car.x * tileSize;
-                            double cy = car.y * tileSize;
-                            objectList.add(WorldObject(
-                              x: car.x, y: car.y, sinZ: sinZ, cosZ: cosZ,
-                              widget: Positioned(
-                                left: cx - 14, top: cy - 28, width: 28, height: 28,
-                                child: Transform(alignment: Alignment.bottomCenter, transform: billboardMatrix, child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent)),
-                              ),
-                            ));
-                          }
+                              objectList.add(WorldObject(
+                                x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
+                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 0.0),
+                              ));
 
-                          double gCx = guestX * tileSize;
-                          double gCy = guestY * tileSize;
-                          objectList.add(WorldObject(
-                            x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
-                            widget: Positioned(
-                              left: gCx - 16, top: gCy - 32, width: 32, height: 32,
-                              child: Transform(alignment: Alignment.bottomCenter, transform: billboardMatrix, child: const Icon(Icons.emoji_people, size: 32, color: Colors.white)),
-                            ),
-                          ));
+                              // Z-Sorting für korrekte Überlappung
+                              objectList.sort((a, b) => a.depth.compareTo(b.depth));
 
-                          objectList.sort((a, b) => a.depth.compareTo(b.depth));
-
-                          return SizedBox(
-                            width: gridSize * tileSize,
-                            height: gridSize * tileSize,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                ...groundLayer,
-                                ...objectList.map((obj) => obj.widget),
-                              ],
-                            ),
-                          );
-                        },
+                              return SizedBox(
+                                width: gridSize * tileSize,
+                                height: gridSize * tileSize,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    ...groundLayer,
+                                    ...objectList.map((obj) => obj.widget),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
 
-          // 2. Atmosphäre / Filter
-          IgnorePointer(
-            child: AnimatedContainer(
-              duration: const Duration(seconds: 2),
-              color: getAtmosphereColor(),
-            ),
-          ),
+              // 2. Atmosphäre / Filter
+              IgnorePointer(
+                child: AnimatedContainer(
+                  duration: const Duration(seconds: 2),
+                  color: getAtmosphereColor(),
+                ),
+              ),
 
-          // 3. Top Bar
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: _buildTopBar(),
-          ),
+              // 3. Top Bar
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: _buildTopBar(),
+              ),
 
-          // 4. Legende
-          if (_isLegendVisible)
-            Positioned(
-              top: 85,
-              right: 25,
-              child: _buildLegendBox(),
-            ),
+              // 4. Legende
+              if (_isLegendVisible)
+                Positioned(
+                  top: 85,
+                  right: 25,
+                  child: _buildLegendBox(),
+                ),
 
-          // 5. Bottom Menu
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: _buildBottomMenu(),
+              // 5. Bottom Menu
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: _buildBottomMenu(),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    ),
-  ),
-);
-}
+    );
+  }
 }
 
 class PipePainter extends CustomPainter {
@@ -1383,8 +1342,8 @@ class PipePainter extends CustomPainter {
   final double offset; // Verschiebt die Linie, damit sie sich nicht überlagern
 
   PipePainter({
-    required this.hasTop, required this.hasBottom, 
-    required this.hasLeft, required this.hasRight, 
+    required this.hasTop, required this.hasBottom,
+    required this.hasLeft, required this.hasRight,
     required this.color, required this.offset
   });
 
@@ -1394,7 +1353,7 @@ class PipePainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 4.0 // Dicke der Leitung
       ..strokeCap = StrokeCap.square;
-    
+
     // Die Mitte der jeweiligen Leitung (verschoben durch den Offset)
     final center = Offset(size.width / 2 + offset, size.height / 2 + offset);
 
@@ -1402,7 +1361,7 @@ class PipePainter extends CustomPainter {
     if (hasRight) canvas.drawLine(center, Offset(size.width, center.dy), paint);
     if (hasTop) canvas.drawLine(Offset(center.dx, 0), center, paint);
     if (hasBottom) canvas.drawLine(center, Offset(center.dx, size.height), paint);
-    
+
     // Kleiner Knotenpunkt in der Mitte
     canvas.drawCircle(center, 2.0, paint);
   }
@@ -1418,7 +1377,7 @@ class CoastPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Eine weiche Sandfarbe für den Strand
-    final paint = Paint()..color = const Color(0xFFE2C284);
+    final paint = Paint()..color = const Color(0xFFE2C499);
     const double beachWidth = 8.0; // Wie weit der Sand ins Wasser ragt
 
     // Bit-Prüfung: Zeichnet den Strandrand an den entsprechenden Kanten
@@ -1449,15 +1408,15 @@ class RoadPainter extends CustomPainter {
     final paint = Paint()..color = roadColor;
     final double w = size.width;
     final double h = size.height;
-    
+
     // Die Dicke des Weges (20% Randabstand bedeutet der Weg füllt 60% der Kachel)
-    final double pStart = w * 0.2; 
+    final double pStart = w * 0.2;
     final double pEnd = w * 0.8;
 
     // 1. Das abgerundete Zentrum des Weges
     canvas.drawRRect(
-      RRect.fromLTRBR(pStart, pStart, pEnd, pEnd, const Radius.circular(6)), 
-      paint
+        RRect.fromLTRBR(pStart, pStart, pEnd, pEnd, const Radius.circular(6)),
+        paint
     );
 
     // 2. Die Arme zu den Nachbarn (ohne Rundung an der Außenkante für nahtlosen Übergang)
