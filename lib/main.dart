@@ -807,241 +807,113 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     );
   }
 
-  Widget _buildObjectWidget(int tileType, int x, int y, Matrix4 billboardMatrix) {
+  Widget _buildObjectWidget(int tileType, int x, int y, double anchorX, double anchorY, double tileSize, Matrix4 billboardMatrix) {
+    // Die absolute, unrotierte X/Y Pixel-Koordinate auf dem Spielfeld
+    double cx = anchorX * tileSize;
+    double cy = anchorY * tileSize;
+
     // 1. REZEPTION MIT SCHRANKE
     if (tileType == 6) {
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          // Schatten flach auf dem Boden (Zentriert um die 40x40 Box)
-          Positioned(
-            left: -10, top: -10, width: 60, height: 60,
-            child: Container(decoration: BoxDecoration(color: Colors.black.withOpacity(0.35), shape: BoxShape.circle)),
-          ),
-          // Gebäude aufrecht, unten in der exakten Mitte (bottom: 20) verankert
-          Positioned(
-            left: -20, bottom: 20, width: 80, height: 80,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: Image.asset('assets/reception.png', fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown)),
-            ),
-          ),
-          // Schranke
-          Positioned(
-            left: 20, bottom: 15, width: 35, height: 35,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
-                  Positioned(
-                    bottom: 12, left: 17,
-                    child: Transform(
-                      alignment: Alignment.bottomLeft,
-                      transform: Matrix4.identity()..rotateZ(-barrierAngle),
-                      child: Container(width: 30, height: 4, color: Colors.red[700]),
-                    ),
+      double w = 90; // Etwas breiter wegen der Schranke
+      double h = 80;
+      return Positioned(
+        left: cx - (w / 2),
+        top: cy - h, // Die Unterkante des 80px Bildes berührt exakt die (cx, cy) Koordinate
+        width: w,
+        height: h,
+        child: Transform(
+          alignment: Alignment.bottomCenter, // Rotiert exakt um den Berührungspunkt am Boden
+          transform: billboardMatrix,
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.bottomCenter,
+            children: [
+              Image.asset('assets/reception.png', width: 80, height: 80, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown)),
+              Positioned(
+                right: 0, bottom: 0,
+                child: SizedBox(
+                  width: 35, height: 35,
+                  child: Stack(
+                    children: [
+                      Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
+                      Positioned(bottom: 12, left: 17, child: Transform(alignment: Alignment.bottomLeft, transform: Matrix4.identity()..rotateZ(-barrierAngle), child: Container(width: 30, height: 4, color: Colors.red[700]))),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       );
     }
 
-    // 2. PARZELLEN-INHALTE (WOHNWAGEN, ZELTE, TISCH)
+    // 2. PARZELLEN-INHALTE
     if (tileType == 2 && isParcelAnchor[x][y]) {
       int state = parcelState[x][y];
       if (state == 0) return const SizedBox.shrink();
       bool isCaravan = parcelIsCaravan[x][y];
 
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          // 1. Schatten flach auf dem Boden
-          Positioned(
-            left: -5, top: -5, width: 50, height: 50,
-            child: Container(decoration: BoxDecoration(color: Colors.black.withOpacity(0.35), shape: BoxShape.circle)),
-          ),
-          
-          // 2. Fahrzeug aufrecht, unten in der exakten Mitte (bottom: 20) verankert!
-          Positioned(
-            left: -16, bottom: 20, width: 72, height: 72,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: Opacity(
+      double w = 72;
+      double h = 72;
+      return Positioned(
+        left: cx - (w / 2),
+        top: cy - h,
+        width: w,
+        height: h,
+        child: Transform(
+          alignment: Alignment.bottomCenter,
+          transform: billboardMatrix,
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.bottomCenter,
+            children: [
+              Opacity(
                 opacity: state == 1 ? 0.45 : 1.0,
-                child: Image.asset(isCaravan ? 'assets/caravan.png' : 'assets/tent.png', fit: BoxFit.contain),
+                child: Image.asset(isCaravan ? 'assets/caravan.png' : 'assets/tent.png', width: 72, height: 72, fit: BoxFit.contain),
               ),
-            ),
-          ),
-          
-          // 3. Picknicktisch links neben die Tür
-          Positioned(
-            left: -30, bottom: 15, width: 25, height: 25,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: Opacity(
-                opacity: state == 1 ? 0.45 : 1.0,
-                child: Image.asset('assets/table.png', errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown)),
-              ),
-            ),
-          ),
-          
-          // 4. Ladebalken weit über dem Dach
-          if (state == 1)
-            Positioned(
-              left: 2.5, bottom: 85, width: 35, height: 5,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: billboardMatrix,
-                child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent),
-              ),
-            ),
-        ],
-      );
-    }
-
-    // 3. BÄUME & NATUR
-    if (tileType == 3 || tileType == 16 || tileType == 17 || tileType == 18) {
-      IconData icon;
-      Color iconColor;
-      double iconSize;
-
-      switch (tileType) {
-        case 16: // Pflanze
-          icon = Icons.grass;
-          iconColor = Colors.lightGreen;
-          iconSize = 45;
-          break;
-        case 17: // Blumen
-          icon = Icons.local_florist;
-          iconColor = Colors.pinkAccent;
-          iconSize = 40;
-          break;
-        case 18: // Stein
-          icon = Icons.landscape;
-          iconColor = Colors.grey;
-          iconSize = 50;
-          break;
-        default: // Baum (3)
-          icon = Icons.park;
-          iconColor = Colors.green[800]!;
-          iconSize = 65;
-      }
-
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: tileType == 18 ? 45 : 32,
-              height: 16,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: iconSize,
-                height: iconSize,
-                child: Icon(icon, size: iconSize * 0.7, color: iconColor),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    // 4. HECKEN
-    if (tileType == 14) {
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 40,
-              height: 16,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 55,
-                height: 55,
-                child: Image.asset(
-                  'assets/hedge.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen),
+              Positioned(
+                left: -5, bottom: 5,
+                child: Opacity(
+                  opacity: state == 1 ? 0.45 : 1.0,
+                  child: Image.asset('assets/table.png', width: 25, height: 25, errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown)),
                 ),
               ),
-            ),
+              if (state == 1)
+                Positioned(top: -10, child: SizedBox(width: 35, height: 5, child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent))),
+            ],
           ),
-        ],
+        ),
       );
     }
 
-    // 5. STRAND-SONNENSCHIRME
-    if (tileType == 15) {
-      return Stack(
-        clipBehavior: Clip.none,
+    // 3. NATUR, BÄUME, STRAND, HECKEN
+    double w = 60;
+    double h = 60;
+    Widget content = const SizedBox.shrink();
+
+    if (tileType == 3 || (tileType >= 16 && tileType <= 18)) {
+      IconData icon = Icons.park; Color iconColor = Colors.green[800]!; double size = 60;
+      if (tileType == 16) { icon = Icons.grass; iconColor = Colors.lightGreen; size = 45; }
+      if (tileType == 17) { icon = Icons.local_florist; iconColor = Colors.pinkAccent; size = 40; }
+      if (tileType == 18) { icon = Icons.landscape; iconColor = Colors.grey; size = 50; }
+      content = Icon(icon, size: size, color: iconColor);
+    } else if (tileType == 14) {
+      content = Image.asset('assets/hedge.png', width: 55, height: 55, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen));
+    } else if (tileType == 15) {
+      content = Image.asset('assets/parasol.png', width: 40, height: 40, fit: BoxFit.contain, errorBuilder: (c,e,s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent));
+    }
+
+    return Positioned(
+      left: cx - (w / 2),
+      top: cy - h,
+      width: w,
+      height: h,
+      child: Transform(
         alignment: Alignment.bottomCenter,
-        children: [
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 22,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: Image.asset(
-                  'assets/parasol.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    return const SizedBox.shrink();
+        transform: billboardMatrix,
+        child: Align(alignment: Alignment.bottomCenter, child: content),
+      ),
+    );
   }
 
   Widget _buildTopBar() {
