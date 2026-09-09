@@ -927,10 +927,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 alignment: Alignment.center,
                 children: [
                   
-                  // Fahrzeug / Zelt
+                  // 1. Fahrzeug / Zelt
                   Transform.translate(
-                    // Y negativ = zieht das Bild nach OBEN, damit die Räder genau auf dem Schatten aufsetzen!
-                    offset: const Offset(0, -25), 
+                    // Ein POSITIVER Wert (z.B. 20) zieht die Räder runter auf den Schatten
+                    offset: const Offset(0, 20), 
                     child: Opacity(
                       opacity: state == 1 ? 0.45 : 1.0,
                       child: Image.asset(
@@ -942,9 +942,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                     ),
                   ),
                   
-                  // Picknicktisch
+                  // 2. Picknicktisch
                   Transform.translate(
-                    offset: const Offset(-25, 0), // Nach links neben die Tür geschoben
+                    // X negativ (nach links), Y positiv (nach unten auf den Boden)
+                    offset: const Offset(-20, 25), 
                     child: Opacity(
                       opacity: state == 1 ? 0.45 : 1.0,
                       child: Image.asset(
@@ -956,10 +957,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                     ),
                   ),
                   
-                  // Ladebalken
+                  // 3. Ladebalken
                   if (state == 1)
                     Transform.translate(
-                      offset: const Offset(0, -65), // Hoch über das Dach geschoben
+                      // Der Ladebalken muss weiterhin negativ bleiben, damit er ÜBER dem Dach schwebt
+                      offset: const Offset(0, -30), 
                       child: SizedBox(
                         width: 35,
                         height: 5,
