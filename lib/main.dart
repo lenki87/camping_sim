@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
 
 // --- DATENMODELL & BALANCING ---
 class GameItem {
-  final int id; // Eindeutige ID (20-99 für Gebäude)
+  final int id; 
   final String name;
   final String category;
   final double cost;
-  final double prestige;
+  final double prestigeValue; 
   final double requiredPrestige;
-  final double dailyIncome; // NEU: Einnahmen oder Kosten pro Tag
+  final double dailyIncome; 
   final IconData icon;
 
   const GameItem({
@@ -20,105 +21,116 @@ class GameItem {
     required this.name,
     required this.category,
     required this.cost,
-    required this.prestige,
+    required this.prestigeValue,
     required this.requiredPrestige,
     required this.dailyIncome,
     required this.icon,
   });
 }
 
-// Wann werden ganze Kategorien sichtbar?
+// Strategische Reihenfolge & Freischaltung
 final Map<String, int> categoryUnlockPrestige = {
-  "WEGE": 0,
-  "ZONING": 0,
-  "NATUR": 0,
-  "ABRISS": 0,
-  "NETZE": 100,       
-  "HYGIENE": 100,     
-  "VERPFLEGUNG": 300, 
-  "POOL": 400,        
-  "AKTIVITÄTEN": 500, 
+  "Zoning": 0,
+  "Wege": 0,
+  "Natur": 0,
+  "Netze": 100,       // 1 Stern
+  "Hygiene": 100,     // 1 Stern
+  "Verpflegung": 300, // 3 Sterne
+  "Pool": 400,        // 4 Sterne
+  "Aktivitäten": 500, // 5 Sterne
+  "Abriss": 0,        // Immer da
 };
 
 final List<GameItem> allItems = [
-  // --- WEGE (ID 20-29) ---
-  const GameItem(id: 20, name: 'Schotterstraße', category: 'WEGE', cost: 20, prestige: 1, requiredPrestige: 0, dailyIncome: -1, icon: Icons.add_road),
-  const GameItem(id: 21, name: 'Kiesweg', category: 'WEGE', cost: 20, prestige: 1, requiredPrestige: 0, dailyIncome: -0.5, icon: Icons.linear_scale),
-  const GameItem(id: 22, name: 'Teerstraße', category: 'WEGE', cost: 50, prestige: 2, requiredPrestige: 200, dailyIncome: -2, icon: Icons.edit_road),
-  const GameItem(id: 23, name: 'Rezeption', category: 'WEGE', cost: 1000, prestige: 50, requiredPrestige: 300, dailyIncome: -50, icon: Icons.store),
-  const GameItem(id: 24, name: 'Blumenstraße', category: 'WEGE', cost: 80, prestige: 4, requiredPrestige: 400, dailyIncome: -5, icon: Icons.local_florist),
+  // --- ZONING ---
+  const GameItem(id: 20, name: 'Stellplatz 1 (Erdig ohne umrandung)', category: 'Zoning', cost: 100, prestigeValue: 5, requiredPrestige: 0, dailyIncome: 15, icon: Icons.holiday_village),
+  const GameItem(id: 21, name: 'Stellplatz 2 (mit Heckenumrandung)', category: 'Zoning', cost: 200, prestigeValue: 10, requiredPrestige: 200, dailyIncome: 30, icon: Icons.holiday_village),
+  const GameItem(id: 22, name: 'Stellplatz 3 (mit heckenumrandung und Baum drauf)', category: 'Zoning', cost: 400, prestigeValue: 20, requiredPrestige: 400, dailyIncome: 60, icon: Icons.holiday_village),
+  const GameItem(id: 23, name: 'Freifläche', category: 'Zoning', cost: 100, prestigeValue: 5, requiredPrestige: 0, dailyIncome: 10, icon: Icons.crop_free),
+  const GameItem(id: 24, name: 'Mobilheim', category: 'Zoning', cost: 1500, prestigeValue: 100, requiredPrestige: 600, dailyIncome: 250, icon: Icons.house),
 
-  // --- ZONING (ID 30-39) ---
-  const GameItem(id: 30, name: 'Stellplatz 1 (Erdig)', category: 'ZONING', cost: 100, prestige: 5, requiredPrestige: 0, dailyIncome: 25, icon: Icons.holiday_village),
-  const GameItem(id: 31, name: 'Stellplatz 2 (Hecke)', category: 'ZONING', cost: 200, prestige: 10, requiredPrestige: 200, dailyIncome: 45, icon: Icons.fence),
-  const GameItem(id: 32, name: 'Stellplatz 3 (Baum)', category: 'ZONING', cost: 400, prestige: 20, requiredPrestige: 400, dailyIncome: 80, icon: Icons.nature_people),
-  const GameItem(id: 33, name: 'Mobilheim', category: 'ZONING', cost: 1500, prestige: 100, requiredPrestige: 600, dailyIncome: 250, icon: Icons.home),
+  // --- WEGE ---
+  const GameItem(id: 1, name: 'Schotterstraße', category: 'Wege', cost: 20, prestigeValue: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.add_road),
+  const GameItem(id: 2, name: 'geteerete Straße', category: 'Wege', cost: 50, prestigeValue: 2, requiredPrestige: 200, dailyIncome: 0, icon: Icons.add_road),
+  const GameItem(id: 3, name: 'kiesweg', category: 'Wege', cost: 20, prestigeValue: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.add_road),
+  const GameItem(id: 4, name: 'Rezeption', category: 'Wege', cost: 1000, prestigeValue: 50, requiredPrestige: 300, dailyIncome: 50, icon: Icons.store),
+  const GameItem(id: 5, name: 'Straße mit Blumen', category: 'Wege', cost: 80, prestigeValue: 4, requiredPrestige: 400, dailyIncome: 0, icon: Icons.add_road),
+  const GameItem(id: 6, name: 'Verzierter weg', category: 'Wege', cost: 100, prestigeValue: 5, requiredPrestige: 600, dailyIncome: 0, icon: Icons.add_road),
 
-  // --- NATUR (ID 40-49) ---
-  const GameItem(id: 40, name: 'Nadelbaum', category: 'NATUR', cost: 20, prestige: 4, requiredPrestige: 0, dailyIncome: 0, icon: Icons.nature),
-  const GameItem(id: 41, name: 'Laubbaum', category: 'NATUR', cost: 20, prestige: 6, requiredPrestige: 100, dailyIncome: 0, icon: Icons.nature),
-  const GameItem(id: 42, name: 'Zypresse', category: 'NATUR', cost: 20, prestige: 8, requiredPrestige: 200, dailyIncome: 0, icon: Icons.nature),
-  const GameItem(id: 43, name: 'Busch', category: 'NATUR', cost: 10, prestige: 2, requiredPrestige: 0, dailyIncome: 0, icon: Icons.park),
-  const GameItem(id: 44, name: 'Blumen', category: 'NATUR', cost: 15, prestige: 3, requiredPrestige: 200, dailyIncome: 0, icon: Icons.local_florist),
-  const GameItem(id: 45, name: 'Stein', category: 'NATUR', cost: 10, prestige: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.landscape),
-  const GameItem(id: 46, name: 'Palme', category: 'NATUR', cost: 20, prestige: 10, requiredPrestige: 300, dailyIncome: 0, icon: Icons.beach_access),
+  // --- NATUR ---
+  const GameItem(id: 30, name: 'Nadelbaum', category: 'Natur', cost: 20, prestigeValue: 4, requiredPrestige: 0, dailyIncome: 0, icon: Icons.nature),
+  const GameItem(id: 31, name: 'laubbaum', category: 'Natur', cost: 20, prestigeValue: 6, requiredPrestige: 100, dailyIncome: 0, icon: Icons.nature),
+  const GameItem(id: 32, name: 'Zypresse', category: 'Natur', cost: 20, prestigeValue: 8, requiredPrestige: 200, dailyIncome: 0, icon: Icons.nature),
+  const GameItem(id: 33, name: 'Busch', category: 'Natur', cost: 10, prestigeValue: 2, requiredPrestige: 0, dailyIncome: 0, icon: Icons.park),
+  const GameItem(id: 34, name: 'blume', category: 'Natur', cost: 15, prestigeValue: 3, requiredPrestige: 200, dailyIncome: 0, icon: Icons.local_florist),
+  const GameItem(id: 35, name: 'Stein', category: 'Natur', cost: 10, prestigeValue: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.landscape),
+  const GameItem(id: 36, name: 'Hecke', category: 'Natur', cost: 25, prestigeValue: 5, requiredPrestige: 300, dailyIncome: 0, icon: Icons.grass),
+  const GameItem(id: 37, name: 'Palme', category: 'Natur', cost: 20, prestigeValue: 10, requiredPrestige: 300, dailyIncome: 0, icon: Icons.nature),
 
-  // --- VERPFLEGUNG (ID 50-59) ---
-  const GameItem(id: 50, name: 'Restaurant', category: 'VERPFLEGUNG', cost: 500, prestige: 40, requiredPrestige: 400, dailyIncome: 300, icon: Icons.restaurant),
-  const GameItem(id: 51, name: 'Bar', category: 'VERPFLEGUNG', cost: 500, prestige: 40, requiredPrestige: 400, dailyIncome: 250, icon: Icons.local_bar),
-  const GameItem(id: 52, name: 'Cafe', category: 'VERPFLEGUNG', cost: 500, prestige: 40, requiredPrestige: 400, dailyIncome: 200, icon: Icons.local_cafe),
-  const GameItem(id: 53, name: 'Supermarkt', category: 'VERPFLEGUNG', cost: 2000, prestige: 150, requiredPrestige: 800, dailyIncome: 600, icon: Icons.shopping_cart),
-  const GameItem(id: 54, name: 'Eisstand', category: 'VERPFLEGUNG', cost: 300, prestige: 30, requiredPrestige: 300, dailyIncome: 120, icon: Icons.icecream),
+  // --- NETZE ---
+  const GameItem(id: 10, name: 'Wasserleitung', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -2, icon: Icons.water_drop),
+  const GameItem(id: 11, name: 'Abwasserleitung', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -2, icon: Icons.plumbing),
+  const GameItem(id: 12, name: 'Stromkabel', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -2, icon: Icons.electric_bolt),
+  const GameItem(id: 13, name: 'Wasserwerk', category: 'Netze', cost: 500, prestigeValue: 0, requiredPrestige: 300, dailyIncome: -20, icon: Icons.factory),
+  const GameItem(id: 14, name: 'Kläranlage', category: 'Netze', cost: 500, prestigeValue: 0, requiredPrestige: 300, dailyIncome: -20, icon: Icons.factory),
+  const GameItem(id: 15, name: 'Trafo', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -5, icon: Icons.electrical_services),
+  const GameItem(id: 16, name: 'Gastank', category: 'Netze', cost: 100, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -5, icon: Icons.gas_meter),
+  const GameItem(id: 17, name: 'Gasleitung', category: 'Netze', cost: 40, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -1, icon: Icons.settings_input_component),
 
-  // --- AKTIVITÄTEN (ID 60-69) ---
-  const GameItem(id: 60, name: 'Bootsverleih', category: 'AKTIVITÄTEN', cost: 1000, prestige: 100, requiredPrestige: 600, dailyIncome: 350, icon: Icons.rowing),
-  const GameItem(id: 61, name: 'Spielplatz', category: 'AKTIVITÄTEN', cost: 1000, prestige: 60, requiredPrestige: 500, dailyIncome: 0, icon: Icons.child_care),
-  const GameItem(id: 62, name: 'Tauchschule', category: 'AKTIVITÄTEN', cost: 1000, prestige: 120, requiredPrestige: 700, dailyIncome: 400, icon: Icons.scuba_diving),
+  // --- HYGIENE ---
+  const GameItem(id: 70, name: 'Duschen im freien', category: 'Hygiene', cost: 100, prestigeValue: 10, requiredPrestige: 100, dailyIncome: -5, icon: Icons.shower),
+  const GameItem(id: 71, name: 'Wc mit Waschbecken', category: 'Hygiene', cost: 200, prestigeValue: 20, requiredPrestige: 200, dailyIncome: -10, icon: Icons.wash),
+  const GameItem(id: 72, name: 'Waschhaus mitWCs Und Waschbecken', category: 'Hygiene', cost: 400, prestigeValue: 40, requiredPrestige: 300, dailyIncome: -25, icon: Icons.home_work),
+  const GameItem(id: 73, name: 'gehobenes Waschhaus ', category: 'Hygiene', cost: 800, prestigeValue: 80, requiredPrestige: 500, dailyIncome: -50, icon: Icons.hotel_class),
+  const GameItem(id: 74, name: 'Ertsehilfe Station', category: 'Hygiene', cost: 600, prestigeValue: 50, requiredPrestige: 500, dailyIncome: -30, icon: Icons.medical_services),
+  const GameItem(id: 75, name: 'krankenstation', category: 'Hygiene', cost: 1500, prestigeValue: 120, requiredPrestige: 800, dailyIncome: -60, icon: Icons.local_hospital),
 
-  // --- HYGIENE (ID 70-79) ---
-  const GameItem(id: 70, name: 'Duschen (Frei)', category: 'HYGIENE', cost: 100, prestige: 10, requiredPrestige: 100, dailyIncome: -10, icon: Icons.shower),
-  const GameItem(id: 71, name: 'Waschhaus', category: 'HYGIENE', cost: 250, prestige: 20, requiredPrestige: 200, dailyIncome: -30, icon: Icons.wash),
-  const GameItem(id: 72, name: 'Krankenstation', category: 'HYGIENE', cost: 1200, prestige: 80, requiredPrestige: 800, dailyIncome: -100, icon: Icons.local_hospital),
+  // --- VERPFLEGUNG ---
+  const GameItem(id: 40, name: 'Fischrestaurant', category: 'Verpflegung', cost: 600, prestigeValue: 50, requiredPrestige: 400, dailyIncome: 120, icon: Icons.restaurant),
+  const GameItem(id: 41, name: 'Fleisch grill restaurant', category: 'Verpflegung', cost: 650, prestigeValue: 55, requiredPrestige: 400, dailyIncome: 130, icon: Icons.restaurant_menu),
+  const GameItem(id: 42, name: 'Schnellrestauarant', category: 'Verpflegung', cost: 400, prestigeValue: 35, requiredPrestige: 300, dailyIncome: 80, icon: Icons.fastfood),
+  const GameItem(id: 43, name: 'bar', category: 'Verpflegung', cost: 500, prestigeValue: 40, requiredPrestige: 400, dailyIncome: 90, icon: Icons.local_bar),
+  const GameItem(id: 44, name: 'Cafe', category: 'Verpflegung', cost: 450, prestigeValue: 35, requiredPrestige: 300, dailyIncome: 70, icon: Icons.local_cafe),
+  const GameItem(id: 45, name: 'Soevenirstand', category: 'Verpflegung', cost: 300, prestigeValue: 25, requiredPrestige: 300, dailyIncome: 50, icon: Icons.storefront),
+  const GameItem(id: 46, name: 'Obststand', category: 'Verpflegung', cost: 200, prestigeValue: 15, requiredPrestige: 300, dailyIncome: 30, icon: Icons.apple),
+  const GameItem(id: 47, name: 'Supermarkt', category: 'Verpflegung', cost: 2000, prestigeValue: 150, requiredPrestige: 800, dailyIncome: 450, icon: Icons.shopping_cart),
+  const GameItem(id: 48, name: 'gemüsestand', category: 'Verpflegung', cost: 200, prestigeValue: 15, requiredPrestige: 300, dailyIncome: 30, icon: Icons.shopping_basket),
+  const GameItem(id: 49, name: 'Fischstand', category: 'Verpflegung', cost: 250, prestigeValue: 20, requiredPrestige: 300, dailyIncome: 40, icon: Icons.set_meal),
+  const GameItem(id: 50, name: 'Eisstand', category: 'Verpflegung', cost: 250, prestigeValue: 20, requiredPrestige: 300, dailyIncome: 45, icon: Icons.icecream),
 
-  // --- POOL (ID 80-89) ---
-  const GameItem(id: 80, name: 'Poolkachel', category: 'POOL', cost: 50, prestige: 5, requiredPrestige: 400, dailyIncome: -5, icon: Icons.pool),
-  const GameItem(id: 81, name: 'Poolbar', category: 'POOL', cost: 500, prestige: 50, requiredPrestige: 600, dailyIncome: 200, icon: Icons.local_bar),
+  // --- POOL ---
+  const GameItem(id: 80, name: 'Poolkachel', category: 'Pool', cost: 50, prestigeValue: 5, requiredPrestige: 400, dailyIncome: -2, icon: Icons.pool),
+  const GameItem(id: 81, name: 'Rutsche', category: 'Pool', cost: 300, prestigeValue: 30, requiredPrestige: 500, dailyIncome: 40, icon: Icons.water),
+  const GameItem(id: 82, name: 'Massagestrahl', category: 'Pool', cost: 150, prestigeValue: 15, requiredPrestige: 400, dailyIncome: 10, icon: Icons.waves),
+  const GameItem(id: 83, name: 'Sonnenschirme', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, icon: Icons.beach_access),
+  const GameItem(id: 84, name: 'poolliegen', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, icon: Icons.beach_access),
+  const GameItem(id: 85, name: 'Poolbar', category: 'Pool', cost: 600, prestigeValue: 60, requiredPrestige: 600, dailyIncome: 110, icon: Icons.local_bar),
 
-  // --- NETZE & ABRISS (Spezial) ---
-  const GameItem(id: 0, name: 'Abriss', category: 'ABRISS', cost: 0, prestige: 0, requiredPrestige: 0, dailyIncome: 0, icon: Icons.auto_fix_normal),
+  // --- AKTIVITÄTEN ---
+  const GameItem(id: 60, name: 'Bootsverleih', category: 'Aktivitäten', cost: 1000, prestigeValue: 100, requiredPrestige: 600, dailyIncome: 180, icon: Icons.rowing),
+  const GameItem(id: 61, name: 'Funsportaktivitäten stand', category: 'Aktivitäten', cost: 800, prestigeValue: 80, requiredPrestige: 600, dailyIncome: 120, icon: Icons.skateboarding),
+  const GameItem(id: 62, name: 'Fitnessstudio', category: 'Aktivitäten', cost: 1500, prestigeValue: 140, requiredPrestige: 800, dailyIncome: 200, icon: Icons.fitness_center),
+  const GameItem(id: 63, name: 'Spielplatz', category: 'Aktivitäten', cost: 500, prestigeValue: 50, requiredPrestige: 500, dailyIncome: 30, icon: Icons.child_care),
+  const GameItem(id: 64, name: 'Tauchschule', category: 'Aktivitäten', cost: 2000, prestigeValue: 180, requiredPrestige: 900, dailyIncome: 300, icon: Icons.scuba_diving),
+  const GameItem(id: 65, name: 'Angelschule', category: 'Aktivitäten', cost: 900, prestigeValue: 75, requiredPrestige: 700, dailyIncome: 100, icon: Icons.phishing),
+
+  // --- ABRISS (IMMER GANZ RECHTS) ---
+  const GameItem(id: 99, name: 'Abriss', category: 'Abriss', cost: 0, prestigeValue: 0, requiredPrestige: 0, dailyIncome: 0, icon: Icons.delete),
 ];
+
+final List<String> categories = ["Zoning", "Wege", "Natur", "Netze", "Hygiene", "Verpflegung", "Pool", "Aktivitäten", "Abriss"];
 
 void main() {
   runApp(const CampingSimApp());
 }
 
-class WorldObject {
-  final double x;
-  final double y;
-  final Widget widget;
-  final double depth;
-
-  WorldObject({required this.x, required this.y, required this.widget, required double sinZ, required double cosZ})
-      : depth = x * sinZ + y * cosZ;
-}
-
-class VisitingCar {
-  double x, y;
-  final int targetX, targetY;
-  VisitingCar(this.x, this.y, this.targetX, this.targetY);
-}
-
 class CampingSimApp extends StatelessWidget {
   const CampingSimApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Camping Simulator',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
+      title: 'camping_sim',
+      theme: ThemeData.dark(),
       home: const GameScreen(),
     );
   }
@@ -126,541 +138,78 @@ class CampingSimApp extends StatelessWidget {
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
-
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
-  final int gridSize = 20; // Zurück auf die Originalgröße
+  // Grid
+  final int gridSize = 20;
   late List<List<int>> mapData;
-  
-  // Kamera-Winkel für Isometrie
-  double cameraZ = -pi / 4; 
-  final double cameraTilt = 0.95; 
-  bool usePerspective = false; 
 
-  // Werkzeug-ID
-  int selectedTool = 5; 
-  bool isDragging = false;
+  // Rendering / Camera
+  final double tileSize = 48.0;
+  Offset pan = const Offset(420, 60);
+  double zoom = 1.0;
+  double cameraAngle = 0.0;
+  double cameraTilt = 0.0;
 
+  // Input state
   final FocusNode _focusNode = FocusNode();
-  final TransformationController _mapController = TransformationController();
+  bool wPressed = false;
+  bool aPressed = false;
+  bool sPressed = false;
+  bool dPressed = false;
+  bool qPressed = false;
+  bool ePressed = false;
 
-  // Hover-Position für den "Geist"
-  int _hoveredX = -1;
-  int _hoveredY = -1;
+  final double panSpeed = 600.0;
+  final double rotateSpeed = 1.6;
 
-  // Tasten-Status für flüssige Bewegung
-  bool _wPressed = false;
-  bool _aPressed = false;
-  bool _sPressed = false;
-  bool _dPressed = false;
-
-  late Ticker _ticker;
+  late final Ticker _ticker;
   Duration _lastTick = Duration.zero;
+
+  // Assets
+  final Map<String, ui.Image> images = {};
+  bool assetsLoaded = false;
 
   // UI Status
   bool _isLegendVisible = false;
-  String _selectedCategory = 'WEGE'; 
+  String _selectedCategory = 'Zoning'; 
   String _activeToolName = 'Keins'; 
-  bool _isGodMode = false; // NEU: Godmode für Entwickler
-
-  // ... (Rest bleibt gleich)
-
-  // Untergrund-Netze
-  late List<List<bool>> undergroundWater; 
-  late List<List<bool>> undergroundWaste; 
-  late List<List<bool>> undergroundPower; 
-
-  // Netzwerk-Status
-  late List<List<bool>> connectedWater;
-  late List<List<bool>> connectedWaste;
-  late List<List<bool>> connectedPower;
-
-  // Parzellen-Status
-  late List<List<bool>> parcelWater;
-  late List<List<bool>> parcelWaste;
-  late List<List<bool>> parcelPower;
-
-  late List<List<bool>> isParcelAnchor;
-  late List<List<bool>> isBigParcel;
-  late List<List<bool>> isExtraTent;
-  late List<List<int>> parcelState;
-  late List<List<double>> setupProgress;
-  late List<List<bool>> parcelIsCaravan;
-
-  // Wirtschafts-Variablen
+  bool _isGodMode = false;
   double money = 15000.0; 
   double dailyIncome = 0.0;
-  double prestige = 0.0; // NEU: Prestige-Wert des Platzes
-
-  // Tech-Tree
-  bool hasWaterUnlocked = false; 
-  double waterUpgradeCost = 5000.0; 
-
-  // Simulation
-  Timer? gameLoop;
-  Timer? renderLoop;
-  double guestX = 1.0; 
-  double guestY = 10.0; 
-  double waterWaveOffset = 0.0;
-  double timeOfDay = 0.25; 
+  double prestige = 0.0;
   int inGameDay = 1;
   int activeCampers = 0;
-  int maxCapacity = 0; 
-
-  List<VisitingCar> activeCars = [];
-  double barrierAngle = 0.0;
-
-  Color getAtmosphereColor() {
-    return Colors.transparent;
-  }
-
-  // Kosten für die jeweiligen Bauteile
-  double getCost(int toolId) {
-    switch (toolId) {
-      case 2: return 100.0; // Parzelle
-      case 3: return 50.0;  // Baum
-      case 16: return 15.0; // Pflanze
-      case 17: return 5.0;  // Blumen
-      case 18: return 10.0; // Stein
-      case 8: return 120.0; // Trinkwasserleitung
-      case 9: return 90.0;  // Abwasserrohr
-      case 10: return 60.0; // Stromkabel
-      case 4: return 30.0;  // Fußweg
-      case 5: return 80.0;  // Asphalt-Straße
-      case 6: return 2500.0;// Rezeption & Schranke
-      case 7: return 1500.0;// Wasser-Hauptanschluss
-      case 12: return 1200.0;// Abwasser-Sammelschacht
-      case 13: return 2000.0;// Trafo-Station Strom
-      case 14: return 20.0;  // Hecke / Zaun
-      default: return 0.0;
-    }
-  }
+  int maxCapacity = 0;
+  int selectedTool = 0;
 
   @override
   void initState() {
     super.initState();
     _generatePrototypeMap();
-    _startGameLoop();
-    
-    // Ticker für flüssige Kamerabewegung starten
+    _loadAllAssets().then((_) {
+      setState(() {
+        assetsLoaded = true;
+      });
+    });
     _ticker = createTicker(_onTick)..start();
-
-    // Fordert den Fokus für die Tastatursteuerung an
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
-
-    renderLoop = Timer.periodic(const Duration(milliseconds: 16), (timer) {
-      setState(() {
-        guestX += 0.03; 
-        if (guestX > 13.0) guestX = 1.0; 
-
-        waterWaveOffset += 0.03;
-
-        for (int x = 0; x < gridSize; x++) {
-          for (int y = 0; y < gridSize; y++) {
-            if (parcelState[x][y] == 1) {
-              setupProgress[x][y] += 0.005; 
-              if (setupProgress[x][y] >= 1.0) {
-                parcelState[x][y] = 2; 
-              }
-            }
-          }
-        }
-
-        for (var car in activeCars) {
-          if (car.x < car.targetX) car.x += 0.05;
-          else if (car.x > car.targetX) car.x -= 0.05;
-          if (car.y < car.targetY) car.y += 0.05;
-          else if (car.y > car.targetY) car.y -= 0.05;
-        }
-
-        activeCars.removeWhere((car) {
-          bool arrived = (car.x - car.targetX).abs() < 0.1 && (car.y - car.targetY).abs() < 0.1;
-          if (arrived) {
-            parcelState[car.targetX][car.targetY] = 1; 
-            setupProgress[car.targetX][car.targetY] = 0.0;
-          }
-          return arrived;
-        });
-
-        if (activeCars.isNotEmpty) {
-          if (barrierAngle < 1.2) barrierAngle += 0.1;
-        } else {
-          if (barrierAngle > 0.0) barrierAngle -= 0.1;
-        }
-      });
-    });
-  }
-
-  void _onTick(Duration elapsed) {
-    if (_lastTick == Duration.zero) {
-      _lastTick = elapsed;
-      return;
-    }
-    
-    final double dt = (elapsed - _lastTick).inMilliseconds / 1000.0;
-    _lastTick = elapsed;
-
-    if (!_wPressed && !_sPressed && !_aPressed && !_dPressed) return;
-
-    const double speed = 500.0; 
-    double dx = 0.0;
-    double dy = 0.0;
-
-    if (_wPressed) dy += speed * dt;
-    if (_sPressed) dy -= speed * dt;
-    if (_aPressed) dx += speed * dt;
-    if (_dPressed) dx -= speed * dt;
-
-    final matrix = _mapController.value.clone();
-    matrix.translate(dx, dy);
-    _mapController.value = matrix;
-  }
-
-  @override
-  void dispose() {
-    _ticker.dispose();
-    _focusNode.dispose();
-    _mapController.dispose();
-    gameLoop?.cancel(); 
-    renderLoop?.cancel(); 
-    super.dispose();
+    _startGameLoop();
   }
 
   void _startGameLoop() {
-    // Ein In-Game Tag vergeht alle 3 Sekunden
-    gameLoop = Timer.periodic(const Duration(seconds: 3), (timer) {
+    Timer.periodic(const Duration(seconds: 3), (timer) {
       setState(() {
         inGameDay++;
-        money += dailyIncome; // Tägliche Einnahmen werden gutgeschrieben
-
-        // Die Uhrzeit rückt pro Tick ein Stück vor
-        timeOfDay += 0.1;
-        if (timeOfDay >= 1.0) timeOfDay = 0.0;
-
-        // Gäste-Ankunft an der Rezeption
-        // Chance steigt mit Prestige: Basis 20% + Bonus durch Prestige
-        double arrivalChance = 0.2 + (prestige / 200); 
-        if (Random().nextDouble() < arrivalChance && activeCampers < maxCapacity) {
-          // Sucht den ersten leeren, funktionierenden Stellplatz
-          for (int x = 0; x < gridSize; x++) {
-            for (int y = 0; y < gridSize; y++) {
-              if (isParcelAnchor[x][y] && parcelState[x][y] == 0) {
-                parcelState[x][y] = 3; 
-                activeCampers++;
-                parcelIsCaravan[x][y] = Random().nextBool(); 
-                activeCars.add(VisitingCar(1.0, 9.0, x, y));
-                return; 
-              }
-            }
-          }
-        } else if (activeCampers > maxCapacity) {
-          activeCampers = maxCapacity; // (Abriss-Logik)
-        }
+        money += dailyIncome;
+        _calculateEconomy();
       });
     });
-  }
-
-  // Generiert die Startkarte mit Wiese, 10 Parzellen, Meer, Hauptstraße und Rezeption
-  void _generatePrototypeMap() {
-    mapData = List.generate(gridSize, (x) => List.generate(gridSize, (y) => (x >= gridSize - 3) ? 1 : 0));
-    
-    undergroundWater = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    undergroundWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    undergroundPower = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-
-    connectedWater = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    connectedWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    connectedPower = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-
-    parcelWater = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    parcelWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    parcelPower = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-
-    isParcelAnchor = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    isBigParcel = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    isExtraTent = List.generate(gridSize, (_) => List.filled(gridSize, false));
-
-    parcelState = List.generate(gridSize, (_) => List.filled(gridSize, 0));
-    setupProgress = List.generate(gridSize, (_) => List.filled(gridSize, 0.0));
-    parcelIsCaravan = List.generate(gridSize, (_) => List.filled(gridSize, true));
-
-    // Öffentliche Hauptstraße am linken Rand
-    for (int y = 0; y < gridSize; y++) {
-      mapData[0][y] = 5; 
-    }
-
-    // Rezeption & Schranke in der Mitte der Straße
-    int midY = gridSize ~/ 2;
-    mapData[1][midY] = 6;  
-    mapData[1][midY + 1] = 5; 
-
-    // Campingplatz-Hauptstraße von der Schranke ein Stück in den Platz hinein
-    for (int x = 2; x <= 15; x++) {
-      mapData[x][midY + 1] = 5; 
-    }
-
-    // 10 Start-Parzellen platzieren
-    int parcelCount = 0;
-    for (int col = 0; col < 2; col++) {
-      for (int row = 0; row < 5; row++) {
-        int startX = 4 + (col * 6); 
-        int startY = (midY - 4) + (row * 3); 
-        
-        if (startX + 1 < gridSize && startY + 1 < gridSize) {
-          mapData[startX][startY] = 2;
-          mapData[startX+1][startY] = 2;
-          mapData[startX][startY+1] = 2;
-          mapData[startX+1][startY+1] = 2;
-          parcelCount++;
-        }
-        if (parcelCount >= 10) break;
-      }
-      if (parcelCount >= 10) break;
-    }
-
-    // Organischer Sandstrand entlang des Wassers
-    for (int y = 0; y < gridSize; y++) {
-      mapData[gridSize - 4][y] = 15; 
-    }
-
-    _updateNetworks(); 
-  }
-
-  // Prüft, ob eine Parzelle (Startpunkt) eine gültige Verbindung zur Straße/Rezeption (Typ 5 oder 6) hat
-  bool checkRoadConnection(int startX, int startY) {
-    List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    List<Point<int>> queue = [Point(startX, startY)];
-    
-    while (queue.isNotEmpty) {
-      Point<int> p = queue.removeAt(0);
-      if (p.x < 0 || p.x >= gridSize || p.y < 0 || p.y >= gridSize) continue;
-      if (visited[p.x][p.y]) continue;
-      visited[p.x][p.y] = true;
-      
-      int tileType = mapData[p.x][p.y];
-      // Verbindung zur Straße (5) oder Rezeption (6) gefunden
-      if (tileType == 5 || tileType == 6) return true;
-      
-      // Erlaubte Fortbewegung auf Wegen (4), Straßen (5), Parzellen (2) oder Rezeption (6)
-      if (tileType == 2 || tileType == 4 || tileType == 5 || tileType == 6) {
-        queue.add(Point(p.x + 1, p.y));
-        queue.add(Point(p.x - 1, p.y));
-        queue.add(Point(p.x, p.y + 1));
-        queue.add(Point(p.x, p.y - 1));
-      }
-    }
-    return false;
-  }
-
-  void buildTile(int x, int y) {
-    if (selectedTool == 11) {
-      // Löscht ausschließlich Leitungen im Untergrund
-      setState(() {
-        undergroundWater[x][y] = false;
-        undergroundWaste[x][y] = false;
-        undergroundPower[x][y] = false;
-        _updateNetworks();
-      });
-      return;
-    } else if (selectedTool >= 8 && selectedTool <= 10) {
-      double cost = getCost(selectedTool);
-      if (money < cost) return;
-
-      // Baut im Untergrund
-      setState(() {
-        if (selectedTool == 8 && !undergroundWater[x][y]) {
-          money -= cost;
-          undergroundWater[x][y] = true;
-        } else if (selectedTool == 9 && !undergroundWaste[x][y]) {
-          money -= cost;
-          undergroundWaste[x][y] = true;
-        } else if (selectedTool == 10 && !undergroundPower[x][y]) {
-          money -= cost;
-          undergroundPower[x][y] = true;
-        }
-        _updateNetworks();
-      });
-      return;
-    }
-
-    // Oberfläche: Nur das Meer ist gesperrt!
-    if (mapData[x][y] == 1) return; 
-    if (mapData[x][y] == selectedTool) return;
-    
-    double cost = getCost(selectedTool);
-    if (money < cost) return;
-
-    setState(() {
-      money -= cost;
-      mapData[x][y] = selectedTool;
-      // Wichtig: Netzwerke neu berechnen, falls ein Hauptanschluss gebaut/abgerissen wird
-      _updateNetworks(); 
-    });
-  }
-
-  void _updateNetworks() {
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        connectedWater[x][y] = false; connectedWaste[x][y] = false; connectedPower[x][y] = false;
-        parcelWater[x][y] = false; parcelWaste[x][y] = false; parcelPower[x][y] = false;
-      }
-    }
-
-    List<Point<int>> waterStarts = [];
-    List<Point<int>> wasteStarts = [];
-    List<Point<int>> powerStarts = [];
-
-    // Alle möglichen Startpunkte für die Netzwerke suchen
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] == 7 && hasWaterUnlocked) waterStarts.add(Point(x, y));
-        if (mapData[x][y] == 12) wasteStarts.add(Point(x, y));
-        if (mapData[x][y] == 13) powerStarts.add(Point(x, y));
-        // Umwelt-Mechanik: Das Meer (1) fungiert ebenfalls als gültiger Abwasser-Abfluss!
-        if (mapData[x][y] == 1) wasteStarts.add(Point(x, y));
-      }
-    }
-
-    _runMultiBFS(waterStarts, undergroundWater, connectedWater);
-    _runMultiBFS(wasteStarts, undergroundWaste, connectedWaste);
-    _runMultiBFS(powerStarts, undergroundPower, connectedPower);
-
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] == 2) {
-          // Prüft, ob das Rohr anliegt ODER die Parzelle direkt neben dem Anschluss steht
-          parcelWater[x][y] = _isAdjacentToConnected(x, y, connectedWater, [7]);
-          parcelWaste[x][y] = _isAdjacentToConnected(x, y, connectedWaste, [12, 1]); // Meer ist erlaubt
-          parcelPower[x][y] = _isAdjacentToConnected(x, y, connectedPower, [13]);
-        }
-      }
-    }
-
-    // --- NEU: INTELLIGENTES ZONING FÜR PARZELLEN ---
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        isParcelAnchor[x][y] = false;
-        isBigParcel[x][y] = false;
-      }
-    }
-
-    List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
-
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] == 2 && !visited[x][y]) {
-          // Neue zusammenhängende Parzellen-Zone gefunden!
-          List<Point<int>> zone = [];
-          List<Point<int>> queue = [Point(x, y)];
-          visited[x][y] = true;
-
-          // Flood-Fill: Alle angrenzenden Schotter-Kacheln suchen
-          while (queue.isNotEmpty) {
-            Point<int> p = queue.removeAt(0);
-            zone.add(p);
-            
-            List<Point<int>> neighbors = [Point(p.x + 1, p.y), Point(p.x - 1, p.y), Point(p.x, p.y + 1), Point(p.x, p.y - 1)];
-            for (var n in neighbors) {
-              if (n.x >= 0 && n.x < gridSize && n.y >= 0 && n.y < gridSize) {
-                if (mapData[n.x][n.y] == 2 && !visited[n.x][n.y]) {
-                  visited[n.x][n.y] = true;
-                  queue.add(n);
-                }
-              }
-            }
-          }
-
-          // Ab 4 Kacheln Gesamtfläche (egal welche Form!) ist genug Platz für einen Wohnwagen
-          bool isBig = zone.length >= 4; 
-
-          // Den optisch besten Platz für das Fahrzeug finden (am weitesten oben links)
-          Point<int> anchor = zone[0];
-          for (var p in zone) {
-            if ((p.x + p.y) < (anchor.x + anchor.y)) {
-              anchor = p;
-            }
-          }
-
-          isParcelAnchor[anchor.x][anchor.y] = true;
-          isBigParcel[anchor.x][anchor.y] = isBig;
-        }
-      }
-    }
-    // --- ENDE ZONING ---
-
-    _calculateEconomy();
-  }
-
-  // Algorithmus, der mehrere Quellen gleichzeitig verarbeiten kann
-  void _runMultiBFS(List<Point<int>> starts, List<List<bool>> pipeLayer, List<List<bool>> connectedLayer) {
-    List<Point<int>> queue = [];
-    List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    
-    for (var start in starts) {
-      queue.add(start);
-      visited[start.x][start.y] = true;
-    }
-
-    while (queue.isNotEmpty) {
-      Point<int> p = queue.removeAt(0);
-      List<Point<int>> neighbors = [Point(p.x + 1, p.y), Point(p.x - 1, p.y), Point(p.x, p.y + 1), Point(p.x, p.y - 1)];
-      
-      for (var n in neighbors) {
-        if (n.x >= 0 && n.x < gridSize && n.y >= 0 && n.y < gridSize) {
-          if (!visited[n.x][n.y] && pipeLayer[n.x][n.y]) {
-            visited[n.x][n.y] = true;
-            connectedLayer[n.x][n.y] = true;
-            queue.add(n);
-          }
-        }
-      }
-    }
-  }
-
-  bool _isAdjacentToConnected(int x, int y, List<List<bool>> connected, List<int> validSources) {
-    if (x > 0 && (connected[x-1][y] || validSources.contains(mapData[x-1][y]))) return true;
-    if (x < gridSize - 1 && (connected[x+1][y] || validSources.contains(mapData[x+1][y]))) return true;
-    if (y > 0 && (connected[x][y-1] || validSources.contains(mapData[x][y-1]))) return true;
-    if (y < gridSize - 1 && (connected[x][y+1] || validSources.contains(mapData[x][y+1]))) return true;
-    return false;
-  }
-
-  // Prüft, ob in einer bestimmten Richtung eine Verbindung gezeichnet werden soll
-  bool _hasConnection(int x, int y, int dx, int dy, List<List<bool>> layer, List<int> validSources) {
-    int nx = x + dx;
-    int ny = y + dy;
-    if (nx < 0 || nx >= gridSize || ny < 0 || ny >= gridSize) return false;
-    // Zeichnet eine Linie, wenn ein Rohr, eine Parzelle (2) oder der richtige Hauptanschluss anliegt
-    return layer[nx][ny] || mapData[nx][ny] == 2 || validSources.contains(mapData[nx][ny]);
-  }
-
-  // Berechnet den Auto-Tiling-Wert (0 bis 15) für eine Wasser-Kachel
-  int _getCoastMask(int x, int y) {
-    int mask = 0;
-    // 1 = Meer. Wenn der Nachbar KEIN Meer ist (oder der Kartenrand), brauchen wir dort Strand.
-    
-    // Nord (y - 1)
-    if (y == 0 || mapData[x][y - 1] != 1) mask += 1;
-    // Ost (x + 1)
-    if (x == gridSize - 1 || mapData[x + 1][y] != 1) mask += 2;
-    // Süd (y + 1)
-    if (y == gridSize - 1 || mapData[x][y + 1] != 1) mask += 4;
-    // West (x - 1)
-    if (x == 0 || mapData[x - 1][y] != 1) mask += 8;
-
-    return mask;
-  }
-
-  bool _isRoadConnection(int nx, int ny) {
-    if (nx < 0 || nx >= gridSize || ny < 0 || ny >= gridSize) return false;
-    int t = mapData[nx][ny];
-    // Der Weg verbindet sich mit: Straßen (5), Fußwegen (4), Rezeption (6) und Parzellen (2)
-    return t == 4 || t == 5 || t == 6 || t == 2;
   }
 
   void _calculateEconomy() {
@@ -674,562 +223,165 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         if (tileId == 0) continue;
 
         try {
-          // Suche das Item in der globalen Liste
           GameItem item = allItems.firstWhere((e) => e.id == tileId);
-          currentPrestige += item.prestige;
+          currentPrestige += item.prestigeValue;
           revenue += item.dailyIncome;
-
-          // Spezialfall: Stellplätze erhöhen zusätzlich die Kapazität
-          if (item.category == 'ZONING' && tileId != 40) { // 40 = Freifläche
+          if (item.category == 'Zoning' && item.id != 23) {
             capacity++;
           }
-        } catch (e) {
-          // Falls ID nicht gefunden (z.B. Meer oder Spezial-IDs)
-        }
+        } catch (e) {}
       }
     }
-
-    // Zusätzliches Einkommen durch Gäste auf Stellplätzen (falls Straße vorhanden)
-    // Das ist eine Vereinfachung: Jede belegte Parzelle (parcelState) bringt Bonus
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] >= 30 && mapData[x][y] <= 39 && parcelState[x][y] == 2) {
-           revenue += 50.0; // Bonus pro aktiven Gast
-        }
-      }
-    }
-
-    dailyIncome = revenue * (1 + (currentPrestige / 1000)); // Prestige-Multiplikator
+    dailyIncome = revenue;
     maxCapacity = capacity;
     prestige = currentPrestige;
   }
 
-  Color getTileColor(int type) {
-    switch (type) {
-      case 1: return Colors.blue[800]!; // Meer
-      case 2: return Colors.orange[200]!; // Parzelle
-      case 3: return Colors.green[800]!; // Baum
-      case 4: return Colors.grey[500]!; // Fußweg
-      case 5: return Colors.grey[900]!; // Asphalt-Straße (Fahrweg)
-      case 6: return Colors.amber[800]!; // Rezeption / Schranke (Einfahrt)
-      case 7: return Colors.cyan[900]!;  // Hauptanschluss Wasser
-      case 12: return Colors.brown[800]!; // Abwasser Stadt
-      case 13: return Colors.yellow[800]!; // Strom Stadt
-      case 14: return Colors.lightGreen; // Hecke / Zaun
-      case 15: return const Color(0xFFE2C499); // Strand / Sandstrand
-      default: return Colors.green[400]!; // Wiese
+  @override
+  void dispose() {
+    _ticker.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _onTick(Duration elapsed) {
+    if (_lastTick == Duration.zero) {
+      _lastTick = elapsed;
+      return;
+    }
+    final double dt = (elapsed - _lastTick).inMilliseconds / 1000.0;
+    _lastTick = elapsed;
+
+    double dx = 0.0, dy = 0.0;
+    if (wPressed) dy += panSpeed * dt;
+    if (sPressed) dy -= panSpeed * dt;
+    if (aPressed) dx += panSpeed * dt;
+    if (dPressed) dx -= panSpeed * dt;
+
+    double dAngle = 0.0;
+    if (qPressed) dAngle -= rotateSpeed * dt;
+    if (ePressed) dAngle += rotateSpeed * dt;
+
+    if (dx != 0.0 || dy != 0.0 || dAngle != 0.0) {
+      setState(() {
+        pan = pan.translate(dx, dy);
+        cameraAngle += dAngle;
+      });
     }
   }
 
-  Widget _buildGroundTile(int x, int y, int tileType) {
-    bool isUndergroundView = selectedTool >= 8;
-    // NEU: Ein zentraler Wert, der alle Böden beim Röntgen auf 30% dimmt
-    double groundOpacity = isUndergroundView ? 0.3 : 1.0; 
+  void _generatePrototypeMap() {
+    mapData = List.generate(gridSize, (x) => List.generate(gridSize, (y) => (x >= gridSize - 3) ? 1 : 0));
+    for (int y = 0; y < gridSize; y++) mapData[0][y] = 1; // Straße/Rand
+  }
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // Basis-Böden
-        if (tileType == 1) // Meer
-          Stack(
-            fit: StackFit.expand,
-            children: [
-              Opacity(
-                opacity: groundOpacity,
-                child: Image.asset(
-                  'assets/water.png',
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.none,
-                  errorBuilder: (c, e, s) => Container(color: getTileColor(1)),
-                ),
-              ),
-              Opacity(
-                opacity: groundOpacity,
-                child: CustomPaint(painter: CoastPainter(_getCoastMask(x, y))),
-              ),
-            ],
-          )
-        else if (tileType == 15) // Sandstrand
-          Opacity(
-            opacity: groundOpacity,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Container(color: const Color(0xFFE2C499)),
-                CustomPaint(painter: CoastPainter(_getCoastMask(x, y))),
-              ],
-            ),
-          )
-        else if (tileType == 2 || tileType == 6) // Schotter (Parzelle & Rezeption)
-          Opacity(
-            opacity: groundOpacity,
-            child: Image.asset(
-              'assets/gravel.png',
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.none,
-              errorBuilder: (c, e, s) => Container(color: getTileColor(tileType)),
-            ),
-          )
-        else if (tileType == 4 || tileType == 5) // Straßen & Wege
-          Opacity(
-            opacity: groundOpacity,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image.asset('assets/grass.png', fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(color: getTileColor(0))),
-                CustomPaint(
-                  painter: RoadPainter(
-                    hasTop: _isRoadConnection(x, y - 1),
-                    hasRight: _isRoadConnection(x + 1, y),
-                    hasBottom: _isRoadConnection(x, y + 1),
-                    hasLeft: _isRoadConnection(x - 1, y),
-                    roadColor: tileType == 5 ? Colors.grey[700]! : Colors.brown[300]!,
-                  ),
-                ),
-              ],
-            ),
-          )
-        else // Standard Wiese (Typ 0 & 3)
-          Opacity(
-            opacity: groundOpacity,
-            child: Builder(
-              builder: (context) {
-                int variant = (x * 13 + y * 37) % 4;
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      'assets/grass.png',
-                      fit: BoxFit.cover,
-                      filterQuality: FilterQuality.none,
-                      errorBuilder: (c, e, s) => Container(color: getTileColor(0)),
+  Future<void> _loadAllAssets() async {
+    // Hier laden wir die Assets wie im funktionierenden Remote-Code
+    final Map<String, String> assetFiles = {
+      'grass': 'assets/grass.png',
+      'water': 'assets/water.png',
+      'gravel': 'assets/gravel.png',
+      'reception': 'assets/reception.png',
+      'caravan': 'assets/caravan.png',
+      'tent': 'assets/tent.png',
+      'tree': 'assets/tree.png',
+      'hedge': 'assets/hedge.png',
+    };
+
+    for (final entry in assetFiles.entries) {
+      try {
+        final data = await rootBundle.load(entry.value);
+        final bytes = data.buffer.asUint8List();
+        final codec = await ui.instantiateImageCodec(bytes);
+        final frame = await codec.getNextFrame();
+        images[entry.key] = frame.image;
+      } catch (e) {
+        debugPrint('Failed to load ${entry.key}');
+      }
+    }
+  }
+
+  Offset isoProject(double tileX, double tileY) {
+    final double halfW = tileSize / 2;
+    final double halfH = tileSize / 4;
+    final double sx = (tileX - tileY) * halfW;
+    final double sy = (tileX + tileY) * halfH;
+    return Offset(sx, sy);
+  }
+
+  void buildTile(int x, int y) {
+    if (mapData[x][y] == 1) return;
+    final item = allItems.firstWhere((e) => e.id == selectedTool, orElse: () => allItems.last);
+    if (money < item.cost) return;
+
+    setState(() {
+      money -= item.cost;
+      mapData[x][y] = selectedTool;
+      _calculateEconomy();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    int activeStars = (prestige / 100).floor().clamp(0, 10);
+    List<String> visibleCategories = categoryUnlockPrestige.keys.where((cat) {
+      return categoryUnlockPrestige[cat]! <= prestige || _isGodMode;
+    }).toList();
+
+    return Focus(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (FocusNode node, KeyEvent event) {
+        final isDown = event is KeyDownEvent || event is KeyRepeatEvent;
+        setState(() {
+          if (event.logicalKey == LogicalKeyboardKey.keyW) wPressed = isDown;
+          if (event.logicalKey == LogicalKeyboardKey.keyA) aPressed = isDown;
+          if (event.logicalKey == LogicalKeyboardKey.keyS) sPressed = isDown;
+          if (event.logicalKey == LogicalKeyboardKey.keyD) dPressed = isDown;
+          if (event.logicalKey == LogicalKeyboardKey.keyQ) qPressed = isDown;
+          if (event.logicalKey == LogicalKeyboardKey.keyE) ePressed = isDown;
+        });
+        return KeyEventResult.handled;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // Spielfeld
+            Positioned.fill(
+              child: assetsLoaded 
+                ? CustomPaint(
+                    painter: _MapPainter(
+                      mapData: mapData,
+                      gridSize: gridSize,
+                      tileSize: tileSize,
+                      images: images,
+                      pan: pan,
+                      zoom: zoom,
+                      cameraAngle: cameraAngle,
+                      isoProject: isoProject,
                     ),
-                    if (!isUndergroundView && variant == 1)
-                      const Center(child: Icon(Icons.eco, size: 12, color: Colors.black12)),
-                  ],
-                );
-              },
+                  )
+                : const Center(child: CircularProgressIndicator()),
             ),
-          ),
 
-        // --- NEU: DER GHOST (VORSCHAU) ---
-        if (x == _hoveredX && y == _hoveredY && selectedTool != 0)
-          Builder(
-            builder: (context) {
-              // Kollisionsprüfung: Darf man hier bauen?
-              bool isBlocked = (mapData[x][y] == 1 || mapData[x][y] == 2);
-              Color previewColor = isBlocked ? Colors.red : Colors.white;
-              
-              return Container(
-                decoration: BoxDecoration(
-                  color: previewColor.withOpacity(0.4),
-                  border: Border.all(color: previewColor, width: 2),
-                ),
-                child: Center(
-                  child: Icon(
-                    selectedTool == 3 ? Icons.park : 
-                    selectedTool == 16 ? Icons.grass : 
-                    selectedTool == 17 ? Icons.local_florist : 
-                    selectedTool == 18 ? Icons.landscape : 
-                    selectedTool == 5 ? Icons.directions_car :
-                    selectedTool == 8 ? Icons.water_drop :
-                    Icons.add_box,
-                    color: Colors.white70,
-                    size: 20,
-                  ),
-                ),
-              );
-            },
-          ),
-        // --- ENDE GHOST ---
+            // Top Bar
+            Positioned(
+              top: 0, left: 0, right: 0,
+              child: _buildTopBar(activeStars),
+            ),
 
-        // Versorgungs-Statuspunkte auf Parzellen
-        if (tileType == 2)
-          Positioned(
-            bottom: 2,
-            right: 2,
-            child: Row(
-              children: [
-                if (parcelWater[x][y]) Icon(Icons.circle, size: 5, color: Colors.cyanAccent[400]),
-                if (parcelWaste[x][y]) Icon(Icons.circle, size: 5, color: Colors.brown[400]),
-                if (parcelPower[x][y]) Icon(Icons.circle, size: 5, color: Colors.yellowAccent[700]),
-              ],
+            // Bottom Menu
+            Positioned(
+              bottom: 0, left: 0, right: 0,
+              child: _buildBottomMenu(visibleCategories),
             ),
-          ),
-
-        // Untergrund-Leitungen (NUR IM RÖNTGENBLICK SICHTBAR)
-        if (isUndergroundView && undergroundWater[x][y])
-          CustomPaint(
-            size: const Size(double.infinity, double.infinity),
-            painter: PipePainter(
-              hasLeft: _hasConnection(x, y, -1, 0, undergroundWater, [7]),
-              hasRight: _hasConnection(x, y, 1, 0, undergroundWater, [7]),
-              hasTop: _hasConnection(x, y, 0, -1, undergroundWater, [7]),
-              hasBottom: _hasConnection(x, y, 0, 1, undergroundWater, [7]),
-              color: connectedWater[x][y] ? Colors.cyanAccent[400]! : Colors.blue[900]!,
-              offset: -6.0,
-            ),
-          ),
-        if (isUndergroundView && undergroundWaste[x][y])
-          CustomPaint(
-            size: const Size(double.infinity, double.infinity),
-            painter: PipePainter(
-              hasLeft: _hasConnection(x, y, -1, 0, undergroundWaste, [12, 1]),
-              hasRight: _hasConnection(x, y, 1, 0, undergroundWaste, [12, 1]),
-              hasTop: _hasConnection(x, y, 0, -1, undergroundWaste, [12, 1]),
-              hasBottom: _hasConnection(x, y, 0, 1, undergroundWaste, [12, 1]),
-              color: connectedWaste[x][y] ? Colors.brown[400]! : Colors.brown[900]!,
-              offset: 0.0,
-            ),
-          ),
-        if (isUndergroundView && undergroundPower[x][y])
-          CustomPaint(
-            size: const Size(double.infinity, double.infinity),
-            painter: PipePainter(
-              hasLeft: _hasConnection(x, y, -1, 0, undergroundPower, [13]),
-              hasRight: _hasConnection(x, y, 1, 0, undergroundPower, [13]),
-              hasTop: _hasConnection(x, y, 0, -1, undergroundPower, [13]),
-              hasBottom: _hasConnection(x, y, 0, 1, undergroundPower, [13]),
-              color: connectedPower[x][y] ? Colors.yellowAccent[700]! : Colors.yellow[900]!,
-              offset: 6.0,
-            ),
-          ),
-      ],
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildObjectWidget(int tileType, int x, int y, Matrix4 billboardMatrix) {
-    // 1. REZEPTION MIT SCHRANKE
-    if (tileType == 6) {
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          // Flacher Bodenschatten
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 55,
-              height: 25,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
-          // Aufrechtes Rezeptionsgebäude
-          Positioned(
-            bottom: -15,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 80,
-                height: 80,
-                child: Image.asset(
-                  'assets/reception.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown),
-                ),
-              ),
-            ),
-          ),
-          // Schranke
-          Positioned(
-            bottom: -13,
-            right: -10,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 35,
-                height: 35,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      bottom: 0,
-                      left: 15,
-                      child: Container(width: 4, height: 16, color: Colors.grey[800]),
-                    ),
-                    Positioned(
-                      bottom: 12,
-                      left: 17,
-                      child: Transform(
-                        alignment: Alignment.bottomLeft,
-                        transform: Matrix4.identity()..rotateZ(-barrierAngle),
-                        child: Container(
-                          width: 30,
-                          height: 4,
-                          color: Colors.red[700],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(width: 5, color: Colors.white),
-                              Container(width: 5, color: Colors.white),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    // 2. PARZELLEN-INHALTE (WOHNWAGEN, ZELTE, TISCH)
-    if (tileType == 2 && isParcelAnchor[x][y]) {
-      int state = parcelState[x][y];
-      if (state == 0) return const SizedBox.shrink();
-
-      bool isBigPitch = isBigParcel[x][y];
-      bool extraTent = isExtraTent[x][y];
-      bool isCaravan = parcelIsCaravan[x][y];
-
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          // Flacher Bodenschatten
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 52,
-              height: 24,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
-          // Fahrzeug / Hauptzelt
-          Positioned(
-            bottom: -15,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: Opacity(
-                opacity: state == 1 ? 0.45 : 1.0,
-                child: SizedBox(
-                  width: 72,
-                  height: 72,
-                  child: Image.asset(
-                    isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                    fit: BoxFit.contain,
-                    errorBuilder: (c, e, s) => Icon(
-                      isCaravan ? Icons.rv_hookup : Icons.holiday_village,
-                      size: 40,
-                      color: Colors.orange,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Picknicktisch
-          Positioned(
-            bottom: -15,
-            left: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: Opacity(
-                opacity: state == 1 ? 0.45 : 1.0,
-                child: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                    'assets/table.png',
-                    fit: BoxFit.contain,
-                    errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Zusatzzelt
-          if (extraTent)
-            Positioned(
-              bottom: -15,
-              right: -10,
-              child: Transform(
-                alignment: Alignment.bottomCenter,
-                transform: billboardMatrix,
-                child: Opacity(
-                  opacity: state == 1 ? 0.45 : 1.0,
-                  child: SizedBox(
-                    width: 42,
-                    height: 42,
-                    child: Image.asset('assets/tent.png', fit: BoxFit.contain),
-                  ),
-                ),
-              ),
-            ),
-          // Aufbau-Ladebalken
-          if (state == 1)
-            Positioned(
-              bottom: 45,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()..rotateZ(-cameraZ),
-                child: SizedBox(
-                  width: 35,
-                  height: 5,
-                  child: LinearProgressIndicator(
-                    value: setupProgress[x][y],
-                    backgroundColor: Colors.black54,
-                    color: Colors.greenAccent,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      );
-    }
-
-    // 3. BÄUME & NATUR
-    if (tileType == 3 || tileType == 16 || tileType == 17 || tileType == 18) {
-      IconData icon;
-      Color iconColor;
-      double iconSize;
-
-      switch (tileType) {
-        case 16: // Pflanze
-          icon = Icons.grass;
-          iconColor = Colors.lightGreen;
-          iconSize = 45;
-          break;
-        case 17: // Blumen
-          icon = Icons.local_florist;
-          iconColor = Colors.pinkAccent;
-          iconSize = 40;
-          break;
-        case 18: // Stein
-          icon = Icons.landscape;
-          iconColor = Colors.grey;
-          iconSize = 50;
-          break;
-        default: // Baum (3)
-          icon = Icons.park;
-          iconColor = Colors.green[800]!;
-          iconSize = 65;
-      }
-
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: tileType == 18 ? 45 : 32,
-              height: 16,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: iconSize,
-                height: iconSize,
-                child: Icon(icon, size: iconSize * 0.7, color: iconColor),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    // 4. HECKEN
-    if (tileType == 14) {
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 40,
-              height: 16,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 55,
-                height: 55,
-                child: Image.asset(
-                  'assets/hedge.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    // 5. STRAND-SONNENSCHIRME
-    if (tileType == 15) {
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 22,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: Image.asset(
-                  'assets/parasol.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildTopBar() {
-    int activeStars = (prestige / 100).floor().clamp(0, 10);
-
+  Widget _buildTopBar(int activeStars) {
     return Container(
       height: 60,
       margin: const EdgeInsets.all(15),
@@ -1237,684 +389,121 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.8),
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.white24, width: 1.5),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10)],
       ),
       child: Row(
         children: [
           GestureDetector(
-            onLongPress: () {
-              setState(() {
-                _isGodMode = !_isGodMode;
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(_isGodMode ? 'GODMODE AKTIVIERT!' : 'GODMODE DEAKTIVIERT'), duration: const Duration(seconds: 1)),
-              );
-            },
-            child: _topBarItem(
-              Icons.calendar_today, 
-              'TAG $inGameDay', 
-              _isGodMode ? Colors.redAccent : Colors.white
-            ),
+            onLongPress: () => setState(() => _isGodMode = !_isGodMode),
+            child: Text('TAG $inGameDay', style: TextStyle(color: _isGodMode ? Colors.redAccent : Colors.white)),
           ),
-          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          _topBarItem(Icons.payments, '${money.toStringAsFixed(0)} €', Colors.greenAccent),
-          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          
-          // 10-Sterne-System (Klickbar für Info)
+          const SizedBox(width: 20),
+          Text('${money.toStringAsFixed(0)} €', style: const TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold)),
+          const SizedBox(width: 20),
           Row(
             children: List.generate(10, (index) {
               int starLevel = index + 1;
-              bool isUnlocked = activeStars >= starLevel;
-              // NEU: Nur die nächsten 2 Sterne anzeigen (oder Godmode)
               bool isVisible = starLevel <= activeStars + 2 || _isGodMode;
-
-              if (!isVisible) {
-                return const SizedBox(width: 24); // Platzhalter für ferne Sterne
-              }
-
-              return GestureDetector(
-                onTap: () => _showUnlockInfo(starLevel),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  child: Icon(
-                    isUnlocked ? Icons.star : Icons.star_border,
-                    color: isUnlocked ? Colors.yellowAccent : Colors.white24,
-                    size: 22,
-                  ),
-                ),
+              if (!isVisible) return const SizedBox(width: 24);
+              return Icon(
+                activeStars >= starLevel ? Icons.star : Icons.star_border,
+                color: Colors.yellowAccent, size: 22,
               );
             }),
           ),
-          
-          const Spacer(),
-          // Kamera Rotation Buttons
-          IconButton(
-            icon: const Icon(Icons.rotate_left, color: Colors.white70),
-            onPressed: () => setState(() => cameraZ -= pi / 2),
-          ),
-          IconButton(
-            icon: const Icon(Icons.rotate_right, color: Colors.white70),
-            onPressed: () => setState(() => cameraZ += pi / 2),
-          ),
-          const SizedBox(width: 10),
-          IconButton(
-            icon: Icon(_isLegendVisible ? Icons.close : Icons.help_outline, color: Colors.white),
-            onPressed: () => setState(() => _isLegendVisible = !_isLegendVisible),
-          ),
         ],
       ),
     );
   }
 
-  void _showUnlockInfo(int starLevel) {
-    int neededPrestige = starLevel * 100;
-    
-    // Suchen, welche Kategorien bei diesem Stern freigeschaltet werden
-    List<String> unlockedCats = categoryUnlockPrestige.entries
-        .where((e) => e.value == neededPrestige)
-        .map((e) => e.key).toList();
-        
-    // Suchen, welche Gebäude bei diesem Stern freigeschaltet werden
-    List<GameItem> unlockedItems = allItems
-        .where((item) => item.requiredPrestige == neededPrestige).toList();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.grey[900],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Colors.white10)),
-          title: Text('Freischaltungen ab Stern $starLevel', style: const TextStyle(color: Colors.white)),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (unlockedCats.isNotEmpty) ...[
-                  const Text('Neue Kategorien:', style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold)),
-                  ...unlockedCats.map((c) => Text('• $c', style: const TextStyle(color: Colors.white))),
-                  const SizedBox(height: 12),
-                ],
-                if (unlockedItems.isNotEmpty) ...[
-                  const Text('Neue Gebäude & Objekte:', style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold)),
-                  ...unlockedItems.map((i) => Text('• ${i.name}', style: const TextStyle(color: Colors.white70))),
-                ],
-                if (unlockedCats.isEmpty && unlockedItems.isEmpty)
-                  const Text('Auf dieser Stufe gibt es keine neuen Freischaltungen.', style: TextStyle(color: Colors.white54)),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Schließen', style: TextStyle(color: Colors.cyanAccent)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _topBarItem(IconData icon, String text, Color color) {
-    return Row(
-      children: [
-        Icon(icon, color: color, size: 20),
-        const SizedBox(width: 8),
-        Text(text, style: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.bold)),
-      ],
-    );
-  }
-
-  Widget _buildLegendBox() {
-    return Container(
-      width: 220,
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.85),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white24),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('KARTEN-LEGENDE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
-          const Divider(color: Colors.white24),
-          _legendItem(Colors.blue[800]!, 'Meer (Abwasser-Einleitung)'),
-          _legendItem(Colors.orange[200]!, 'Stellplatz Parzelle'),
-          _legendItem(Colors.grey[900]!, 'Hauptstraße / Asphalt'),
-          _legendItem(Colors.amber[800]!, 'Rezeption / Schranke'),
-          _legendItem(Colors.cyan[900]!, 'Haupt-Wasseranschluss'),
-          _legendItem(Colors.brown[800]!, 'Abwasser-Sammelschacht'),
-          _legendItem(Colors.yellow[800]!, 'Strom-Trafostation'),
-        ],
-      ),
-    );
-  }
-
-  Widget _legendItem(Color color, String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        children: [
-          Container(width: 14, height: 14, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
-          const SizedBox(width: 10),
-          Expanded(child: Text(label, style: const TextStyle(color: Colors.white70, fontSize: 11))),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomMenu() {
-    // NEU: Filtern der Kategorien nach Prestige oder Godmode
-    List<String> visibleCategories = categoryUnlockPrestige.keys.where((cat) {
-      return categoryUnlockPrestige[cat]! <= prestige || _isGodMode;
-    }).toList();
-
-    // Filtern der Items nach Kategorie UND Prestige (oder Godmode)
-    List<GameItem> currentItems = allItems.where((item) {
-      bool isRightCategory = item.category == _selectedCategory;
-      bool isUnlocked = item.requiredPrestige <= prestige;
-      return isRightCategory && (isUnlocked || _isGodMode);
-    }).toList();
+  Widget _buildBottomMenu(List<String> visibleCategories) {
+    List<GameItem> currentItems = allItems.where((item) => item.category == _selectedCategory).toList();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // 1. Aktives Werkzeug Chip
-        if (selectedTool != 0 && _activeToolName != 'Keins')
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Chip(
-              elevation: 4,
-              backgroundColor: Colors.cyanAccent[700],
-              avatar: const Icon(Icons.construction, color: Colors.white, size: 18),
-              label: Text(
-                'Aktiv: $_activeToolName',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              onDeleted: () => setState(() {
-                selectedTool = 0;
-                _activeToolName = 'Keins';
-              }),
-              deleteIcon: const Icon(Icons.cancel, color: Colors.white70),
-            ),
-          ),
-
-        // 2. Das aufklappbare Menü (Kacheln)
-        if (_selectedCategory.isNotEmpty && visibleCategories.contains(_selectedCategory))
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            height: 130,
+        if (_selectedCategory.isNotEmpty)
+          Container(
+            height: 120,
             margin: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.85),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-              border: Border.all(color: Colors.white10),
-            ),
+            decoration: BoxDecoration(color: Colors.black.withOpacity(0.8), borderRadius: const BorderRadius.vertical(top: Radius.circular(20))),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
               itemCount: currentItems.length,
               itemBuilder: (context, index) {
                 final item = currentItems[index];
-                return _buildToolTile(item.name, item.id, item.icon, Colors.cyanAccent, '${item.cost.toInt()} €');
+                bool isSelected = selectedTool == item.id;
+                return GestureDetector(
+                  onTap: () => setState(() {
+                    selectedTool = item.id;
+                    _activeToolName = item.name;
+                  }),
+                  child: Container(
+                    width: 100,
+                    margin: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: isSelected ? Colors.cyan.withOpacity(0.3) : Colors.white10,
+                      border: Border.all(color: isSelected ? Colors.cyan : Colors.transparent),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(item.icon, color: Colors.white),
+                        Text(item.name, style: const TextStyle(fontSize: 8, color: Colors.white), textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
           ),
-
-        // 3. Die scrollbare Tab-Leiste
         Container(
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.blueGrey[900],
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 15, offset: const Offset(0, -5))],
-          ),
+          height: 60,
+          color: Colors.blueGrey[900],
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: visibleCategories.map((cat) => _buildTabButton(cat)).toList(),
+              children: visibleCategories.map((cat) => TextButton(
+                onPressed: () => setState(() => _selectedCategory = cat),
+                child: Text(cat, style: TextStyle(color: _selectedCategory == cat ? Colors.cyanAccent : Colors.white)),
+              )).toList(),
             ),
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _buildTabButton(String categoryName) {
-    bool isActive = _selectedCategory == categoryName;
-    
-    // Icon Mapping für Kategorien
-    IconData icon;
-    switch (categoryName) {
-      case 'WEGE': icon = Icons.edit_road; break;
-      case 'NETZE': icon = Icons.hub; break;
-      case 'ZONING': icon = Icons.grid_view; break;
-      case 'NATUR': icon = Icons.park; break;
-      case 'VERPFLEGUNG': icon = Icons.restaurant; break;
-      case 'POOL': icon = Icons.pool; break;
-      case 'AKTIVITÄTEN': icon = Icons.rowing; break;
-      case 'HYGIENE': icon = Icons.wash; break;
-      case 'ABRISS': icon = Icons.delete_sweep; break;
-      default: icon = Icons.help;
+class _MapPainter extends CustomPainter {
+  final List<List<int>> mapData;
+  final int gridSize;
+  final double tileSize;
+  final Map<String, ui.Image> images;
+  final Offset pan;
+  final double zoom;
+  final double cameraAngle;
+  final Offset Function(double, double) isoProject;
+
+  _MapPainter({required this.mapData, required this.gridSize, required this.tileSize, required this.images, required this.pan, required this.zoom, required this.cameraAngle, required this.isoProject});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.save();
+    canvas.translate(pan.dx, pan.dy);
+    canvas.scale(zoom);
+    canvas.rotate(cameraAngle);
+
+    for (int x = 0; x < gridSize; x++) {
+      for (int y = 0; y < gridSize; y++) {
+        final pos = isoProject(x.toDouble(), y.toDouble());
+        final paint = Paint()..color = (mapData[x][y] == 1 ? Colors.blue : Colors.green);
+        canvas.drawCircle(pos, 5, paint);
+      }
     }
-
-    return InkWell(
-      onTap: () => setState(() => _selectedCategory = isActive ? "" : categoryName),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: isActive ? Colors.cyanAccent : Colors.white54, size: 26),
-            const SizedBox(height: 4),
-            Text(categoryName, style: TextStyle(color: isActive ? Colors.cyanAccent : Colors.white54, fontSize: 9, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildToolTile(String name, int toolId, IconData icon, Color color, String cost) {
-    bool isSelected = selectedTool == toolId;
-    return GestureDetector(
-      onTap: () => setState(() {
-        selectedTool = toolId;
-        _activeToolName = name;
-      }),
-      child: Container(
-        width: 100,
-        margin: const EdgeInsets.only(right: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.4) : Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: isSelected ? color : Colors.white10, width: 2),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: isSelected ? color : Colors.white70, size: 30),
-            const SizedBox(height: 4),
-            Text(name, style: const TextStyle(color: Colors.white, fontSize: 10), textAlign: TextAlign.center),
-            Text(cost, style: const TextStyle(color: Colors.yellowAccent, fontSize: 10, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.keyQ): () => setState(() => cameraZ -= pi / 2),
-        const SingleActivator(LogicalKeyboardKey.keyE): () => setState(() => cameraZ += pi / 2),
-      },
-      child: Focus(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: (FocusNode node, KeyEvent event) {
-          bool isPressed = event is KeyDownEvent || event is KeyRepeatEvent;
-          
-          if (event.logicalKey == LogicalKeyboardKey.keyW) {
-            _wPressed = isPressed;
-          } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
-            _sPressed = isPressed;
-          } else if (event.logicalKey == LogicalKeyboardKey.keyA) {
-            _aPressed = isPressed;
-          } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
-            _dPressed = isPressed;
-          } else {
-            return KeyEventResult.ignored;
-          }
-
-          return KeyEventResult.handled;
-        },
-        child: Scaffold(
-          backgroundColor: Colors.blueGrey[900],
-          body: Stack(
-            children: [
-          // 1. Spielfeld (2-Pass 2.5D Isometrie)
-          Positioned.fill(
-            child: InteractiveViewer(
-              transformationController: _mapController,
-              boundaryMargin: const EdgeInsets.all(500),
-              minScale: 0.1,
-              maxScale: 4.0,
-              constrained: false,
-              child: Center(
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..scale(1.0, 0.5)
-                    ..rotateZ(cameraZ),
-                  alignment: FractionalOffset.center,
-                  child: GestureDetector(
-                    onPanStart: (details) => isDragging = true,
-                    onPanEnd: (details) => isDragging = false,
-                    child: Container(
-                    width: 800,
-                    height: 800,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white10, width: 2),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
-                      ]
-                    ),
-                      child: Builder(
-                        builder: (context) {
-                          Matrix4 parentMatrix = Matrix4.identity()
-                            ..scale(1.0, 0.5)
-                            ..rotateZ(cameraZ);
-                          Matrix4 billboardMatrix = Matrix4.copy(parentMatrix)..invert();
-
-                          double sinZ = sin(cameraZ);
-                          double cosZ = cos(cameraZ);
-                          const double tileSize = 40.0;
-
-                          // PASS 1: Alle flachen Bodenkacheln
-                          List<Widget> groundLayer = [];
-                          for (int x = 0; x < gridSize; x++) {
-                            for (int y = 0; y < gridSize; y++) {
-                              groundLayer.add(
-                                Positioned(
-                                  left: x * tileSize,
-                                  top: y * tileSize,
-                                  width: tileSize,
-                                  height: tileSize,
-                                  child: MouseRegion(
-                                    onEnter: (_) {
-                                      setState(() {
-                                        _hoveredX = x;
-                                        _hoveredY = y;
-                                      });
-                                      if (isDragging) buildTile(x, y);
-                                    },
-                                    onExit: (_) {
-                                      setState(() {
-                                        _hoveredX = -1;
-                                        _hoveredY = -1;
-                                      });
-                                    },
-                                    child: GestureDetector(
-                                      onTap: () => buildTile(x, y),
-                                      child: _buildGroundTile(x, y, mapData[x][y]),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                          }
-
-                          // PASS 2: Aufrechte 3D-Objekte einsammeln & sortieren
-                          List<WorldObject> objectList = [];
-
-                          for (int x = 0; x < gridSize; x++) {
-                            for (int y = 0; y < gridSize; y++) {
-                              int type = mapData[x][y];
-
-                              if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
-                                objectList.add(WorldObject(
-                                  x: x + 0.5,
-                                  y: y + 0.5,
-                                  sinZ: sinZ,
-                                  cosZ: cosZ,
-                                  widget: Positioned(
-                                    left: (x + 0.5) * tileSize - (tileSize / 2),
-                                    top: (y + 0.5) * tileSize - (tileSize / 2),
-                                    width: tileSize,
-                                    height: tileSize,
-                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                  ),
-                                ));
-                              } else if (type == 3 || type == 6 || type == 14 || type == 15) {
-                                objectList.add(WorldObject(
-                                  x: x.toDouble(),
-                                  y: y.toDouble(),
-                                  sinZ: sinZ,
-                                  cosZ: cosZ,
-                                  widget: Positioned(
-                                    left: x * tileSize,
-                                    top: y * tileSize,
-                                    width: tileSize,
-                                    height: tileSize,
-                                    child: _buildObjectWidget(type, x, y, billboardMatrix),
-                                  ),
-                                ));
-                              }
-                            }
-                          }
-
-                          for (var car in activeCars) {
-                            objectList.add(WorldObject(
-                              x: car.x,
-                              y: car.y,
-                              sinZ: sinZ,
-                              cosZ: cosZ,
-                              widget: Positioned(
-                                left: car.x * tileSize,
-                                top: car.y * tileSize,
-                                width: tileSize,
-                                height: tileSize,
-                                child: Transform(
-                                  alignment: Alignment.bottomCenter,
-                                  transform: billboardMatrix,
-                                  child: const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent),
-                                ),
-                              ),
-                            ));
-                          }
-
-                          objectList.add(WorldObject(
-                            x: guestX,
-                            y: guestY,
-                            sinZ: sinZ,
-                            cosZ: cosZ,
-                            widget: Positioned(
-                              left: guestX * tileSize,
-                              top: guestY * tileSize,
-                              width: tileSize,
-                              height: tileSize,
-                              child: Transform(
-                                alignment: Alignment.bottomCenter,
-                                transform: billboardMatrix,
-                                child: const Icon(Icons.emoji_people, size: 32, color: Colors.white),
-                              ),
-                            ),
-                          ));
-
-                          objectList.sort((a, b) => a.depth.compareTo(b.depth));
-
-                          return SizedBox(
-                            width: gridSize * tileSize,
-                            height: gridSize * tileSize,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                ...groundLayer,
-                                ...objectList.map((obj) => obj.widget),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          // 2. Atmosphäre / Filter
-          IgnorePointer(
-            child: AnimatedContainer(
-              duration: const Duration(seconds: 2),
-              color: getAtmosphereColor(),
-            ),
-          ),
-
-          // 3. Top Bar
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: _buildTopBar(),
-          ),
-
-          // 4. Legende
-          if (_isLegendVisible)
-            Positioned(
-              top: 85,
-              right: 25,
-              child: _buildLegendBox(),
-            ),
-
-          // 5. Bottom Menu
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: _buildBottomMenu(),
-          ),
-        ],
-      ),
-    ),
-  ),
-);
-}
-}
-
-class PipePainter extends CustomPainter {
-  final bool hasTop, hasBottom, hasLeft, hasRight;
-  final Color color;
-  final double offset; // Verschiebt die Linie, damit sie sich nicht überlagern
-
-  PipePainter({
-    required this.hasTop, required this.hasBottom, 
-    required this.hasLeft, required this.hasRight, 
-    required this.color, required this.offset
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 4.0 // Dicke der Leitung
-      ..strokeCap = StrokeCap.square;
-    
-    // Die Mitte der jeweiligen Leitung (verschoben durch den Offset)
-    final center = Offset(size.width / 2 + offset, size.height / 2 + offset);
-
-    if (hasLeft) canvas.drawLine(Offset(0, center.dy), center, paint);
-    if (hasRight) canvas.drawLine(center, Offset(size.width, center.dy), paint);
-    if (hasTop) canvas.drawLine(Offset(center.dx, 0), center, paint);
-    if (hasBottom) canvas.drawLine(center, Offset(center.dx, size.height), paint);
-    
-    // Kleiner Knotenpunkt in der Mitte
-    canvas.drawCircle(center, 2.0, paint);
+    canvas.restore();
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-class CoastPainter extends CustomPainter {
-  final int mask;
-  CoastPainter(this.mask);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Eine weiche Sandfarbe für den Strand
-    final paint = Paint()..color = const Color(0xFFE2C284);
-    const double beachWidth = 8.0; // Wie weit der Sand ins Wasser ragt
-
-    // Bit-Prüfung: Zeichnet den Strandrand an den entsprechenden Kanten
-    if ((mask & 1) != 0) canvas.drawRect(Rect.fromLTRB(0, 0, size.width, beachWidth), paint); // Nord
-    if ((mask & 2) != 0) canvas.drawRect(Rect.fromLTRB(size.width - beachWidth, 0, size.width, size.height), paint); // Ost
-    if ((mask & 4) != 0) canvas.drawRect(Rect.fromLTRB(0, size.height - beachWidth, size.width, size.height), paint); // Süd
-    if ((mask & 8) != 0) canvas.drawRect(Rect.fromLTRB(0, 0, beachWidth, size.height), paint); // West
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-class RoadPainter extends CustomPainter {
-  final bool hasTop, hasRight, hasBottom, hasLeft;
-  final Color roadColor;
-
-  RoadPainter({
-    required this.hasTop,
-    required this.hasRight,
-    required this.hasBottom,
-    required this.hasLeft,
-    required this.roadColor,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = roadColor;
-    final double w = size.width;
-    final double h = size.height;
-    
-    // Die Dicke des Weges (20% Randabstand bedeutet der Weg füllt 60% der Kachel)
-    final double pStart = w * 0.2; 
-    final double pEnd = w * 0.8;
-
-    // 1. Das abgerundete Zentrum des Weges
-    canvas.drawRRect(
-      RRect.fromLTRBR(pStart, pStart, pEnd, pEnd, const Radius.circular(6)), 
-      paint
-    );
-
-    // 2. Die Arme zu den Nachbarn (ohne Rundung an der Außenkante für nahtlosen Übergang)
-    if (hasTop) canvas.drawRect(Rect.fromLTRB(pStart, 0, pEnd, pStart + 1), paint);
-    if (hasRight) canvas.drawRect(Rect.fromLTRB(pEnd - 1, pStart, w, pEnd), paint);
-    if (hasBottom) canvas.drawRect(Rect.fromLTRB(pStart, pEnd - 1, pEnd, h), paint);
-    if (hasLeft) canvas.drawRect(Rect.fromLTRB(0, pStart, pStart + 1, pEnd), paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-class IsometricTilePainter extends CustomPainter {
-  final int tileType;
-  IsometricTilePainter(this.tileType);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = _getTileColor()
-      ..style = PaintingStyle.fill;
-
-    // Isometrisches Karo (Rhombus)
-    final path = Path()
-      ..moveTo(size.width / 2, 0)
-      ..lineTo(size.width, size.height / 2)
-      ..lineTo(size.width / 2, size.height)
-      ..lineTo(0, size.height / 2)
-      ..close();
-
-    canvas.drawPath(path, paint);
-
-    // Subtiler Rand für die plastische Kantenwirkung
-    final borderPaint = Paint()
-      ..color = Colors.black.withOpacity(0.15)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-    canvas.drawPath(path, borderPaint);
-  }
-
-  Color _getTileColor() {
-    switch (tileType) {
-      case 1: return const Color(0xFF589c32); // Satter, natürlicher Rasen
-      case 2: return const Color(0xFF8c7b65); // Strukturierter Schotter
-      default: return const Color(0xFF4c8728);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
