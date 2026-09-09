@@ -896,61 +896,73 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       if (state == 0) return const SizedBox.shrink();
       bool isCaravan = parcelIsCaravan[x][y];
 
-      // Wir stellen den gesamten Stack aufrecht (billboardMatrix)
-      return Transform(
-        alignment: Alignment.center,
-        transform: billboardMatrix,
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center, // Alles startet exakt in der Mitte
-          children: [
-            // 1. Das Fahrzeug / Zelt
-            Transform.translate(
-              // HIER IST DIE SCHWERKRAFT: Ein POSITIVER Y-Wert (z.B. 25) zieht das Bild nach unten!
-              offset: const Offset(0, 25), 
-              child: Opacity(
-                opacity: state == 1 ? 0.45 : 1.0,
-                child: Image.asset(
-                  isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                  width: 72,
-                  height: 72,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            
-            // 2. Der Picknicktisch
-            Transform.translate(
-              // Minus X = nach links | Plus Y = nach unten
-              offset: const Offset(-25, 30), 
-              child: Opacity(
-                opacity: state == 1 ? 0.45 : 1.0,
-                child: Image.asset(
-                  'assets/table.png', 
-                  width: 25, 
-                  height: 25,
-                  errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
-                ),
-              ),
-            ),
-            
-            // 3. Der Ladebalken beim Aufbauen
-            if (state == 1)
-              Transform.translate(
-                // Minus Y = Der Balken schwebt über dem Dach
-                offset: const Offset(0, -30), 
-                child: SizedBox(
-                  width: 35,
-                  height: 5,
-                  child: LinearProgressIndicator(
-                    value: setupProgress[x][y], 
-                    backgroundColor: Colors.black54, 
-                    color: Colors.greenAccent,
+      return Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center, // Zentriert alles auf unseren neuen Anker
+        children: [
+          Transform(
+            alignment: Alignment.center,
+            transform: billboardMatrix,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter, // Räder setzen am Boden auf
+              children: [
+                // 1. Bodenschatten (Minimal nach unten gedrückt)
+                Transform.translate(
+                  offset: const Offset(0, 5), 
+                  child: Container(
+                    width: 50,
+                    height: 22,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.35),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                 ),
-              ),
-          ],
-        ),
+                
+                // 2. Das Fahrzeug / Zelt (Ohne jeden Offset, steht perfekt mittig!)
+                Opacity(
+                  opacity: state == 1 ? 0.45 : 1.0,
+                  child: Image.asset(
+                    isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                
+                // 3. Picknicktisch (Nach links neben den Wagen geschoben)
+                Transform.translate(
+                  offset: const Offset(-20, 10), 
+                  child: Opacity(
+                    opacity: state == 1 ? 0.45 : 1.0,
+                    child: Image.asset(
+                      'assets/table.png', 
+                      width: 25, 
+                      height: 25,
+                      errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
+                    ),
+                  ),
+                ),
+                
+                // 4. Ladebalken beim Aufbauen (Schwebend über dem Dach)
+                if (state == 1)
+                  Transform.translate(
+                    offset: const Offset(0, -60), 
+                    child: SizedBox(
+                      width: 35,
+                      height: 5,
+                      child: LinearProgressIndicator(
+                        value: setupProgress[x][y], 
+                        backgroundColor: Colors.black54, 
+                        color: Colors.greenAccent,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
       );
     }
 
@@ -1451,10 +1463,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                               int type = mapData[x][y];
 
                               if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
-                                // NEU: Ankerpunkt in die exakte Mitte des 2x2 Platzes verschieben!
-                                bool isBig = isBigParcel[x][y];
-                                double anchorX = isBig ? x + 1.0 : x + 0.5;
-                                double anchorY = isBig ? y + 1.0 : y + 0.5;
+                                // Exakte Mitte der 4 Kacheln (2x2 Parzelle)
+                                double anchorX = x + 1.0; 
+                                double anchorY = y + 1.0;
 
                                 objectList.add(WorldObject(
                                   x: anchorX,
