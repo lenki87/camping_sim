@@ -56,17 +56,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/grass.png
-    - assets/gravel.png
-    - assets/water.png
-    - assets/reception.png
-    - assets/caravan.png
-    - assets/tree.png
-    - assets/hedge.png
-    - assets/tent.png
-    - assets/table.png
-    - assets/barrier.png
-    - assets/parasol.png
+    - assets/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

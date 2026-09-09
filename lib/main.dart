@@ -48,7 +48,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
-  final int gridSize = 20; 
+  final int gridSize = 20; // Zurück auf die Originalgröße
   late List<List<int>> mapData;
   
   // Kamera-Winkel für Isometrie
@@ -62,6 +62,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   final FocusNode _focusNode = FocusNode();
   final TransformationController _mapController = TransformationController();
+
+  // Hover-Position für den "Geist"
+  int _hoveredX = -1;
+  int _hoveredY = -1;
 
   // Tasten-Status für flüssige Bewegung
   bool _wPressed = false;
@@ -104,6 +108,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   // Wirtschafts-Variablen
   double money = 15000.0; 
   double dailyIncome = 0.0;
+  double prestige = 0.0; // NEU: Prestige-Wert des Platzes
 
   // Tech-Tree
   bool hasWaterUnlocked = false; 
@@ -130,8 +135,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   // Kosten für die jeweiligen Bauteile
   double getCost(int toolId) {
     switch (toolId) {
-      case 2: return 100.0; // NEU: Kosten für eine Kachel Schotter-Parzelle
-      case 3: return 50.0;  // Baum / Natur
+      case 2: return 100.0; // Parzelle
+      case 3: return 50.0;  // Baum
+      case 16: return 15.0; // Pflanze
+      case 17: return 5.0;  // Blumen
+      case 18: return 10.0; // Stein
       case 8: return 120.0; // Trinkwasserleitung
       case 9: return 90.0;  // Abwasserrohr
       case 10: return 60.0; // Stromkabel
@@ -250,20 +258,18 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         if (timeOfDay >= 1.0) timeOfDay = 0.0;
 
         // Gäste-Ankunft an der Rezeption
-        if (activeCampers < maxCapacity) {
+        // Chance steigt mit Prestige: Basis 20% + Bonus durch Prestige
+        double arrivalChance = 0.2 + (prestige / 200); 
+        if (Random().nextDouble() < arrivalChance && activeCampers < maxCapacity) {
           // Sucht den ersten leeren, funktionierenden Stellplatz
           for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
               if (isParcelAnchor[x][y] && parcelState[x][y] == 0) {
-                parcelState[x][y] = 3; // Zustand 3 = Auto ist unterwegs zur Parzelle
+                parcelState[x][y] = 3; 
                 activeCampers++;
-
-                // Abwechslung: Zufällig entscheiden, ob Wohnwagen oder Zelt kommt
                 parcelIsCaravan[x][y] = Random().nextBool(); 
-
-                // Das Auto fährt von der Rezeption (1, 9) zum Ziel-Stellplatz
                 activeCars.add(VisitingCar(1.0, 9.0, x, y));
-                return; // Nur 1 Gast pro In-Game-Tick zuweisen
+                return; 
               }
             }
           }
@@ -274,9 +280,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     });
   }
 
-  // Generiert die Startkarte mit Wiese, 10 Parzellen, Meer, Hauptstraße, Rezeption und Platzstraße
+  // Generiert die Startkarte mit Wiese, 10 Parzellen, Meer, Hauptstraße und Rezeption
   void _generatePrototypeMap() {
-    mapData = List.generate(gridSize, (x) => List.generate(gridSize, (y) => (x >= 16) ? 1 : 0));
+    mapData = List.generate(gridSize, (x) => List.generate(gridSize, (y) => (x >= gridSize - 3) ? 1 : 0));
     
     undergroundWater = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
     undergroundWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
@@ -298,48 +304,46 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     setupProgress = List.generate(gridSize, (_) => List.filled(gridSize, 0.0));
     parcelIsCaravan = List.generate(gridSize, (_) => List.filled(gridSize, true));
 
-    // Öffentliche Hauptstraße am linken Rand (Spalte 0)
+    // Öffentliche Hauptstraße am linken Rand
     for (int y = 0; y < gridSize; y++) {
-      mapData[0][y] = 5; // Straße
+      mapData[0][y] = 5; 
     }
 
-    // Rezeption & Schranke an der Einfahrt
-    mapData[1][9] = 6;  
-    mapData[1][10] = 5; 
+    // Rezeption & Schranke in der Mitte der Straße
+    int midY = gridSize ~/ 2;
+    mapData[1][midY] = 6;  
+    mapData[1][midY + 1] = 5; 
 
-    // Campingplatz-Hauptstraße von der Schranke durch den Platz
-    for (int x = 2; x <= 13; x++) {
-      mapData[x][10] = 5; // Straße zwischen den Parzellen-Reihen
+    // Campingplatz-Hauptstraße von der Schranke ein Stück in den Platz hinein
+    for (int x = 2; x <= 15; x++) {
+      mapData[x][midY + 1] = 5; 
     }
 
-    // 10 Parzellen platzieren (2x2 Kacheln)
+    // 10 Start-Parzellen platzieren
     int parcelCount = 0;
     for (int col = 0; col < 2; col++) {
       for (int row = 0; row < 5; row++) {
         int startX = 4 + (col * 6); 
-        int startY = 2 + (row * 3); 
+        int startY = (midY - 4) + (row * 3); 
         
-        mapData[startX][startY] = 2;
-        mapData[startX+1][startY] = 2;
-        mapData[startX][startY+1] = 2;
-        mapData[startX+1][startY+1] = 2;
-        
-        parcelCount++;
+        if (startX + 1 < gridSize && startY + 1 < gridSize) {
+          mapData[startX][startY] = 2;
+          mapData[startX+1][startY] = 2;
+          mapData[startX][startY+1] = 2;
+          mapData[startX+1][startY+1] = 2;
+          parcelCount++;
+        }
         if (parcelCount >= 10) break;
       }
+      if (parcelCount >= 10) break;
     }
 
-    // Organischer Sandstrand entlang des Wassers (Spalte 15)
-    for (int y = 4; y <= 15; y++) {
-      mapData[15][y] = 15; // Sandstrand
+    // Organischer Sandstrand entlang des Wassers
+    for (int y = 0; y < gridSize; y++) {
+      mapData[gridSize - 4][y] = 15; 
     }
 
-    // Einige isometrische Startbäume / Natur pflanzen
-    mapData[2][2] = 3;
-    mapData[2][3] = 3;
-    mapData[3][2] = 3;
-
-    _updateNetworks(); // Start-Berechnung des Netzwerks
+    _updateNetworks(); 
   }
 
   // Prüft, ob eine Parzelle (Startpunkt) eine gültige Verbindung zur Straße/Rezeption (Typ 5 oder 6) hat
@@ -577,25 +581,36 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   void _calculateEconomy() {
     double income = 0.0;
     int capacity = 0;
+    double currentPrestige = 0.0;
     
     for (int x = 0; x < gridSize; x++) {
       for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] == 2) {
+        int tile = mapData[x][y];
+        
+        // Prestige-Berechnung
+        if (tile == 3) currentPrestige += 5;   // Baum
+        if (tile == 16) currentPrestige += 2;  // Pflanze
+        if (tile == 17) currentPrestige += 3;  // Blumen
+        if (tile == 18) currentPrestige += 1;  // Stein
+
+        if (tile == 2) {
           bool hasRoad = checkRoadConnection(x, y);
           bool hasPipe = parcelWater[x][y];
           
           if (hasRoad && hasPipe) {
             income += 150.0; 
-            capacity++; // Parzelle ist voll funktionsfähig
+            capacity++; 
           } else if (hasRoad || hasPipe) {
             income += 70.0; 
-            capacity++; // Parzelle läuft im Notbetrieb
+            capacity++; 
           }
         }
       }
     }
-    dailyIncome = income;
+    // Prestige Bonus: +0.5% Einkommen pro Prestige-Punkt
+    dailyIncome = income * (1 + (currentPrestige / 200));
     maxCapacity = capacity;
+    prestige = currentPrestige;
   }
 
   Color getTileColor(int type) {
@@ -705,6 +720,37 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
               },
             ),
           ),
+
+        // --- NEU: DER GHOST (VORSCHAU) ---
+        if (x == _hoveredX && y == _hoveredY && selectedTool != 0)
+          Builder(
+            builder: (context) {
+              // Kollisionsprüfung: Darf man hier bauen?
+              bool isBlocked = (mapData[x][y] == 1 || mapData[x][y] == 2);
+              Color previewColor = isBlocked ? Colors.red : Colors.white;
+              
+              return Container(
+                decoration: BoxDecoration(
+                  color: previewColor.withOpacity(0.4),
+                  border: Border.all(color: previewColor, width: 2),
+                ),
+                child: Center(
+                  child: Icon(
+                    selectedTool == 3 ? Icons.park : 
+                    selectedTool == 16 ? Icons.grass : 
+                    selectedTool == 17 ? Icons.local_florist : 
+                    selectedTool == 18 ? Icons.landscape : 
+                    selectedTool == 5 ? Icons.directions_car :
+                    selectedTool == 8 ? Icons.water_drop :
+                    Icons.add_box,
+                    color: Colors.white70,
+                    size: 20,
+                  ),
+                ),
+              );
+            },
+          ),
+        // --- ENDE GHOST ---
 
         // Versorgungs-Statuspunkte auf Parzellen
         if (tileType == 2)
@@ -954,8 +1000,34 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       );
     }
 
-    // 3. BÄUME
-    if (tileType == 3) {
+    // 3. BÄUME & NATUR
+    if (tileType == 3 || tileType == 16 || tileType == 17 || tileType == 18) {
+      IconData icon;
+      Color iconColor;
+      double iconSize;
+
+      switch (tileType) {
+        case 16: // Pflanze
+          icon = Icons.grass;
+          iconColor = Colors.lightGreen;
+          iconSize = 45;
+          break;
+        case 17: // Blumen
+          icon = Icons.local_florist;
+          iconColor = Colors.pinkAccent;
+          iconSize = 40;
+          break;
+        case 18: // Stein
+          icon = Icons.landscape;
+          iconColor = Colors.grey;
+          iconSize = 50;
+          break;
+        default: // Baum (3)
+          icon = Icons.park;
+          iconColor = Colors.green[800]!;
+          iconSize = 65;
+      }
+
       return Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.bottomCenter,
@@ -963,7 +1035,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           Positioned(
             bottom: 2,
             child: Container(
-              width: 32,
+              width: tileType == 18 ? 45 : 32,
               height: 16,
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.35),
@@ -977,13 +1049,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
               alignment: Alignment.bottomCenter,
               transform: billboardMatrix,
               child: SizedBox(
-                width: 65,
-                height: 65,
-                child: Image.asset(
-                  'assets/tree.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.park, size: 40, color: Colors.green),
-                ),
+                width: iconSize,
+                height: iconSize,
+                child: Icon(icon, size: iconSize * 0.7, color: iconColor),
               ),
             ),
           ),
@@ -1084,6 +1152,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           _topBarItem(Icons.calendar_today, 'TAG $inGameDay', Colors.white),
           const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
           _topBarItem(Icons.payments, '${money.toStringAsFixed(0)} €', Colors.greenAccent),
+          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
+          _topBarItem(Icons.star, 'PRESTIGE: ${prestige.toInt()}', Colors.yellowAccent),
           const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
           _topBarItem(Icons.people, '$activeCampers / $maxCapacity', Colors.orangeAccent),
           const Spacer(),
@@ -1275,7 +1345,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       case 3: // Natur
         return [
           _buildToolTile('Baum', 3, Icons.park, Colors.green[800]!, '50 €'),
-          _buildToolTile('Hecke', 14, Icons.grass, Colors.lightGreen, '20 €'),
+          _buildToolTile('Pflanze', 16, Icons.grass, Colors.lightGreen, '15 €'),
+          _buildToolTile('Blumen', 17, Icons.local_florist, Colors.pinkAccent, '5 €'),
+          _buildToolTile('Stein', 18, Icons.landscape, Colors.blueGrey, '10 €'),
+          _buildToolTile('Hecke', 14, Icons.border_inner, Colors.green[600]!, '20 €'),
         ];
       case 4: // Abriss
         return [
@@ -1363,14 +1436,14 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                     onPanStart: (details) => isDragging = true,
                     onPanEnd: (details) => isDragging = false,
                     child: Container(
-                      width: 800,
-                      height: 800,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white10, width: 2),
-                        boxShadow: const [
-                          BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
-                        ]
-                      ),
+                    width: 800,
+                    height: 800,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white10, width: 2),
+                      boxShadow: const [
+                        BoxShadow(color: Colors.black54, blurRadius: 40, offset: Offset(20, 20))
+                      ]
+                    ),
                       child: Builder(
                         builder: (context) {
                           Matrix4 parentMatrix = Matrix4.identity()
@@ -1394,7 +1467,17 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                   height: tileSize,
                                   child: MouseRegion(
                                     onEnter: (_) {
+                                      setState(() {
+                                        _hoveredX = x;
+                                        _hoveredY = y;
+                                      });
                                       if (isDragging) buildTile(x, y);
+                                    },
+                                    onExit: (_) {
+                                      setState(() {
+                                        _hoveredX = -1;
+                                        _hoveredY = -1;
+                                      });
                                     },
                                     child: GestureDetector(
                                       onTap: () => buildTile(x, y),
