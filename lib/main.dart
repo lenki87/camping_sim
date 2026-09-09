@@ -4,6 +4,90 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
 
+// --- DATENMODELL & BALANCING ---
+class GameItem {
+  final int id; // Eindeutige ID (20-99 für Gebäude)
+  final String name;
+  final String category;
+  final double cost;
+  final double prestige;
+  final double requiredPrestige;
+  final double dailyIncome; // NEU: Einnahmen oder Kosten pro Tag
+  final IconData icon;
+
+  const GameItem({
+    required this.id,
+    required this.name,
+    required this.category,
+    required this.cost,
+    required this.prestige,
+    required this.requiredPrestige,
+    required this.dailyIncome,
+    required this.icon,
+  });
+}
+
+// Wann werden ganze Kategorien sichtbar?
+final Map<String, int> categoryUnlockPrestige = {
+  "WEGE": 0,
+  "ZONING": 0,
+  "NATUR": 0,
+  "ABRISS": 0,
+  "NETZE": 100,       
+  "HYGIENE": 100,     
+  "VERPFLEGUNG": 300, 
+  "POOL": 400,        
+  "AKTIVITÄTEN": 500, 
+};
+
+final List<GameItem> allItems = [
+  // --- WEGE (ID 20-29) ---
+  const GameItem(id: 20, name: 'Schotterstraße', category: 'WEGE', cost: 20, prestige: 1, requiredPrestige: 0, dailyIncome: -1, icon: Icons.add_road),
+  const GameItem(id: 21, name: 'Kiesweg', category: 'WEGE', cost: 20, prestige: 1, requiredPrestige: 0, dailyIncome: -0.5, icon: Icons.linear_scale),
+  const GameItem(id: 22, name: 'Teerstraße', category: 'WEGE', cost: 50, prestige: 2, requiredPrestige: 200, dailyIncome: -2, icon: Icons.edit_road),
+  const GameItem(id: 23, name: 'Rezeption', category: 'WEGE', cost: 1000, prestige: 50, requiredPrestige: 300, dailyIncome: -50, icon: Icons.store),
+  const GameItem(id: 24, name: 'Blumenstraße', category: 'WEGE', cost: 80, prestige: 4, requiredPrestige: 400, dailyIncome: -5, icon: Icons.local_florist),
+
+  // --- ZONING (ID 30-39) ---
+  const GameItem(id: 30, name: 'Stellplatz 1 (Erdig)', category: 'ZONING', cost: 100, prestige: 5, requiredPrestige: 0, dailyIncome: 25, icon: Icons.holiday_village),
+  const GameItem(id: 31, name: 'Stellplatz 2 (Hecke)', category: 'ZONING', cost: 200, prestige: 10, requiredPrestige: 200, dailyIncome: 45, icon: Icons.fence),
+  const GameItem(id: 32, name: 'Stellplatz 3 (Baum)', category: 'ZONING', cost: 400, prestige: 20, requiredPrestige: 400, dailyIncome: 80, icon: Icons.nature_people),
+  const GameItem(id: 33, name: 'Mobilheim', category: 'ZONING', cost: 1500, prestige: 100, requiredPrestige: 600, dailyIncome: 250, icon: Icons.home),
+
+  // --- NATUR (ID 40-49) ---
+  const GameItem(id: 40, name: 'Nadelbaum', category: 'NATUR', cost: 20, prestige: 4, requiredPrestige: 0, dailyIncome: 0, icon: Icons.nature),
+  const GameItem(id: 41, name: 'Laubbaum', category: 'NATUR', cost: 20, prestige: 6, requiredPrestige: 100, dailyIncome: 0, icon: Icons.nature),
+  const GameItem(id: 42, name: 'Zypresse', category: 'NATUR', cost: 20, prestige: 8, requiredPrestige: 200, dailyIncome: 0, icon: Icons.nature),
+  const GameItem(id: 43, name: 'Busch', category: 'NATUR', cost: 10, prestige: 2, requiredPrestige: 0, dailyIncome: 0, icon: Icons.park),
+  const GameItem(id: 44, name: 'Blumen', category: 'NATUR', cost: 15, prestige: 3, requiredPrestige: 200, dailyIncome: 0, icon: Icons.local_florist),
+  const GameItem(id: 45, name: 'Stein', category: 'NATUR', cost: 10, prestige: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.landscape),
+  const GameItem(id: 46, name: 'Palme', category: 'NATUR', cost: 20, prestige: 10, requiredPrestige: 300, dailyIncome: 0, icon: Icons.beach_access),
+
+  // --- VERPFLEGUNG (ID 50-59) ---
+  const GameItem(id: 50, name: 'Restaurant', category: 'VERPFLEGUNG', cost: 500, prestige: 40, requiredPrestige: 400, dailyIncome: 300, icon: Icons.restaurant),
+  const GameItem(id: 51, name: 'Bar', category: 'VERPFLEGUNG', cost: 500, prestige: 40, requiredPrestige: 400, dailyIncome: 250, icon: Icons.local_bar),
+  const GameItem(id: 52, name: 'Cafe', category: 'VERPFLEGUNG', cost: 500, prestige: 40, requiredPrestige: 400, dailyIncome: 200, icon: Icons.local_cafe),
+  const GameItem(id: 53, name: 'Supermarkt', category: 'VERPFLEGUNG', cost: 2000, prestige: 150, requiredPrestige: 800, dailyIncome: 600, icon: Icons.shopping_cart),
+  const GameItem(id: 54, name: 'Eisstand', category: 'VERPFLEGUNG', cost: 300, prestige: 30, requiredPrestige: 300, dailyIncome: 120, icon: Icons.icecream),
+
+  // --- AKTIVITÄTEN (ID 60-69) ---
+  const GameItem(id: 60, name: 'Bootsverleih', category: 'AKTIVITÄTEN', cost: 1000, prestige: 100, requiredPrestige: 600, dailyIncome: 350, icon: Icons.rowing),
+  const GameItem(id: 61, name: 'Spielplatz', category: 'AKTIVITÄTEN', cost: 1000, prestige: 60, requiredPrestige: 500, dailyIncome: 0, icon: Icons.child_care),
+  const GameItem(id: 62, name: 'Tauchschule', category: 'AKTIVITÄTEN', cost: 1000, prestige: 120, requiredPrestige: 700, dailyIncome: 400, icon: Icons.scuba_diving),
+
+  // --- HYGIENE (ID 70-79) ---
+  const GameItem(id: 70, name: 'Duschen (Frei)', category: 'HYGIENE', cost: 100, prestige: 10, requiredPrestige: 100, dailyIncome: -10, icon: Icons.shower),
+  const GameItem(id: 71, name: 'Waschhaus', category: 'HYGIENE', cost: 250, prestige: 20, requiredPrestige: 200, dailyIncome: -30, icon: Icons.wash),
+  const GameItem(id: 72, name: 'Krankenstation', category: 'HYGIENE', cost: 1200, prestige: 80, requiredPrestige: 800, dailyIncome: -100, icon: Icons.local_hospital),
+
+  // --- POOL (ID 80-89) ---
+  const GameItem(id: 80, name: 'Poolkachel', category: 'POOL', cost: 50, prestige: 5, requiredPrestige: 400, dailyIncome: -5, icon: Icons.pool),
+  const GameItem(id: 81, name: 'Poolbar', category: 'POOL', cost: 500, prestige: 50, requiredPrestige: 600, dailyIncome: 200, icon: Icons.local_bar),
+
+  // --- NETZE & ABRISS (Spezial) ---
+  const GameItem(id: 0, name: 'Abriss', category: 'ABRISS', cost: 0, prestige: 0, requiredPrestige: 0, dailyIncome: 0, icon: Icons.auto_fix_normal),
+];
+
 void main() {
   runApp(const CampingSimApp());
 }
@@ -78,8 +162,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   // UI Status
   bool _isLegendVisible = false;
-  int _selectedTab = -1; // -1 = Menü geschlossen
-  String _activeToolName = 'Straße'; // Für die Anzeige im Chip
+  String _selectedCategory = 'WEGE'; 
+  String _activeToolName = 'Keins'; 
+  bool _isGodMode = false; // NEU: Godmode für Entwickler
 
   // ... (Rest bleibt gleich)
 
@@ -579,36 +664,42 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   }
 
   void _calculateEconomy() {
-    double income = 0.0;
+    double revenue = 0.0;
     int capacity = 0;
     double currentPrestige = 0.0;
     
     for (int x = 0; x < gridSize; x++) {
       for (int y = 0; y < gridSize; y++) {
-        int tile = mapData[x][y];
-        
-        // Prestige-Berechnung
-        if (tile == 3) currentPrestige += 5;   // Baum
-        if (tile == 16) currentPrestige += 2;  // Pflanze
-        if (tile == 17) currentPrestige += 3;  // Blumen
-        if (tile == 18) currentPrestige += 1;  // Stein
+        int tileId = mapData[x][y];
+        if (tileId == 0) continue;
 
-        if (tile == 2) {
-          bool hasRoad = checkRoadConnection(x, y);
-          bool hasPipe = parcelWater[x][y];
-          
-          if (hasRoad && hasPipe) {
-            income += 150.0; 
-            capacity++; 
-          } else if (hasRoad || hasPipe) {
-            income += 70.0; 
-            capacity++; 
+        try {
+          // Suche das Item in der globalen Liste
+          GameItem item = allItems.firstWhere((e) => e.id == tileId);
+          currentPrestige += item.prestige;
+          revenue += item.dailyIncome;
+
+          // Spezialfall: Stellplätze erhöhen zusätzlich die Kapazität
+          if (item.category == 'ZONING' && tileId != 40) { // 40 = Freifläche
+            capacity++;
           }
+        } catch (e) {
+          // Falls ID nicht gefunden (z.B. Meer oder Spezial-IDs)
         }
       }
     }
-    // Prestige Bonus: +0.5% Einkommen pro Prestige-Punkt
-    dailyIncome = income * (1 + (currentPrestige / 200));
+
+    // Zusätzliches Einkommen durch Gäste auf Stellplätzen (falls Straße vorhanden)
+    // Das ist eine Vereinfachung: Jede belegte Parzelle (parcelState) bringt Bonus
+    for (int x = 0; x < gridSize; x++) {
+      for (int y = 0; y < gridSize; y++) {
+        if (mapData[x][y] >= 30 && mapData[x][y] <= 39 && parcelState[x][y] == 2) {
+           revenue += 50.0; // Bonus pro aktiven Gast
+        }
+      }
+    }
+
+    dailyIncome = revenue * (1 + (currentPrestige / 1000)); // Prestige-Multiplikator
     maxCapacity = capacity;
     prestige = currentPrestige;
   }
@@ -1137,6 +1228,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   }
 
   Widget _buildTopBar() {
+    int activeStars = (prestige / 100).floor().clamp(0, 10);
+
     return Container(
       height: 60,
       margin: const EdgeInsets.all(15),
@@ -1149,15 +1242,53 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       ),
       child: Row(
         children: [
-          _topBarItem(Icons.calendar_today, 'TAG $inGameDay', Colors.white),
+          GestureDetector(
+            onLongPress: () {
+              setState(() {
+                _isGodMode = !_isGodMode;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(_isGodMode ? 'GODMODE AKTIVIERT!' : 'GODMODE DEAKTIVIERT'), duration: const Duration(seconds: 1)),
+              );
+            },
+            child: _topBarItem(
+              Icons.calendar_today, 
+              'TAG $inGameDay', 
+              _isGodMode ? Colors.redAccent : Colors.white
+            ),
+          ),
           const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
           _topBarItem(Icons.payments, '${money.toStringAsFixed(0)} €', Colors.greenAccent),
           const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          _topBarItem(Icons.star, 'PRESTIGE: ${prestige.toInt()}', Colors.yellowAccent),
-          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          _topBarItem(Icons.people, '$activeCampers / $maxCapacity', Colors.orangeAccent),
+          
+          // 10-Sterne-System (Klickbar für Info)
+          Row(
+            children: List.generate(10, (index) {
+              int starLevel = index + 1;
+              bool isUnlocked = activeStars >= starLevel;
+              // NEU: Nur die nächsten 2 Sterne anzeigen (oder Godmode)
+              bool isVisible = starLevel <= activeStars + 2 || _isGodMode;
+
+              if (!isVisible) {
+                return const SizedBox(width: 24); // Platzhalter für ferne Sterne
+              }
+
+              return GestureDetector(
+                onTap: () => _showUnlockInfo(starLevel),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 1),
+                  child: Icon(
+                    isUnlocked ? Icons.star : Icons.star_border,
+                    color: isUnlocked ? Colors.yellowAccent : Colors.white24,
+                    size: 22,
+                  ),
+                ),
+              );
+            }),
+          ),
+          
           const Spacer(),
-          // Kamera Rotation Buttons in die Top Bar integriert
+          // Kamera Rotation Buttons
           IconButton(
             icon: const Icon(Icons.rotate_left, color: Colors.white70),
             onPressed: () => setState(() => cameraZ -= pi / 2),
@@ -1173,6 +1304,55 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           ),
         ],
       ),
+    );
+  }
+
+  void _showUnlockInfo(int starLevel) {
+    int neededPrestige = starLevel * 100;
+    
+    // Suchen, welche Kategorien bei diesem Stern freigeschaltet werden
+    List<String> unlockedCats = categoryUnlockPrestige.entries
+        .where((e) => e.value == neededPrestige)
+        .map((e) => e.key).toList();
+        
+    // Suchen, welche Gebäude bei diesem Stern freigeschaltet werden
+    List<GameItem> unlockedItems = allItems
+        .where((item) => item.requiredPrestige == neededPrestige).toList();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey[900],
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Colors.white10)),
+          title: Text('Freischaltungen ab Stern $starLevel', style: const TextStyle(color: Colors.white)),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (unlockedCats.isNotEmpty) ...[
+                  const Text('Neue Kategorien:', style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold)),
+                  ...unlockedCats.map((c) => Text('• $c', style: const TextStyle(color: Colors.white))),
+                  const SizedBox(height: 12),
+                ],
+                if (unlockedItems.isNotEmpty) ...[
+                  const Text('Neue Gebäude & Objekte:', style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold)),
+                  ...unlockedItems.map((i) => Text('• ${i.name}', style: const TextStyle(color: Colors.white70))),
+                ],
+                if (unlockedCats.isEmpty && unlockedItems.isEmpty)
+                  const Text('Auf dieser Stufe gibt es keine neuen Freischaltungen.', style: TextStyle(color: Colors.white54)),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Schließen', style: TextStyle(color: Colors.cyanAccent)),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -1227,11 +1407,23 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   }
 
   Widget _buildBottomMenu() {
+    // NEU: Filtern der Kategorien nach Prestige oder Godmode
+    List<String> visibleCategories = categoryUnlockPrestige.keys.where((cat) {
+      return categoryUnlockPrestige[cat]! <= prestige || _isGodMode;
+    }).toList();
+
+    // Filtern der Items nach Kategorie UND Prestige (oder Godmode)
+    List<GameItem> currentItems = allItems.where((item) {
+      bool isRightCategory = item.category == _selectedCategory;
+      bool isUnlocked = item.requiredPrestige <= prestige;
+      return isRightCategory && (isUnlocked || _isGodMode);
+    }).toList();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // 1. Anzeige des aktiven Werkzeugs (nur wenn Menü zu)
-        if (_selectedTab == -1 && selectedTool != 0)
+        // 1. Aktives Werkzeug Chip
+        if (selectedTool != 0 && _activeToolName != 'Keins')
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Chip(
@@ -1250,113 +1442,79 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             ),
           ),
 
-        // 2. Das aufklappbare Menü
-        if (_selectedTab != -1)
-          Stack(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                height: 130,
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.85),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                  border: Border.all(color: Colors.white10),
-                ),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.fromLTRB(20, 15, 60, 15),
-                  children: _getToolsForTab(),
-                ),
-              ),
-              Positioned(
-                top: 5,
-                right: 20,
-                child: IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white54),
-                  onPressed: () => setState(() => _selectedTab = -1),
-                ),
-              ),
-            ],
+        // 2. Das aufklappbare Menü (Kacheln)
+        if (_selectedCategory.isNotEmpty && visibleCategories.contains(_selectedCategory))
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            height: 130,
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.85),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              border: Border.all(color: Colors.white10),
+            ),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+              itemCount: currentItems.length,
+              itemBuilder: (context, index) {
+                final item = currentItems[index];
+                return _buildToolTile(item.name, item.id, item.icon, Colors.cyanAccent, '${item.cost.toInt()} €');
+              },
+            ),
           ),
 
-        // 3. Die Tab-Leiste (immer sichtbar)
+        // 3. Die scrollbare Tab-Leiste
         Container(
           height: 70,
           decoration: BoxDecoration(
             color: Colors.blueGrey[900],
             boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 15, offset: const Offset(0, -5))],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildTabButton(0, 'WEGE', Icons.edit_road),
-              _buildTabButton(1, 'NETZE', Icons.hub),
-              _buildTabButton(2, 'ZONING', Icons.grid_view),
-              _buildTabButton(3, 'NATUR', Icons.park),
-              _buildTabButton(4, 'ABRISS', Icons.delete_sweep),
-            ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: visibleCategories.map((cat) => _buildTabButton(cat)).toList(),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildTabButton(int id, String label, IconData icon) {
-    bool isActive = _selectedTab == id;
+  Widget _buildTabButton(String categoryName) {
+    bool isActive = _selectedCategory == categoryName;
+    
+    // Icon Mapping für Kategorien
+    IconData icon;
+    switch (categoryName) {
+      case 'WEGE': icon = Icons.edit_road; break;
+      case 'NETZE': icon = Icons.hub; break;
+      case 'ZONING': icon = Icons.grid_view; break;
+      case 'NATUR': icon = Icons.park; break;
+      case 'VERPFLEGUNG': icon = Icons.restaurant; break;
+      case 'POOL': icon = Icons.pool; break;
+      case 'AKTIVITÄTEN': icon = Icons.rowing; break;
+      case 'HYGIENE': icon = Icons.wash; break;
+      case 'ABRISS': icon = Icons.delete_sweep; break;
+      default: icon = Icons.help;
+    }
+
     return InkWell(
-      onTap: () => setState(() => _selectedTab = isActive ? -1 : id),
-      child: SizedBox(
-        width: 80,
+      onTap: () => setState(() => _selectedCategory = isActive ? "" : categoryName),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: isActive ? Colors.cyanAccent : Colors.white54, size: 28),
+            Icon(icon, color: isActive ? Colors.cyanAccent : Colors.white54, size: 26),
             const SizedBox(height: 4),
-            Text(label, style: TextStyle(color: isActive ? Colors.cyanAccent : Colors.white54, fontSize: 10, fontWeight: FontWeight.bold)),
+            Text(categoryName, style: TextStyle(color: isActive ? Colors.cyanAccent : Colors.white54, fontSize: 9, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
     );
-  }
-
-  List<Widget> _getToolsForTab() {
-    switch (_selectedTab) {
-      case 0: // Wege & Infrastruktur
-        return [
-          _buildToolTile('Straße', 5, Icons.directions_car, Colors.grey[850]!, '80 €'),
-          _buildToolTile('Fußweg', 4, Icons.directions_walk, Colors.grey[600]!, '30 €'),
-          _buildToolTile('Rezeption', 6, Icons.bungalow, Colors.amber[800]!, '2500 €'),
-        ];
-      case 1: // Versorgung / Netze
-        return [
-          _buildToolTile('Wasserleitung', 8, Icons.water_drop, Colors.cyanAccent[400]!, '120 €'),
-          _buildToolTile('Abwasserrohr', 9, Icons.waves, Colors.brown[400]!, '90 €'),
-          _buildToolTile('Stromkabel', 10, Icons.bolt, Colors.yellowAccent[700]!, '60 €'),
-          const VerticalDivider(color: Colors.white24, width: 30),
-          _buildToolTile('Wasserwerk', 7, Icons.water_damage, Colors.cyan[900]!, '1500 €'),
-          _buildToolTile('Klärschacht', 12, Icons.delete, Colors.brown[800]!, '1200 €'),
-          _buildToolTile('Trafo', 13, Icons.electric_bolt, Colors.yellow[800]!, '2000 €'),
-        ];
-      case 2: // Zoning
-        return [
-          _buildToolTile('Stellplatz', 2, Icons.crop_free, Colors.orange[300]!, '100 €'),
-        ];
-      case 3: // Natur
-        return [
-          _buildToolTile('Baum', 3, Icons.park, Colors.green[800]!, '50 €'),
-          _buildToolTile('Pflanze', 16, Icons.grass, Colors.lightGreen, '15 €'),
-          _buildToolTile('Blumen', 17, Icons.local_florist, Colors.pinkAccent, '5 €'),
-          _buildToolTile('Stein', 18, Icons.landscape, Colors.blueGrey, '10 €'),
-          _buildToolTile('Hecke', 14, Icons.border_inner, Colors.green[600]!, '20 €'),
-        ];
-      case 4: // Abriss
-        return [
-          _buildToolTile('Gelände', 0, Icons.auto_fix_normal, Colors.green[400]!, '0 €'),
-          _buildToolTile('Leitungen', 11, Icons.link_off, Colors.redAccent, '0 €'),
-        ];
-      default: return [];
-    }
   }
 
   Widget _buildToolTile(String name, int toolId, IconData icon, Color color, String cost) {
