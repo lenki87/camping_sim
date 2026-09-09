@@ -894,109 +894,63 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     if (tileType == 2 && isParcelAnchor[x][y]) {
       int state = parcelState[x][y];
       if (state == 0) return const SizedBox.shrink();
-
-      bool isBigPitch = isBigParcel[x][y];
-      bool extraTent = isExtraTent[x][y];
       bool isCaravan = parcelIsCaravan[x][y];
 
-      return Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          // Flacher Bodenschatten
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 52,
-              height: 24,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
-          // Fahrzeug / Hauptzelt
-          Positioned(
-            bottom: -15,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
+      // Wir stellen den gesamten Stack aufrecht (billboardMatrix)
+      return Transform(
+        alignment: Alignment.center,
+        transform: billboardMatrix,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center, // Alles startet exakt in der Mitte
+          children: [
+            // 1. Das Fahrzeug / Zelt
+            Transform.translate(
+              // HIER IST DIE SCHWERKRAFT: Ein POSITIVER Y-Wert (z.B. 25) zieht das Bild nach unten!
+              offset: const Offset(0, 25), 
               child: Opacity(
                 opacity: state == 1 ? 0.45 : 1.0,
-                child: SizedBox(
+                child: Image.asset(
+                  isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
                   width: 72,
                   height: 72,
-                  child: Image.asset(
-                    isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                    fit: BoxFit.contain,
-                    errorBuilder: (c, e, s) => Icon(
-                      isCaravan ? Icons.rv_hookup : Icons.holiday_village,
-                      size: 40,
-                      color: Colors.orange,
-                    ),
-                  ),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
-          ),
-          // Picknicktisch
-          Positioned(
-            bottom: -15,
-            left: -12,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
+            
+            // 2. Der Picknicktisch
+            Transform.translate(
+              // Minus X = nach links | Plus Y = nach unten
+              offset: const Offset(-25, 30), 
               child: Opacity(
                 opacity: state == 1 ? 0.45 : 1.0,
-                child: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                    'assets/table.png',
-                    fit: BoxFit.contain,
-                    errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
-                  ),
+                child: Image.asset(
+                  'assets/table.png', 
+                  width: 25, 
+                  height: 25,
+                  errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
                 ),
               ),
             ),
-          ),
-          // Zusatzzelt
-          if (extraTent)
-            Positioned(
-              bottom: -15,
-              right: -10,
-              child: Transform(
-                alignment: Alignment.bottomCenter,
-                transform: billboardMatrix,
-                child: Opacity(
-                  opacity: state == 1 ? 0.45 : 1.0,
-                  child: SizedBox(
-                    width: 42,
-                    height: 42,
-                    child: Image.asset('assets/tent.png', fit: BoxFit.contain),
-                  ),
-                ),
-              ),
-            ),
-          // Aufbau-Ladebalken
-          if (state == 1)
-            Positioned(
-              bottom: 45,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()..rotateZ(-cameraZ),
+            
+            // 3. Der Ladebalken beim Aufbauen
+            if (state == 1)
+              Transform.translate(
+                // Minus Y = Der Balken schwebt über dem Dach
+                offset: const Offset(0, -30), 
                 child: SizedBox(
                   width: 35,
                   height: 5,
                   child: LinearProgressIndicator(
-                    value: setupProgress[x][y],
-                    backgroundColor: Colors.black54,
+                    value: setupProgress[x][y], 
+                    backgroundColor: Colors.black54, 
                     color: Colors.greenAccent,
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       );
     }
 
@@ -1497,14 +1451,19 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                               int type = mapData[x][y];
 
                               if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
+                                // NEU: Ankerpunkt in die exakte Mitte des 2x2 Platzes verschieben!
+                                bool isBig = isBigParcel[x][y];
+                                double anchorX = isBig ? x + 1.0 : x + 0.5;
+                                double anchorY = isBig ? y + 1.0 : y + 0.5;
+
                                 objectList.add(WorldObject(
-                                  x: x + 0.5,
-                                  y: y + 0.5,
+                                  x: anchorX,
+                                  y: anchorY,
                                   sinZ: sinZ,
                                   cosZ: cosZ,
                                   widget: Positioned(
-                                    left: (x + 0.5) * tileSize - (tileSize / 2),
-                                    top: (y + 0.5) * tileSize - (tileSize / 2),
+                                    left: anchorX * tileSize - (tileSize / 2),
+                                    top: anchorY * tileSize - (tileSize / 2),
                                     width: tileSize,
                                     height: tileSize,
                                     child: _buildObjectWidget(type, x, y, billboardMatrix),
