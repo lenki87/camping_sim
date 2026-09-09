@@ -1326,7 +1326,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: _buildBottomMenu(visibleCategories),
+                child: _buildBottomMenu(),
               ),
             ],
           ),
