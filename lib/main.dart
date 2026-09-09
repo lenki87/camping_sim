@@ -812,78 +812,65 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     if (tileType == 6) {
       return Stack(
         clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.center,
         children: [
           // Flacher Bodenschatten
-          Positioned(
-            bottom: 2,
-            child: Container(
-              width: 55,
-              height: 25,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(30),
-              ),
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.35),
+              shape: BoxShape.circle,
             ),
           ),
-          // Aufrechtes Rezeptionsgebäude
-          Positioned(
-            bottom: -15,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 80,
-                height: 80,
-                child: Image.asset(
-                  'assets/reception.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown),
-                ),
-              ),
-            ),
-          ),
-          // Schranke
-          Positioned(
-            bottom: -13,
-            right: -10,
-            child: Transform(
-              alignment: Alignment.bottomCenter,
-              transform: billboardMatrix,
-              child: SizedBox(
-                width: 35,
-                height: 35,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      bottom: 0,
-                      left: 15,
-                      child: Container(width: 4, height: 16, color: Colors.grey[800]),
+          
+          // Aufrechtes Gebäude & Schranke
+          Transform(
+            alignment: Alignment.center,
+            transform: billboardMatrix,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                
+                // Rezeption (80px hoch -> Exakt die Hälfte (-40) nach oben!)
+                Transform.translate(
+                  offset: const Offset(0, -40),
+                  child: SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: Image.asset(
+                      'assets/reception.png',
+                      fit: BoxFit.contain,
+                      errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown),
                     ),
-                    Positioned(
-                      bottom: 12,
-                      left: 17,
-                      child: Transform(
-                        alignment: Alignment.bottomLeft,
-                        transform: Matrix4.identity()..rotateZ(-barrierAngle),
-                        child: Container(
-                          width: 30,
-                          height: 4,
-                          color: Colors.red[700],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(width: 5, color: Colors.white),
-                              Container(width: 5, color: Colors.white),
-                            ],
+                  ),
+                ),
+                
+                // Schranke (35px hoch -> Hälfte ist -17.5, plus nach rechts)
+                Transform.translate(
+                  offset: const Offset(30, -17.5),
+                  child: SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
+                        Positioned(
+                          bottom: 12,
+                          left: 17,
+                          child: Transform(
+                            alignment: Alignment.bottomLeft,
+                            transform: Matrix4.identity()..rotateZ(-barrierAngle),
+                            child: Container(width: 30, height: 4, color: Colors.red[700]),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
@@ -896,87 +883,75 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       if (state == 0) return const SizedBox.shrink();
       bool isCaravan = parcelIsCaravan[x][y];
 
-      // OverflowBox sprengt die 40x40 Kachel-Grenze, damit nichts gequetscht wird
-      return OverflowBox(
-        maxWidth: 200,
-        maxHeight: 200,
-        alignment: Alignment.center, // Der absolute, exakte Mittelpunkt des Schotterplatzes
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center, // Alles klammert sich an diesen einen Mittelpunkt
-          children: [
-            
-            // --- 1. DER SCHATTEN (Flach auf dem Boden) ---
-            // Wichtig: Liegt AUSSERHALB der billboardMatrix! 
-            // So wird aus dem Kreis automatisch eine perfekte isometrische Ellipse auf dem Boden.
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.35),
-                shape: BoxShape.circle, 
-              ),
+      return Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center, // Alles exakt auf das Raster-Kreuz zentriert
+        children: [
+          // 1. Der flache Bodenschatten (liegt absolut flach auf dem Raster)
+          Container(
+            width: 45,
+            height: 45,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.35),
+              shape: BoxShape.circle, 
             ),
-            
-            // --- 2. DIE OBJEKTE (Stehen aufrecht zur Kamera) ---
-            Transform(
-              alignment: Alignment.center,
-              transform: billboardMatrix,
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  
-                  // 1. Fahrzeug / Zelt
+          ),
+          
+          // 2. Die aufrechten 3D-Objekte
+          Transform(
+            alignment: Alignment.center, // Rotiert genau um den Schatten-Mittelpunkt
+            transform: billboardMatrix,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center, // Bilder starten zentriert
+              children: [
+                
+                // Fahrzeug / Zelt (72px hoch -> Exakt die Hälfte (-36) nach oben!)
+                Transform.translate(
+                  offset: const Offset(0, -36), 
+                  child: Opacity(
+                    opacity: state == 1 ? 0.45 : 1.0,
+                    child: Image.asset(
+                      isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
+                      width: 72,
+                      height: 72,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                
+                // Picknicktisch (25px hoch -> Hälfte ist -12.5, plus nach links verschoben)
+                Transform.translate(
+                  offset: const Offset(-22, -12.5), 
+                  child: Opacity(
+                    opacity: state == 1 ? 0.45 : 1.0,
+                    child: Image.asset(
+                      'assets/table.png', 
+                      width: 25, 
+                      height: 25,
+                      errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
+                    ),
+                  ),
+                ),
+                
+                // Ladebalken (Hoch über das Dach geschoben)
+                if (state == 1)
                   Transform.translate(
-                    // Ein POSITIVER Wert (z.B. 20) zieht die Räder runter auf den Schatten
-                    offset: const Offset(0, 20), 
-                    child: Opacity(
-                      opacity: state == 1 ? 0.45 : 1.0,
-                      child: Image.asset(
-                        isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                        width: 72,
-                        height: 72,
-                        fit: BoxFit.contain,
+                    offset: const Offset(0, -80), 
+                    child: SizedBox(
+                      width: 35,
+                      height: 5,
+                      child: LinearProgressIndicator(
+                        value: setupProgress[x][y], 
+                        backgroundColor: Colors.black54, 
+                        color: Colors.greenAccent,
                       ),
                     ),
                   ),
-                  
-                  // 2. Picknicktisch
-                  Transform.translate(
-                    // X negativ (nach links), Y positiv (nach unten auf den Boden)
-                    offset: const Offset(-20, 25), 
-                    child: Opacity(
-                      opacity: state == 1 ? 0.45 : 1.0,
-                      child: Image.asset(
-                        'assets/table.png', 
-                        width: 25, 
-                        height: 25,
-                        errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
-                      ),
-                    ),
-                  ),
-                  
-                  // 3. Ladebalken
-                  if (state == 1)
-                    Transform.translate(
-                      // Der Ladebalken muss weiterhin negativ bleiben, damit er ÜBER dem Dach schwebt
-                      offset: const Offset(0, -30), 
-                      child: SizedBox(
-                        width: 35,
-                        height: 5,
-                        child: LinearProgressIndicator(
-                          value: setupProgress[x][y], 
-                          backgroundColor: Colors.black54, 
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       );
     }
 
