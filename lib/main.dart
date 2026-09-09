@@ -102,8 +102,8 @@ final List<GameItem> allItems = [
   const GameItem(id: 80, name: 'Poolkachel', category: 'Pool', cost: 50, prestigeValue: 5, requiredPrestige: 400, dailyIncome: -2, icon: Icons.pool),
   const GameItem(id: 81, name: 'Rutsche', category: 'Pool', cost: 300, prestigeValue: 30, requiredPrestige: 500, dailyIncome: 40, icon: Icons.water),
   const GameItem(id: 82, name: 'Massagestrahl', category: 'Pool', cost: 150, prestigeValue: 15, requiredPrestige: 400, dailyIncome: 10, icon: Icons.waves),
-  const GameItem(id: 83, name: 'Sonnenschirme', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, icon: Icons.beach_access),
-  const GameItem(id: 84, name: 'poolliegen', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, icon: Icons.beach_access),
+  const GameItem(id: 83, name: 'Sonnenschirme', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, dailyIncome: 0, icon: Icons.beach_access),
+  const GameItem(id: 84, name: 'poolliegen', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, dailyIncome: 0, icon: Icons.beach_access),
   const GameItem(id: 85, name: 'Poolbar', category: 'Pool', cost: 600, prestigeValue: 60, requiredPrestige: 600, dailyIncome: 110, icon: Icons.local_bar),
 
   // --- AKTIVITÄTEN ---
