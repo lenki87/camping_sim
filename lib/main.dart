@@ -1017,164 +1017,86 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     );
   }
 
-  Widget _buildBottomMenu() {
+  Widget _buildBottomMenu(List<String> categories) {
+    final currentItems = allItems.where((i) => i.category == _selectedCategory).toList();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // 1. Anzeige des aktiven Werkzeugs (nur wenn Menü zu)
-        if (_selectedTab == -1 && selectedTool != 0)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Chip(
-              elevation: 4,
-              backgroundColor: Colors.cyanAccent[700],
-              avatar: const Icon(Icons.construction, color: Colors.white, size: 18),
-              label: Text(
-                'Aktiv: $_activeToolName',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              onDeleted: () => setState(() {
-                selectedTool = 0;
-                _activeToolName = 'Keins';
-              }),
-              deleteIcon: const Icon(Icons.cancel, color: Colors.white70),
+        // 1. Aufklappbares Item-Fenster (Pergament-Hintergrund)
+        if (_selectedCategory.isNotEmpty)
+          Container(
+            height: 120,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: CampingColors.beigeBackground,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+              border: Border.all(color: CampingColors.woodMedium, width: 2),
+            ),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: currentItems.length,
+              itemBuilder: (context, index) {
+                final item = currentItems[index];
+                bool isSel = selectedTool == item.id;
+                return GestureDetector(
+                  onTap: () => setState(() {
+                    selectedTool = item.id;
+                    _activeToolName = item.name;
+                  }),
+                  child: Container(
+                    width: 100,
+                    margin: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: isSel ? CampingColors.forestGreen.withValues(alpha: 0.2) : Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: isSel ? CampingColors.forestGreen : Colors.transparent,
+                        width: 2,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(item.icon, color: CampingColors.woodDark),
+                        const SizedBox(height: 4),
+                        Text(
+                          item.name,
+                          style: const TextStyle(fontSize: 8, color: CampingColors.textDark),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
 
-        // 2. Das aufklappbare Menü
-        if (_selectedTab != -1)
-          Stack(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                height: 130,
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.85),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                  border: Border.all(color: Colors.white10),
-                ),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.fromLTRB(20, 15, 60, 15),
-                  children: _getToolsForTab(),
-                ),
-              ),
-              Positioned(
-                top: 5,
-                right: 20,
-                child: IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white54),
-                  onPressed: () => setState(() => _selectedTab = -1),
-                ),
-              ),
-            ],
-          ),
-
-        // 3. Die Tab-Leiste (immer sichtbar)
+        // 2. Horizontale Holzleiste mit den Kategorien
         Container(
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.blueGrey[900],
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 15, offset: const Offset(0, -5))],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildTabButton(0, 'WEGE', Icons.edit_road),
-              _buildTabButton(1, 'NETZE', Icons.hub),
-              _buildTabButton(2, 'ZONING', Icons.grid_view),
-              _buildTabButton(3, 'NATUR', Icons.park),
-              _buildTabButton(4, 'ABRISS', Icons.delete_sweep),
-            ],
+          height: 60,
+          color: CampingColors.woodDark,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: categories.map((cat) => TextButton(
+                onPressed: () => setState(() {
+                  // Klick auf aktive Kategorie schließt das Menü, sonst Wechsel
+                  _selectedCategory = (_selectedCategory == cat) ? '' : cat;
+                }),
+                child: Text(
+                  cat,
+                  style: TextStyle(
+                    color: _selectedCategory == cat ? Colors.amber : Colors.white,
+                    fontWeight: _selectedCategory == cat ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+              )).toList(),
+            ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildTabButton(int id, String label, IconData icon) {
-    bool isActive = _selectedTab == id;
-    return InkWell(
-      onTap: () => setState(() => _selectedTab = isActive ? -1 : id),
-      child: SizedBox(
-        width: 80,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: isActive ? Colors.cyanAccent : Colors.white54, size: 28),
-            const SizedBox(height: 4),
-            Text(label, style: TextStyle(color: isActive ? Colors.cyanAccent : Colors.white54, fontSize: 10, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _getToolsForTab() {
-    switch (_selectedTab) {
-      case 0: // Wege & Infrastruktur
-        return [
-          _buildToolTile('Straße', 5, Icons.directions_car, Colors.grey[850]!, '80 €'),
-          _buildToolTile('Fußweg', 4, Icons.directions_walk, Colors.grey[600]!, '30 €'),
-          _buildToolTile('Rezeption', 6, Icons.bungalow, Colors.amber[800]!, '2500 €'),
-        ];
-      case 1: // Versorgung / Netze
-        return [
-          _buildToolTile('Wasserleitung', 8, Icons.water_drop, Colors.cyanAccent[400]!, '120 €'),
-          _buildToolTile('Abwasserrohr', 9, Icons.waves, Colors.brown[400]!, '90 €'),
-          _buildToolTile('Stromkabel', 10, Icons.bolt, Colors.yellowAccent[700]!, '60 €'),
-          const VerticalDivider(color: Colors.white24, width: 30),
-          _buildToolTile('Wasserwerk', 7, Icons.water_damage, Colors.cyan[900]!, '1500 €'),
-          _buildToolTile('Klärschacht', 12, Icons.delete, Colors.brown[800]!, '1200 €'),
-          _buildToolTile('Trafo', 13, Icons.electric_bolt, Colors.yellow[800]!, '2000 €'),
-        ];
-      case 2: // Zoning
-        return [
-          _buildToolTile('Stellplatz', 2, Icons.crop_free, Colors.orange[300]!, '100 €'),
-        ];
-      case 3: // Natur
-        return [
-          _buildToolTile('Baum', 3, Icons.park, Colors.green[800]!, '50 €'),
-          _buildToolTile('Pflanze', 16, Icons.grass, Colors.lightGreen, '15 €'),
-          _buildToolTile('Blumen', 17, Icons.local_florist, Colors.pinkAccent, '5 €'),
-          _buildToolTile('Stein', 18, Icons.landscape, Colors.blueGrey, '10 €'),
-          _buildToolTile('Hecke', 14, Icons.border_inner, Colors.green[600]!, '20 €'),
-        ];
-      case 4: // Abriss
-        return [
-          _buildToolTile('Gelände', 0, Icons.auto_fix_normal, Colors.green[400]!, '0 €'),
-          _buildToolTile('Leitungen', 11, Icons.link_off, Colors.redAccent, '0 €'),
-        ];
-      default: return [];
-    }
-  }
-
-  Widget _buildToolTile(String name, int toolId, IconData icon, Color color, String cost) {
-    bool isSelected = selectedTool == toolId;
-    return GestureDetector(
-      onTap: () => setState(() {
-        selectedTool = toolId;
-        _activeToolName = name;
-      }),
-      child: Container(
-        width: 100,
-        margin: const EdgeInsets.only(right: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.4) : Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: isSelected ? color : Colors.white10, width: 2),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: isSelected ? color : Colors.white70, size: 30),
-            const SizedBox(height: 4),
-            Text(name, style: const TextStyle(color: Colors.white, fontSize: 10), textAlign: TextAlign.center),
-            Text(cost, style: const TextStyle(color: Colors.yellowAccent, fontSize: 10, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
     );
   }
 
