@@ -927,43 +927,171 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     );
   }
 
-  Widget _buildTopBar() {
+  Widget _buildTopBar(int stars) {
     return Container(
       height: 60,
-      margin: const EdgeInsets.all(15),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.white24, width: 1.5),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10)],
+      decoration: const BoxDecoration(
+        color: CampingColors.woodDark,
+        border: Border(
+          bottom: BorderSide(color: CampingColors.woodMedium, width: 3),
+        ),
+        boxShadow: [
+          BoxShadow(color: Colors.black45, blurRadius: 8, offset: Offset(0, 2)),
+        ],
       ),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          _topBarItem(Icons.calendar_today, 'TAG $inGameDay', Colors.white),
-          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          _topBarItem(Icons.payments, '${money.toStringAsFixed(0)} €', Colors.greenAccent),
-          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          _topBarItem(Icons.star, 'PRESTIGE: ${prestige.toInt()}', Colors.yellowAccent),
-          const VerticalDivider(color: Colors.white24, indent: 15, endIndent: 15),
-          _topBarItem(Icons.people, '$activeCampers / $maxCapacity', Colors.orangeAccent),
+          // Tag-Anzeige (Gedrückt halten schaltet God-Mode um)
+          GestureDetector(
+            onLongPress: () => setState(() => _isGodMode = !_isGodMode),
+            child: Text(
+              'TAG $inGameDay',
+              style: TextStyle(
+                color: _isGodMode ? Colors.redAccent : CampingColors.beigeBackground,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          const SizedBox(width: 25),
+
+          // Kontostand
+          Text(
+            '${money.toStringAsFixed(0)} €',
+            style: const TextStyle(
+              color: Colors.greenAccent,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const Spacer(),
-          // Kamera Rotation Buttons in die Top Bar integriert
+
+          // 10-Sterne-Prestige-System
+          Row(
+            children: List.generate(10, (i) {
+              int starLevel = i + 1;
+              bool isUnlocked = i < stars;
+              bool isVisible = (i < stars + 2) || _isGodMode;
+
+              if (!isVisible) return const SizedBox(width: 24);
+              return GestureDetector(
+                onTap: () => _showUnlockInfo(starLevel),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Icon(
+                    isUnlocked ? Icons.star : Icons.star_border,
+                    color: isUnlocked ? Colors.amber : CampingColors.woodMedium,
+                    size: 22,
+                  ),
+                ),
+              );
+            }),
+          ),
+          const SizedBox(width: 20),
+
+          // Kamera-Drehung & Legende
           IconButton(
-            icon: const Icon(Icons.rotate_left, color: Colors.white70),
+            icon: const Icon(Icons.rotate_left, color: CampingColors.beigeBackground),
             onPressed: () => setState(() => cameraZ -= pi / 2),
           ),
           IconButton(
-            icon: const Icon(Icons.rotate_right, color: Colors.white70),
+            icon: const Icon(Icons.rotate_right, color: CampingColors.beigeBackground),
             onPressed: () => setState(() => cameraZ += pi / 2),
           ),
-          const SizedBox(width: 10),
           IconButton(
-            icon: Icon(_isLegendVisible ? Icons.close : Icons.help_outline, color: Colors.white),
+            icon: Icon(
+              _isLegendVisible ? Icons.close : Icons.help_outline,
+              color: CampingColors.beigeBackground,
+            ),
             onPressed: () => setState(() => _isLegendVisible = !_isLegendVisible),
           ),
         ],
       ),
+    );
+  }
+
+  void _showUnlockInfo(int starLevel) {
+    int neededPrestige = starLevel * 100;
+    List<String> unlockedCats = categoryUnlockPrestige.entries
+        .where((e) => e.value == neededPrestige)
+        .map((e) => e.key)
+        .toList();
+    List<GameItem> unlockedItems =
+        allItems.where((item) => item.requiredPrestige == neededPrestige).toList();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: CampingColors.beigeBackground,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: const BorderSide(color: CampingColors.woodMedium, width: 2),
+          ),
+          title: Text(
+            'Freischaltungen ab Stern $starLevel',
+            style: const TextStyle(
+              color: CampingColors.textDark,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Benötigtes Prestige: $neededPrestige',
+                  style: const TextStyle(
+                    color: CampingColors.forestGreen,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (unlockedCats.isNotEmpty) ...[
+                  const Text(
+                    'Neue Kategorien:',
+                    style: TextStyle(
+                      color: CampingColors.woodMedium,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ...unlockedCats.map((c) => Text('• $c', style: const TextStyle(color: CampingColors.textDark))),
+                  const SizedBox(height: 8),
+                ],
+                if (unlockedItems.isNotEmpty) ...[
+                  const Text(
+                    'Neue Objekte & Gebäude:',
+                    style: TextStyle(
+                      color: CampingColors.woodMedium,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ...unlockedItems.map((item) => Text('• ${item.name}', style: const TextStyle(color: CampingColors.textDark))),
+                ],
+                if (unlockedCats.isEmpty && unlockedItems.isEmpty)
+                  const Text(
+                    'Erhöht die Besucherchance und Einnahmen.',
+                    style: TextStyle(color: CampingColors.textDark),
+                  ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Verstanden',
+                style: TextStyle(
+                  color: CampingColors.forestGreen,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -1180,6 +1308,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    int activeStars = (prestige / 100).floor().clamp(0, 10);
+    List<String> visibleCategories = categoryUnlockPrestige.keys.where((cat) {
+      return categoryUnlockPrestige[cat]! <= prestige || _isGodMode;
+    }).toList();
+
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.keyQ): () => setState(() => cameraZ -= pi / 2),
@@ -1429,7 +1562,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 top: 0,
                 left: 0,
                 right: 0,
-                child: _buildTopBar(),
+                child: _buildTopBar(activeStars),
               ),
 
               // 4. Legende
