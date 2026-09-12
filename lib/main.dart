@@ -199,8 +199,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
   // UI Status
   bool _isLegendVisible = false;
-  int _selectedTab = -1; // -1 = Menü geschlossen
-  String _activeToolName = 'Straße'; // Für die Anzeige im Chip
+  String _selectedCategory = ''; // Leer = Menü zu, oder 'Zoning'
+  String _activeToolName = 'Keins';
   bool _isGodMode = false;
 
   // Untergrund-Netze
