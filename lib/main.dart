@@ -1361,13 +1361,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 for (int y = 0; y < gridSize; y++) {
                                   int type = mapData[x][y];
 
-                                  // --- 1. PARZELLEN ---
-                                  if (type == 2 && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
+                                  // --- 1. PARZELLEN (Zelt, Wohnwagen, Tisch) ---
+                                  if (_isParcelId(type) && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
                                     int state = parcelState[x][y];
                                     bool isCaravan = parcelIsCaravan[x][y];
                                     bool isBig = isBigParcel[x][y];
 
-                                    // Zentriert das Fahrzeug auf 2x2 (x+1.0) oder 1x1 (x+0.5) Plätzen
                                     double anchorX = isBig ? x + 1.0 : x + 0.5;
                                     double anchorY = isBig ? y + 1.0 : y + 0.5;
 
@@ -1375,54 +1374,118 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       clipBehavior: Clip.none,
                                       alignment: Alignment.bottomCenter,
                                       children: [
-                                        Opacity(opacity: state == 1 ? 0.45 : 1.0, child: Image.asset(isCaravan ? 'assets/caravan.png' : 'assets/tent.png', width: 72, height: 72, fit: BoxFit.contain)),
-                                        Positioned(left: -20, bottom: 5, child: Opacity(opacity: state == 1 ? 0.45 : 1.0, child: Image.asset('assets/table.png', width: 25, height: 25, errorBuilder: (c,e,s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown)))),
-                                        if (state == 1) Positioned(top: -15, child: SizedBox(width: 35, height: 5, child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent))),
+                                        // Zelt / Wohnwagen: Streng an der Unterkante ausgerichtet
+                                        Opacity(
+                                          opacity: state == 1 ? 0.45 : 1.0,
+                                          child: Image.asset(
+                                            isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
+                                            width: 72, height: 72,
+                                            fit: BoxFit.contain,
+                                            alignment: Alignment.bottomCenter,
+                                            errorBuilder: (c, e, s) => Icon(isCaravan ? Icons.rv_hookup : Icons.holiday_village, size: 40, color: Colors.orange),
+                                          ),
+                                        ),
+                                        // Tisch: Passend auf die Schotterfläche geholt (nicht mehr im Gras)
+                                        Positioned(
+                                          left: -6,
+                                          bottom: 8,
+                                          child: Opacity(
+                                            opacity: state == 1 ? 0.45 : 1.0,
+                                            child: Image.asset(
+                                              'assets/table.png',
+                                              width: 26, height: 26,
+                                              fit: BoxFit.contain,
+                                              alignment: Alignment.bottomCenter,
+                                              errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
+                                            ),
+                                          ),
+                                        ),
+                                        if (state == 1)
+                                          Positioned(
+                                            top: -15,
+                                            child: SizedBox(
+                                              width: 35, height: 5,
+                                              child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent),
+                                            ),
+                                          ),
                                       ],
                                     );
 
                                     objectList.add(WorldObject(
                                       x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
-                                      widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 12.0),
+                                      // yOffset: 24.0 setzt das Zelt mittig und satt auf das 2x2-Kiesbett
+                                      widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 24.0),
                                     ));
                                   }
                                   // --- 2. REZEPTION ---
-                                  else if (type == 6) {
+                                  else if (type == 23 || type == 4 || type == 6) {
                                     Widget content = Stack(
                                       clipBehavior: Clip.none,
                                       alignment: Alignment.bottomCenter,
                                       children: [
-                                        Image.asset('assets/reception.png', width: 80, height: 80, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown)),
-                                        Positioned(right: -10, bottom: 0, child: SizedBox(width: 35, height: 35, child: Stack(clipBehavior: Clip.none, children: [
-                                          Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
-                                          Positioned(bottom: 12, left: 17, child: Transform(alignment: Alignment.bottomLeft, transform: Matrix4.identity()..rotateZ(-barrierAngle), child: Container(width: 30, height: 4, color: Colors.red[700]))),
-                                        ]))),
+                                        Image.asset(
+                                          'assets/reception.png',
+                                          width: 80, height: 80,
+                                          fit: BoxFit.contain,
+                                          alignment: Alignment.bottomCenter,
+                                          errorBuilder: (c, e, s) => const Icon(Icons.house, size: 50, color: Colors.brown),
+                                        ),
+                                        Positioned(
+                                          right: -8,
+                                          bottom: 4,
+                                          child: SizedBox(
+                                            width: 35, height: 35,
+                                            child: Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                Positioned(bottom: 0, left: 15, child: Container(width: 4, height: 16, color: Colors.grey[800])),
+                                                Positioned(
+                                                  bottom: 12, left: 17,
+                                                  child: Transform(
+                                                    alignment: Alignment.bottomLeft,
+                                                    transform: Matrix4.identity()..rotateZ(-barrierAngle),
+                                                    child: Container(width: 30, height: 4, color: Colors.red[700]),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     );
+
                                     objectList.add(WorldObject(
                                       x: x + 0.5, y: y + 0.5, sinZ: sinZ, cosZ: cosZ,
-                                      widget: buildTycoonObject(x + 0.5, y + 0.5, 90, 80, content, yOffset: 15.0),
+                                      // yOffset: 22.0 setzt das Haus exakt auf die Schotterkachel
+                                      widget: buildTycoonObject(x + 0.5, y + 0.5, 90, 80, content, yOffset: 22.0),
                                     ));
                                   }
                                   // --- 3. BÄUME, STRAND & DEKO ---
-                                  else if (type == 3 || type == 14 || type == 15 || (type >= 16 && type <= 18)) {
+                                  else if (type == 15 || type == 90 || type == 3 || type == 14 || (type >= 16 && type <= 18) || (type >= 30 && type <= 37) || (type >= 40 && type <= 45)) {
                                     IconData icon = Icons.park; Color iconColor = Colors.green[800]!; double size = 60;
                                     if (type == 16) { icon = Icons.grass; iconColor = Colors.lightGreen; size = 45; }
                                     if (type == 17) { icon = Icons.local_florist; iconColor = Colors.pinkAccent; size = 40; }
                                     if (type == 18) { icon = Icons.landscape; iconColor = Colors.grey; size = 50; }
 
                                     Widget content;
-                                    if (type >= 3 && type <= 18 && type != 14 && type != 15) {
-                                      content = Icon(icon, size: size, color: iconColor);
-                                    } else if (type == 14) {
-                                      content = Image.asset('assets/hedge.png', width: 55, height: 55, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen));
+                                    double yOffset = 16.0;
+
+                                    if (type == 15 || type == 90) {
+                                      size = 40;
+                                      yOffset = 14.0; // Steckt den Schirmstab direkt in den Sand
+                                      content = Image.asset('assets/parasol.png', width: 40, height: 40, fit: BoxFit.contain, alignment: Alignment.bottomCenter, errorBuilder: (c, e, s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent));
+                                    } else if (type == 14 || type == 36 || type == 43) {
+                                      size = 55;
+                                      yOffset = 16.0;
+                                      content = Image.asset('assets/hedge.png', width: 55, height: 55, fit: BoxFit.contain, alignment: Alignment.bottomCenter, errorBuilder: (c, e, s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen));
                                     } else {
-                                      content = Image.asset('assets/parasol.png', width: 40, height: 40, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent));
+                                      yOffset = 16.0; // Setzt den Baumstamm auf die Wiese
+                                      content = Image.asset('assets/tree.png', width: 65, height: 65, fit: BoxFit.contain, alignment: Alignment.bottomCenter, errorBuilder: (c, e, s) => Icon(icon, size: 40, color: iconColor));
                                     }
 
                                     objectList.add(WorldObject(
                                       x: x + 0.5, y: y + 0.5, sinZ: sinZ, cosZ: cosZ,
-                                      widget: buildTycoonObject(x + 0.5, y + 0.5, size, size, content, yOffset: 5.0),
+                                      widget: buildTycoonObject(x + 0.5, y + 0.5, size, size, content, yOffset: yOffset),
                                     ));
                                   }
                                 }
