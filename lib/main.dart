@@ -213,14 +213,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   late List<List<bool>> connectedWaste;
   late List<List<bool>> connectedPower;
 
-  // Parzellen-Status
+  // Parzellen-Status (jetzt direkt 1:1 pro Kachel)
   late List<List<bool>> parcelWater;
   late List<List<bool>> parcelWaste;
   late List<List<bool>> parcelPower;
-
-  late List<List<bool>> isParcelAnchor;
-  late List<List<bool>> isBigParcel;
-  late List<List<bool>> isExtraTent;
   late List<List<int>> parcelState;
   late List<List<double>> setupProgress;
   late List<List<bool>> parcelIsCaravan;
@@ -384,10 +380,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         // Chance steigt mit Prestige: Basis 20% + Bonus durch Prestige
         double arrivalChance = 0.2 + (prestige / 200);
         if (Random().nextDouble() < arrivalChance && activeCampers < maxCapacity) {
-          // Sucht den ersten leeren, funktionierenden Stellplatz
           for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
-              if (isParcelAnchor[x][y] && parcelState[x][y] == 0) {
+              // Direkte Prüfung auf freie 1x1-Parzelle
+              if (_isParcelId(mapData[x][y]) && parcelState[x][y] == 0) {
                 parcelState[x][y] = 3;
                 activeCampers++;
                 parcelIsCaravan[x][y] = Random().nextBool();
@@ -415,13 +411,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     connectedWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
     connectedPower = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
 
-    parcelWater = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    parcelWaste = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-    parcelPower = List.generate(gridSize, (_) => List.generate(gridSize, (_) => false));
-
-    isParcelAnchor = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    isBigParcel = List.generate(gridSize, (_) => List.filled(gridSize, false));
-    isExtraTent = List.generate(gridSize, (_) => List.filled(gridSize, false));
+    parcelWater = List.generate(gridSize, (_) => List.filled(gridSize, false));
+    parcelWaste = List.generate(gridSize, (_) => List.filled(gridSize, false));
+    parcelPower = List.generate(gridSize, (_) => List.filled(gridSize, false));
 
     parcelState = List.generate(gridSize, (_) => List.filled(gridSize, 0));
     setupProgress = List.generate(gridSize, (_) => List.filled(gridSize, 0.0));
@@ -432,36 +424,24 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       mapData[0][y] = 5;
     }
 
-    // Rezeption & Schranke in der Mitte der Straße
+    // Rezeption & Schranke
     int midY = gridSize ~/ 2;
     mapData[1][midY] = 6;
     mapData[1][midY + 1] = 5;
 
-    // Campingplatz-Hauptstraße von der Schranke ein Stück in den Platz hinein
+    // Hauptweg in den Platz
     for (int x = 2; x <= 15; x++) {
       mapData[x][midY + 1] = 5;
     }
 
-    // 10 Start-Parzellen platzieren
-    int parcelCount = 0;
-    for (int col = 0; col < 2; col++) {
-      for (int row = 0; row < 5; row++) {
-        int startX = 4 + (col * 6);
-        int startY = (midY - 4) + (row * 3);
-
-        if (startX + 1 < gridSize && startY + 1 < gridSize) {
-          mapData[startX][startY] = 2;
-          mapData[startX+1][startY] = 2;
-          mapData[startX][startY+1] = 2;
-          mapData[startX+1][startY+1] = 2;
-          parcelCount++;
-        }
-        if (parcelCount >= 10) break;
-      }
-      if (parcelCount >= 10) break;
+    // 10 Start-Parzellen als saubere 1x1-Kacheln links & rechts der Straße
+    for (int i = 0; i < 5; i++) {
+      int posX = 3 + (i * 2);
+      mapData[posX][midY - 1] = 2; // Oberhalb der Straße
+      mapData[posX][midY + 3] = 2; // Unterhalb der Straße
     }
 
-    // Organischer Sandstrand entlang des Wassers
+    // Strandlinie
     for (int y = 0; y < gridSize; y++) {
       mapData[gridSize - 4][y] = 15;
     }
@@ -547,14 +527,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     List<Point<int>> wasteStarts = [];
     List<Point<int>> powerStarts = [];
 
-    // Alle möglichen Startpunkte für die Netzwerke suchen
     for (int x = 0; x < gridSize; x++) {
       for (int y = 0; y < gridSize; y++) {
         if (mapData[x][y] == 7 && hasWaterUnlocked) waterStarts.add(Point(x, y));
         if (mapData[x][y] == 12) wasteStarts.add(Point(x, y));
         if (mapData[x][y] == 13) powerStarts.add(Point(x, y));
-        // Umwelt-Mechanik: Das Meer (1) fungiert ebenfalls als gültiger Abwasser-Abfluss!
-        if (mapData[x][y] == 1) wasteStarts.add(Point(x, y));
+        if (mapData[x][y] == 1) wasteStarts.add(Point(x, y)); // Meer
       }
     }
 
@@ -562,68 +540,16 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     _runMultiBFS(wasteStarts, undergroundWaste, connectedWaste);
     _runMultiBFS(powerStarts, undergroundPower, connectedPower);
 
+    // Direkte 1x1-Versorgungsprüfung für jede Parzelle
     for (int x = 0; x < gridSize; x++) {
       for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] == 2) {
-          // Prüft, ob das Rohr anliegt ODER die Parzelle direkt neben dem Anschluss steht
+        if (_isParcelId(mapData[x][y])) {
           parcelWater[x][y] = _isAdjacentToConnected(x, y, connectedWater, [7]);
-          parcelWaste[x][y] = _isAdjacentToConnected(x, y, connectedWaste, [12, 1]); // Meer ist erlaubt
+          parcelWaste[x][y] = _isAdjacentToConnected(x, y, connectedWaste, [12, 1]);
           parcelPower[x][y] = _isAdjacentToConnected(x, y, connectedPower, [13]);
         }
       }
     }
-
-    // --- NEU: INTELLIGENTES ZONING FÜR PARZELLEN ---
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        isParcelAnchor[x][y] = false;
-        isBigParcel[x][y] = false;
-      }
-    }
-
-    List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
-
-    for (int x = 0; x < gridSize; x++) {
-      for (int y = 0; y < gridSize; y++) {
-        if (mapData[x][y] == 2 && !visited[x][y]) {
-          // Neue zusammenhängende Parzellen-Zone gefunden!
-          List<Point<int>> zone = [];
-          List<Point<int>> queue = [Point(x, y)];
-          visited[x][y] = true;
-
-          // Flood-Fill: Alle angrenzenden Schotter-Kacheln suchen
-          while (queue.isNotEmpty) {
-            Point<int> p = queue.removeAt(0);
-            zone.add(p);
-
-            List<Point<int>> neighbors = [Point(p.x + 1, p.y), Point(p.x - 1, p.y), Point(p.x, p.y + 1), Point(p.x, p.y - 1)];
-            for (var n in neighbors) {
-              if (n.x >= 0 && n.x < gridSize && n.y >= 0 && n.y < gridSize) {
-                if (mapData[n.x][n.y] == 2 && !visited[n.x][n.y]) {
-                  visited[n.x][n.y] = true;
-                  queue.add(n);
-                }
-              }
-            }
-          }
-
-          // Ab 4 Kacheln Gesamtfläche (egal welche Form!) ist genug Platz für einen Wohnwagen
-          bool isBig = zone.length >= 4;
-
-          // Den optisch besten Platz für das Fahrzeug finden (am weitesten oben links)
-          Point<int> anchor = zone[0];
-          for (var p in zone) {
-            if ((p.x + p.y) < (anchor.x + anchor.y)) {
-              anchor = p;
-            }
-          }
-
-          isParcelAnchor[anchor.x][anchor.y] = true;
-          isBigParcel[anchor.x][anchor.y] = isBig;
-        }
-      }
-    }
-    // --- ENDE ZONING ---
 
     _calculateEconomy();
   }
@@ -1364,14 +1290,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 for (int y = 0; y < gridSize; y++) {
                                   int type = mapData[x][y];
 
-                                  // --- 1. PARZELLEN (Zelt, Wohnwagen, Tisch) ---
-                                  if (_isParcelId(type) && isParcelAnchor[x][y] && parcelState[x][y] > 0) {
+                                  // --- 1. PARZELLEN (1x1 Wohnwagen & Zelt) ---
+                                  if (_isParcelId(type) && parcelState[x][y] > 0) {
                                     int state = parcelState[x][y];
                                     bool isCaravan = parcelIsCaravan[x][y];
-                                    bool isBig = isBigParcel[x][y];
-
-                                    double anchorX = isBig ? x + 1.0 : x + 0.5;
-                                    double anchorY = isBig ? y + 1.0 : y + 0.5;
+                                    double anchorX = x + 0.5;
+                                    double anchorY = y + 0.5;
 
                                     Widget content = Stack(
                                       clipBehavior: Clip.none,
@@ -1379,41 +1303,25 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       children: [
                                         Opacity(
                                           opacity: state == 1 ? 0.45 : 1.0,
-                                          child: isCaravan
-                                              ? Image.asset(
-                                                  'assets/caravan.png',
-                                                  width: 72, height: 72,
-                                                  fit: BoxFit.contain,
-                                                  errorBuilder: (c, e, s) => const Icon(Icons.rv_hookup, size: 40, color: Colors.orange),
-                                                )
-                                              : Transform.translate(
-                                                  // Nur ein minimaler Schubs (4 Pixel), damit das Zelt nicht in die Wiese rutscht
-                                                  offset: const Offset(0, 4.0),
-                                                  child: Image.asset(
-                                                    'assets/tent.png',
-                                                    width: 60, height: 60,
-                                                    fit: BoxFit.contain,
-                                                    errorBuilder: (c, e, s) => const Icon(Icons.holiday_village, size: 40, color: Colors.orange),
-                                                  ),
-                                                ),
-                                        ),
-                                        Positioned(
-                                          left: -18,
-                                          bottom: 4,
-                                          child: Opacity(
-                                            opacity: state == 1 ? 0.45 : 1.0,
-                                            child: Image.asset(
-                                              'assets/table.png',
-                                              width: 25, height: 25,
-                                              errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
+                                          child: Image.asset(
+                                            isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
+                                            width: 44,
+                                            height: 44,
+                                            fit: BoxFit.contain,
+                                            alignment: Alignment.bottomCenter,
+                                            errorBuilder: (c, e, s) => Icon(
+                                              isCaravan ? Icons.rv_hookup : Icons.holiday_village,
+                                              size: 32,
+                                              color: Colors.orange,
                                             ),
                                           ),
                                         ),
                                         if (state == 1)
                                           Positioned(
-                                            top: -15,
+                                            top: -8,
                                             child: SizedBox(
-                                              width: 35, height: 5,
+                                              width: 28,
+                                              height: 4,
                                               child: LinearProgressIndicator(
                                                 value: setupProgress[x][y],
                                                 backgroundColor: Colors.black54,
@@ -1426,8 +1334,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
                                     objectList.add(WorldObject(
                                       x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
-                                      // Zurück auf den bewährten Wert von 12.0 aus grafik_4
-                                      widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 12.0),
+                                      widget: buildTycoonObject(anchorX, anchorY, 44, 44, content, yOffset: 6.0),
                                     ));
                                   }
                                   // --- 2. REZEPTION ---
