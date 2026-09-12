@@ -1384,38 +1384,34 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                                   'assets/caravan.png',
                                                   width: 72, height: 72,
                                                   fit: BoxFit.contain,
-                                                  alignment: Alignment.bottomCenter,
                                                   errorBuilder: (c, e, s) => const Icon(Icons.rv_hookup, size: 40, color: Colors.orange),
                                                 )
                                               : Transform.translate(
-                                                  // Schiebt ausschließlich das Zelt um 14 Pixel nach unten auf den Schotter
-                                                  offset: const Offset(0, 14.0),
+                                                  // Nur ein minimaler Schubs (4 Pixel), damit das Zelt nicht in die Wiese rutscht
+                                                  offset: const Offset(0, 4.0),
                                                   child: Image.asset(
                                                     'assets/tent.png',
-                                                    width: 64, height: 64,
+                                                    width: 60, height: 60,
                                                     fit: BoxFit.contain,
-                                                    alignment: Alignment.bottomCenter,
                                                     errorBuilder: (c, e, s) => const Icon(Icons.holiday_village, size: 40, color: Colors.orange),
                                                   ),
                                                 ),
                                         ),
                                         Positioned(
-                                          left: -6,
-                                          bottom: 8,
+                                          left: -18,
+                                          bottom: 4,
                                           child: Opacity(
                                             opacity: state == 1 ? 0.45 : 1.0,
                                             child: Image.asset(
                                               'assets/table.png',
-                                              width: 26, height: 26,
-                                              fit: BoxFit.contain,
-                                              alignment: Alignment.bottomCenter,
+                                              width: 25, height: 25,
                                               errorBuilder: (c, e, s) => const Icon(Icons.table_restaurant, size: 18, color: Colors.brown),
                                             ),
                                           ),
                                         ),
                                         if (state == 1)
                                           Positioned(
-                                            top: isCaravan ? -15 : -2,
+                                            top: -15,
                                             child: SizedBox(
                                               width: 35, height: 5,
                                               child: LinearProgressIndicator(
@@ -1430,7 +1426,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
                                     objectList.add(WorldObject(
                                       x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
-                                      widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 24.0),
+                                      // Zurück auf den bewährten Wert von 12.0 aus grafik_4
+                                      widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 12.0),
                                     ));
                                   }
                                   // --- 2. REZEPTION ---
@@ -1511,13 +1508,15 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                               for (var car in activeCars) {
                                 objectList.add(WorldObject(
                                   x: car.x, y: car.y, sinZ: sinZ, cosZ: cosZ,
-                                  widget: buildTycoonObject(car.x, car.y, 28, 28, const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent), yOffset: 0.0),
+                                  // yOffset auf 12.0 drückt auch die Reifen der Autos satt auf den Asphalt
+                                  widget: buildTycoonObject(car.x, car.y, 28, 28, const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent), yOffset: 12.0),
                                 ));
                               }
 
                               objectList.add(WorldObject(
                                 x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
-                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 0.0),
+                                // yOffset auf 16.0 setzt die Füße des Fußgängers direkt auf die Straße
+                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 16.0),
                               ));
 
                               // Z-Sorting für korrekte Überlappung
