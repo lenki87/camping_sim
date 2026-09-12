@@ -1377,18 +1377,28 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       clipBehavior: Clip.none,
                                       alignment: Alignment.bottomCenter,
                                       children: [
-                                        // Zelt / Wohnwagen: Streng an der Unterkante ausgerichtet
                                         Opacity(
                                           opacity: state == 1 ? 0.45 : 1.0,
-                                          child: Image.asset(
-                                            isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                                            width: 72, height: 72,
-                                            fit: BoxFit.contain,
-                                            alignment: Alignment.bottomCenter,
-                                            errorBuilder: (c, e, s) => Icon(isCaravan ? Icons.rv_hookup : Icons.holiday_village, size: 40, color: Colors.orange),
-                                          ),
+                                          child: isCaravan
+                                              ? Image.asset(
+                                                  'assets/caravan.png',
+                                                  width: 72, height: 72,
+                                                  fit: BoxFit.contain,
+                                                  alignment: Alignment.bottomCenter,
+                                                  errorBuilder: (c, e, s) => const Icon(Icons.rv_hookup, size: 40, color: Colors.orange),
+                                                )
+                                              : Transform.translate(
+                                                  // Schiebt ausschließlich das Zelt um 14 Pixel nach unten auf den Schotter
+                                                  offset: const Offset(0, 14.0),
+                                                  child: Image.asset(
+                                                    'assets/tent.png',
+                                                    width: 64, height: 64,
+                                                    fit: BoxFit.contain,
+                                                    alignment: Alignment.bottomCenter,
+                                                    errorBuilder: (c, e, s) => const Icon(Icons.holiday_village, size: 40, color: Colors.orange),
+                                                  ),
+                                                ),
                                         ),
-                                        // Tisch: Passend auf die Schotterfläche geholt (nicht mehr im Gras)
                                         Positioned(
                                           left: -6,
                                           bottom: 8,
@@ -1405,10 +1415,14 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                         ),
                                         if (state == 1)
                                           Positioned(
-                                            top: -15,
+                                            top: isCaravan ? -15 : -2,
                                             child: SizedBox(
                                               width: 35, height: 5,
-                                              child: LinearProgressIndicator(value: setupProgress[x][y], backgroundColor: Colors.black54, color: Colors.greenAccent),
+                                              child: LinearProgressIndicator(
+                                                value: setupProgress[x][y],
+                                                backgroundColor: Colors.black54,
+                                                color: Colors.greenAccent,
+                                              ),
                                             ),
                                           ),
                                       ],
@@ -1416,7 +1430,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
                                     objectList.add(WorldObject(
                                       x: anchorX, y: anchorY, sinZ: sinZ, cosZ: cosZ,
-                                      // yOffset: 24.0 setzt das Zelt mittig und satt auf das 2x2-Kiesbett
                                       widget: buildTycoonObject(anchorX, anchorY, 72, 72, content, yOffset: 24.0),
                                     ));
                                   }
