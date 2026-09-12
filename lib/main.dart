@@ -248,6 +248,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   List<VisitingCar> activeCars = [];
   double barrierAngle = 0.0;
 
+  bool _isParcelId(int t) => t == 2 || (t >= 20 && t <= 24);
+  bool _isRoadId(int t) => t == 4 || t == 5 || t == 6 || (t >= 1 && t <= 6) || (t >= 20 && t <= 23);
+
   Color getAtmosphereColor() {
     return Colors.transparent;
   }
