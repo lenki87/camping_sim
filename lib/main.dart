@@ -434,11 +434,11 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       mapData[x][midY + 1] = 5;
     }
 
-    // 10 Start-Parzellen als saubere 1x1-Kacheln links & rechts der Straße
+    // 10 Start-Parzellen als saubere 1x1-Kacheln direkt an der Straße
     for (int i = 0; i < 5; i++) {
       int posX = 3 + (i * 2);
-      mapData[posX][midY - 1] = 2; // Oberhalb der Straße
-      mapData[posX][midY + 3] = 2; // Unterhalb der Straße
+      mapData[posX][midY] = 2;     // Oberhalb der Straße (y = 10, Straße ist bei y = 11)
+      mapData[posX][midY + 2] = 2; // Unterhalb der Straße (y = 12, Straße ist bei y = 11)
     }
 
     // Strandlinie
@@ -449,7 +449,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     _updateNetworks();
   }
 
-  // Prüft, ob eine Parzelle (Startpunkt) eine gültige Verbindung zur Straße/Rezeption (Typ 5 oder 6) hat
+  // Prüft, ob eine Parzelle (Startpunkt) eine gültige Verbindung zur Straße/Rezeption hat
   bool checkRoadConnection(int startX, int startY) {
     List<List<bool>> visited = List.generate(gridSize, (_) => List.filled(gridSize, false));
     List<Point<int>> queue = [Point(startX, startY)];
@@ -460,12 +460,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       if (visited[p.x][p.y]) continue;
       visited[p.x][p.y] = true;
 
-      int tileType = mapData[p.x][p.y];
-      // Verbindung zur Straße (5) oder Rezeption (6) gefunden
-      if (tileType == 5 || tileType == 6) return true;
+      int t = mapData[p.x][p.y];
+      if (_isRoadId(t)) return true;
 
-      // Erlaubte Fortbewegung auf Wegen (4), Straßen (5), Parzellen (2) oder Rezeption (6)
-      if (tileType == 2 || tileType == 4 || tileType == 5 || tileType == 6) {
+      if (_isParcelId(t) || _isRoadId(t)) {
         queue.add(Point(p.x + 1, p.y));
         queue.add(Point(p.x - 1, p.y));
         queue.add(Point(p.x, p.y + 1));
@@ -631,12 +629,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         int tile = mapData[x][y];
 
         // Prestige-Berechnung
-        if (tile == 3) currentPrestige += 5;   // Baum
-        if (tile == 16) currentPrestige += 2;  // Pflanze
-        if (tile == 17) currentPrestige += 3;  // Blumen
-        if (tile == 18) currentPrestige += 1;  // Stein
+        if (tile == 3 || tile == 40) currentPrestige += 5;   // Baum
+        if (tile == 16 || tile == 44) currentPrestige += 2;  // Pflanze / Blume
+        if (tile == 17) currentPrestige += 3;                // Blumen
+        if (tile == 18 || tile == 45) currentPrestige += 1;  // Stein
 
-        if (tile == 2) {
+        if (_isParcelId(tile)) {
           bool hasRoad = checkRoadConnection(x, y);
           bool hasPipe = parcelWater[x][y];
 
@@ -645,6 +643,9 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             capacity++;
           } else if (hasRoad || hasPipe) {
             income += 70.0;
+            capacity++;
+          } else {
+            // Jede platzierte Parzelle erhöht die Kapazität um mindestens 1
             capacity++;
           }
         }
