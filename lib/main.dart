@@ -1304,18 +1304,38 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       children: [
                                         Opacity(
                                           opacity: state == 1 ? 0.45 : 1.0,
-                                          child: Image.asset(
-                                            isCaravan ? 'assets/caravan.png' : 'assets/tent.png',
-                                            width: 44,
-                                            height: 44,
-                                            fit: BoxFit.contain,
-                                            alignment: Alignment.bottomCenter,
-                                            errorBuilder: (c, e, s) => Icon(
-                                              isCaravan ? Icons.rv_hookup : Icons.holiday_village,
-                                              size: 32,
-                                              color: Colors.orange,
-                                            ),
-                                          ),
+                                          child: isCaravan
+                                              ? Transform.translate(
+                                                  // Schiebt den Wohnwagen genau in die Mitte der Schotterfläche
+                                                  offset: const Offset(4.0, 6.0),
+                                                  child: Image.asset(
+                                                    'assets/caravan.png',
+                                                    width: 44,
+                                                    height: 44,
+                                                    fit: BoxFit.contain,
+                                                    alignment: Alignment.bottomCenter,
+                                                    errorBuilder: (c, e, s) => const Icon(
+                                                      Icons.rv_hookup,
+                                                      size: 32,
+                                                      color: Colors.orange,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Transform.translate(
+                                                  offset: const Offset(0, 4.0),
+                                                  child: Image.asset(
+                                                    'assets/tent.png',
+                                                    width: 44,
+                                                    height: 44,
+                                                    fit: BoxFit.contain,
+                                                    alignment: Alignment.bottomCenter,
+                                                    errorBuilder: (c, e, s) => const Icon(
+                                                      Icons.holiday_village,
+                                                      size: 32,
+                                                      color: Colors.orange,
+                                                    ),
+                                                  ),
+                                                ),
                                         ),
                                         if (state == 1)
                                           Positioned(
