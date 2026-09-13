@@ -1432,19 +1432,21 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                 }
                               }
 
-                              // --- 4. FAHRZEUGE & GÄSTE ---
+                              // --- 4. FAHRZEUGE & GÄSTE (Zentriert mitten auf der Kachel, yOffset 0.0) ---
                               for (var car in activeCars) {
+                                double cx = car.x + 0.5;
+                                double cy = car.y + 0.5;
                                 objectList.add(WorldObject(
-                                  x: car.x, y: car.y, sinZ: sinZ, cosZ: cosZ,
-                                  // yOffset auf 12.0 drückt auch die Reifen der Autos satt auf den Asphalt
-                                  widget: buildTycoonObject(car.x, car.y, 28, 28, const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent), yOffset: 12.0),
+                                  x: cx, y: cy, sinZ: sinZ, cosZ: cosZ,
+                                  widget: buildTycoonObject(cx, cy, 28, 28, const Icon(Icons.directions_car, size: 28, color: Colors.blueAccent), yOffset: 0.0),
                                 ));
                               }
 
+                              double gx = guestX + 0.5;
+                              double gy = guestY + 0.5;
                               objectList.add(WorldObject(
-                                x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
-                                // yOffset auf 31.0 feinjustiert für perfekte Fußposition auf dem Asphalt
-                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 31.0),
+                                x: gx, y: gy, sinZ: sinZ, cosZ: cosZ,
+                                widget: buildTycoonObject(gx, gy, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 0.0),
                               ));
 
                               // Z-Sorting für korrekte Überlappung
