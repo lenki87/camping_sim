@@ -441,17 +441,12 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       mapData[posX][midY + 2] = 2; // Unterhalb der Straße (y = 12, Straße ist bei y = 11)
     }
 
-    // Organische Küstenlinie mit Buchten statt einer geraden Kante
+    // Saubere Küste & Wasser aus Bild 1
     for (int y = 0; y < gridSize; y++) {
-      // Erzeugt eine weiche Wölbung für Strand und Wasser
-      int coastX = (gridSize - 4) + (sin(y * 0.5) * 1.2).round();
-      for (int x = 0; x < gridSize; x++) {
-        if (x > coastX) {
-          mapData[x][y] = 1; // Tiefes Meer
-        } else if (x == coastX) {
-          mapData[x][y] = 15; // Sandstrand
-        }
-      }
+      mapData[gridSize - 4][y] = 15; // Sandstrand (Kachel 16)
+      mapData[gridSize - 3][y] = 1;  // Wasser
+      mapData[gridSize - 2][y] = 1;  // Tiefes Wasser
+      mapData[gridSize - 1][y] = 1;  // Tiefes Wasser
     }
 
     _updateNetworks();
@@ -1572,52 +1567,22 @@ class CoastPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final w = size.width;
-    final h = size.height;
-
-    // Türkisfarbenes Seichtwasser am Ufer
-    final shallowWaterPaint = Paint()..color = const Color(0xFF26C6DA).withValues(alpha: 0.5);
-    // Sanfter weißer Wellenschaum
+    // Sanfter, pulsierender Schaumrand
     final foamPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.65)
+      ..color = Colors.white.withValues(alpha: 0.5 + 0.2 * sin(waveOffset * 3))
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.5;
+      ..strokeWidth = 3.0;
 
-    // Weiche Wellenbewegung berechnen
-    double wave1 = sin(waveOffset * 2.0) * 3.0;
-    double wave2 = cos(waveOffset * 1.5) * 2.5;
+    // Seichtes Uferwasser
+    final shallowPaint = Paint()
+      ..color = const Color(0xFF26C6DA).withValues(alpha: 0.35)
+      ..style = PaintingStyle.fill;
 
-    // Westkante (Strand links, Wasser rechts)
+    // Strandkante links (West)
     if ((mask & 8) != 0) {
-      Path wavePath = Path();
-      wavePath.moveTo(0, 0);
-      wavePath.cubicTo(w * 0.3 + wave1, h * 0.3, w * 0.4 + wave2, h * 0.7, 0, h);
-      wavePath.close();
-
-      canvas.drawPath(wavePath, shallowWaterPaint);
-      canvas.drawPath(wavePath, foamPaint);
-    }
-
-    // Südkante
-    if ((mask & 4) != 0) {
-      Path wavePath = Path();
-      wavePath.moveTo(0, h);
-      wavePath.cubicTo(w * 0.3, h * 0.7 + wave2, w * 0.7, h * 0.8 + wave1, w, h);
-      wavePath.close();
-
-      canvas.drawPath(wavePath, shallowWaterPaint);
-      canvas.drawPath(wavePath, foamPaint);
-    }
-
-    // Nordkante
-    if ((mask & 1) != 0) {
-      Path wavePath = Path();
-      wavePath.moveTo(0, 0);
-      wavePath.cubicTo(w * 0.3, h * 0.3 + wave1, w * 0.7, h * 0.2 + wave2, w, 0);
-      wavePath.close();
-
-      canvas.drawPath(wavePath, shallowWaterPaint);
-      canvas.drawPath(wavePath, foamPaint);
+      double shoreWidth = 6.0 + sin(waveOffset * 2.5) * 2.0;
+      canvas.drawRect(Rect.fromLTWH(0, 0, shoreWidth, size.height), shallowPaint);
+      canvas.drawLine(Offset(shoreWidth, 0), Offset(shoreWidth, size.height), foamPaint);
     }
   }
 
