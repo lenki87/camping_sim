@@ -234,7 +234,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   Timer? gameLoop;
   Timer? renderLoop;
   double guestX = 1.0;
-  double guestY = 10.0;
+  double guestY = 11.0; // Auf der Asphaltstraße (y = 11.0)
   double waterWaveOffset = 0.0;
   double timeOfDay = 0.25;
   int inGameDay = 1;
@@ -1443,8 +1443,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
                               objectList.add(WorldObject(
                                 x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
-                                // yOffset auf 26.0 rückt die Füße des Fußgängers tief und satt auf die Straße
-                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 26.0),
+                                // yOffset auf 36.0 setzt die Füße des Fußgängers exakt auf die Asphaltfläche der Straße
+                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 36.0),
                               ));
 
                               // Z-Sorting für korrekte Überlappung
