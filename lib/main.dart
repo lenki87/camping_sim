@@ -699,33 +699,23 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                   errorBuilder: (c, e, s) => Container(color: const Color(0xFF006994)),
                 ),
               ),
-              // Weiche, pulsierende Brandung mit Schaum
+              // Brandung nur auf dem Wasser
               Opacity(
                 opacity: groundOpacity,
                 child: CustomPaint(
                   painter: CoastPainter(
                     mask: _getCoastMask(x, y),
-                    waveOffset: waterWaveOffset + (x * 0.5) + (y * 0.3),
+                    waveOffset: waterWaveOffset,
+                    gridY: y,
                   ),
                 ),
               ),
             ],
           )
-        else if (tileType == 15) // Sandstrand
+        else if (tileType == 15) // Sandstrand: Nur sauberer, trockener Sand
           Opacity(
             opacity: groundOpacity,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Container(color: const Color(0xFFE2C499)),
-                CustomPaint(
-                  painter: CoastPainter(
-                    mask: _getCoastMask(x, y),
-                    waveOffset: waterWaveOffset,
-                  ),
-                ),
-              ],
-            ),
+            child: Container(color: const Color(0xFFE2C499)),
           )
         else if (tileType == 2 || tileType == 6) // Schotter (Parzelle & Rezeption)
             Opacity(
@@ -1562,27 +1552,59 @@ class PipePainter extends CustomPainter {
 class CoastPainter extends CustomPainter {
   final int mask;
   final double waveOffset;
+  final int gridY;
 
-  CoastPainter({required this.mask, required this.waveOffset});
+  CoastPainter({
+    required this.mask,
+    required this.waveOffset,
+    required this.gridY,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Sanfter, pulsierender Schaumrand
-    final foamPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.5 + 0.2 * sin(waveOffset * 3))
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0;
+    final w = size.width;
+    final h = size.height;
 
-    // Seichtes Uferwasser
-    final shallowPaint = Paint()
-      ..color = const Color(0xFF26C6DA).withValues(alpha: 0.35)
-      ..style = PaintingStyle.fill;
-
-    // Strandkante links (West)
+    // Nur zeichnen, wenn diese Wasserkachel an den Strand grenzt (Westen)
     if ((mask & 8) != 0) {
-      double shoreWidth = 6.0 + sin(waveOffset * 2.5) * 2.0;
-      canvas.drawRect(Rect.fromLTWH(0, 0, shoreWidth, size.height), shallowPaint);
-      canvas.drawLine(Offset(shoreWidth, 0), Offset(shoreWidth, size.height), foamPaint);
+      // 1. Sanfte, nahtlose Brandungswelle berechnen
+      final wavePath = Path();
+      const int steps = 8;
+
+      for (int i = 0; i <= steps; i++) {
+        double py = (h / steps) * i;
+        // Durch (gridY + i / steps) entsteht eine durchgehende Sinuslinie über alle Kacheln hinweg
+        double progress = gridY + (i / steps);
+        double wave = sin(waveOffset * 2.5 + progress * 1.5) * 2.5;
+        double shoreX = 7.0 + wave;
+
+        if (i == 0) {
+          wavePath.moveTo(shoreX, py);
+        } else {
+          wavePath.lineTo(shoreX, py);
+        }
+      }
+
+      // Seichtwasserfläche bis zum Strandrand füllen
+      final shallowPath = Path.from(wavePath)
+        ..lineTo(0, h)
+        ..lineTo(0, 0)
+        ..close();
+
+      canvas.drawPath(
+        shallowPath,
+        Paint()..color = const Color(0xFF26C6DA).withValues(alpha: 0.4),
+      );
+
+      // Weicher weißer Schaumsaum
+      canvas.drawPath(
+        wavePath,
+        Paint()
+          ..color = Colors.white.withValues(alpha: 0.65)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2.0
+          ..strokeCap = StrokeCap.round,
+      );
     }
   }
 
