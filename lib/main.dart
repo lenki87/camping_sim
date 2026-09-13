@@ -1443,8 +1443,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
                               objectList.add(WorldObject(
                                 x: guestX, y: guestY, sinZ: sinZ, cosZ: cosZ,
-                                // yOffset auf 16.0 setzt die Füße des Fußgängers direkt auf die Straße
-                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 16.0),
+                                // yOffset auf 26.0 rückt die Füße des Fußgängers tief und satt auf die Straße
+                                widget: buildTycoonObject(guestX, guestY, 32, 32, const Icon(Icons.emoji_people, size: 32, color: Colors.white), yOffset: 26.0),
                               ));
 
                               // Z-Sorting für korrekte Überlappung
