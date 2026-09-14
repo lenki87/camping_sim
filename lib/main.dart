@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
 
+import 'game_items.dart'; // <--- NEUER IMPORT
+
 void main() {
   runApp(const CampingSimApp());
 }
@@ -18,116 +20,6 @@ class CampingColors {
   static const Color textDark = Color(0xFF3B2F2F);      // Dunkler Text
   static const Color moneyGreen = Color(0xFF2E7D32);    // Geld-Grün
 }
-
-// --- DATENMODELL & BALANCING ---
-class GameItem {
-  final int id; 
-  final String name;
-  final String category;
-  final double cost;
-  final double prestigeValue; 
-  final double requiredPrestige;
-  final double dailyIncome; 
-  final IconData icon;
-
-  const GameItem({
-    required this.id,
-    required this.name,
-    required this.category,
-    required this.cost,
-    required this.prestigeValue,
-    required this.requiredPrestige,
-    required this.dailyIncome,
-    required this.icon,
-  });
-}
-
-final Map<String, int> categoryUnlockPrestige = {
-  "Zoning": 0,
-  "Wege": 0,
-  "Natur": 0,
-  "Netze": 100,
-  "Hygiene": 100,
-  "Verpflegung": 300,
-  "Pool": 400,
-  "Aktivitäten": 500,
-  "Abriss": 0,
-};
-
-final List<GameItem> allItems = [
-  // --- ZONING ---
-  const GameItem(id: 20, name: 'Stellplatz 1', category: 'Zoning', cost: 100, prestigeValue: 5, requiredPrestige: 0, dailyIncome: 15, icon: Icons.holiday_village),
-  const GameItem(id: 21, name: 'Stellplatz 2 (Hecke)', category: 'Zoning', cost: 200, prestigeValue: 10, requiredPrestige: 200, dailyIncome: 30, icon: Icons.holiday_village),
-  const GameItem(id: 22, name: 'Stellplatz 3 (Baum)', category: 'Zoning', cost: 400, prestigeValue: 20, requiredPrestige: 400, dailyIncome: 60, icon: Icons.holiday_village),
-  const GameItem(id: 23, name: 'Freifläche', category: 'Zoning', cost: 100, prestigeValue: 5, requiredPrestige: 0, dailyIncome: 10, icon: Icons.crop_free),
-  const GameItem(id: 24, name: 'Mobilheim', category: 'Zoning', cost: 1500, prestigeValue: 100, requiredPrestige: 600, dailyIncome: 250, icon: Icons.house),
-
-  // --- WEGE ---
-  const GameItem(id: 1, name: 'Schotterstraße', category: 'Wege', cost: 20, prestigeValue: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.add_road),
-  const GameItem(id: 2, name: 'Geteerte Straße', category: 'Wege', cost: 50, prestigeValue: 2, requiredPrestige: 200, dailyIncome: 0, icon: Icons.add_road),
-  const GameItem(id: 3, name: 'Kiesweg', category: 'Wege', cost: 20, prestigeValue: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.add_road),
-  const GameItem(id: 4, name: 'Rezeption', category: 'Wege', cost: 1000, prestigeValue: 50, requiredPrestige: 300, dailyIncome: 50, icon: Icons.store),
-  const GameItem(id: 5, name: 'Straße m. Blumen', category: 'Wege', cost: 80, prestigeValue: 4, requiredPrestige: 400, dailyIncome: 0, icon: Icons.add_road),
-  const GameItem(id: 6, name: 'Verzierter Weg', category: 'Wege', cost: 100, prestigeValue: 5, requiredPrestige: 600, dailyIncome: 0, icon: Icons.add_road),
-
-  // --- NATUR ---
-  const GameItem(id: 30, name: 'Nadelbaum', category: 'Natur', cost: 20, prestigeValue: 4, requiredPrestige: 0, dailyIncome: 0, icon: Icons.nature),
-  const GameItem(id: 31, name: 'Laubbaum', category: 'Natur', cost: 20, prestigeValue: 6, requiredPrestige: 100, dailyIncome: 0, icon: Icons.nature),
-  const GameItem(id: 32, name: 'Zypresse', category: 'Natur', cost: 20, prestigeValue: 8, requiredPrestige: 200, dailyIncome: 0, icon: Icons.nature),
-  const GameItem(id: 33, name: 'Busch', category: 'Natur', cost: 10, prestigeValue: 2, requiredPrestige: 0, dailyIncome: 0, icon: Icons.park),
-  const GameItem(id: 34, name: 'Blume', category: 'Natur', cost: 15, prestigeValue: 3, requiredPrestige: 200, dailyIncome: 0, icon: Icons.local_florist),
-  const GameItem(id: 35, name: 'Stein', category: 'Natur', cost: 10, prestigeValue: 1, requiredPrestige: 0, dailyIncome: 0, icon: Icons.landscape),
-  const GameItem(id: 36, name: 'Hecke', category: 'Natur', cost: 25, prestigeValue: 5, requiredPrestige: 300, dailyIncome: 0, icon: Icons.grass),
-  const GameItem(id: 37, name: 'Palme', category: 'Natur', cost: 20, prestigeValue: 10, requiredPrestige: 300, dailyIncome: 0, icon: Icons.nature),
-
-  // --- NETZE ---
-  const GameItem(id: 10, name: 'Wasserleitung', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -2, icon: Icons.water_drop),
-  const GameItem(id: 11, name: 'Abwasserleitung', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -2, icon: Icons.plumbing),
-  const GameItem(id: 12, name: 'Stromkabel', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -2, icon: Icons.electric_bolt),
-  const GameItem(id: 13, name: 'Wasserwerk', category: 'Netze', cost: 500, prestigeValue: 0, requiredPrestige: 300, dailyIncome: -20, icon: Icons.factory),
-  const GameItem(id: 14, name: 'Kläranlage', category: 'Netze', cost: 500, prestigeValue: 0, requiredPrestige: 300, dailyIncome: -20, icon: Icons.factory),
-  const GameItem(id: 15, name: 'Trafo', category: 'Netze', cost: 50, prestigeValue: 0, requiredPrestige: 100, dailyIncome: -5, icon: Icons.electrical_services),
-
-  // --- HYGIENE ---
-  const GameItem(id: 70, name: 'Duschen im freien', category: 'Hygiene', cost: 100, prestigeValue: 10, requiredPrestige: 100, dailyIncome: -5, icon: Icons.shower),
-  const GameItem(id: 71, name: 'Wc mit Waschbecken', category: 'Hygiene', cost: 200, prestigeValue: 20, requiredPrestige: 200, dailyIncome: -10, icon: Icons.wash),
-  const GameItem(id: 72, name: 'Waschhaus mitWCs Und Waschbecken', category: 'Hygiene', cost: 400, prestigeValue: 40, requiredPrestige: 300, dailyIncome: -25, icon: Icons.home_work),
-  const GameItem(id: 73, name: 'gehobenes Waschhaus ', category: 'Hygiene', cost: 800, prestigeValue: 80, requiredPrestige: 500, dailyIncome: -50, icon: Icons.hotel_class),
-  const GameItem(id: 74, name: 'Ertsehilfe Station', category: 'Hygiene', cost: 600, prestigeValue: 50, requiredPrestige: 500, dailyIncome: -30, icon: Icons.medical_services),
-  const GameItem(id: 75, name: 'krankenstation', category: 'Hygiene', cost: 1500, prestigeValue: 120, requiredPrestige: 800, dailyIncome: -60, icon: Icons.local_hospital),
-
-  // --- VERPFLEGUNG ---
-  const GameItem(id: 40, name: 'Fischrestaurant', category: 'Verpflegung', cost: 600, prestigeValue: 50, requiredPrestige: 400, dailyIncome: 120, icon: Icons.restaurant),
-  const GameItem(id: 41, name: 'Fleisch grill restaurant', category: 'Verpflegung', cost: 650, prestigeValue: 55, requiredPrestige: 400, dailyIncome: 130, icon: Icons.restaurant_menu),
-  const GameItem(id: 42, name: 'Schnellrestauarant', category: 'Verpflegung', cost: 400, prestigeValue: 35, requiredPrestige: 300, dailyIncome: 80, icon: Icons.fastfood),
-  const GameItem(id: 43, name: 'bar', category: 'Verpflegung', cost: 500, prestigeValue: 40, requiredPrestige: 400, dailyIncome: 90, icon: Icons.local_bar),
-  const GameItem(id: 44, name: 'Cafe', category: 'Verpflegung', cost: 450, prestigeValue: 35, requiredPrestige: 300, dailyIncome: 70, icon: Icons.local_cafe),
-  const GameItem(id: 45, name: 'Soevenirstand', category: 'Verpflegung', cost: 300, prestigeValue: 25, requiredPrestige: 300, dailyIncome: 50, icon: Icons.storefront),
-  const GameItem(id: 46, name: 'Obststand', category: 'Verpflegung', cost: 200, prestigeValue: 15, requiredPrestige: 300, dailyIncome: 30, icon: Icons.apple),
-  const GameItem(id: 47, name: 'Supermarkt', category: 'Verpflegung', cost: 2000, prestigeValue: 150, requiredPrestige: 800, dailyIncome: 450, icon: Icons.shopping_cart),
-  const GameItem(id: 48, name: 'gemüsestand', category: 'Verpflegung', cost: 200, prestigeValue: 15, requiredPrestige: 300, dailyIncome: 30, icon: Icons.shopping_basket),
-  const GameItem(id: 49, name: 'Fischstand', category: 'Verpflegung', cost: 250, prestigeValue: 20, requiredPrestige: 300, dailyIncome: 40, icon: Icons.set_meal),
-  const GameItem(id: 50, name: 'Eisstand', category: 'Verpflegung', cost: 250, prestigeValue: 20, requiredPrestige: 300, dailyIncome: 45, icon: Icons.icecream),
-
-  // --- POOL ---
-  const GameItem(id: 80, name: 'Poolkachel', category: 'Pool', cost: 50, prestigeValue: 5, requiredPrestige: 400, dailyIncome: -2, icon: Icons.pool),
-  const GameItem(id: 81, name: 'Rutsche', category: 'Pool', cost: 300, prestigeValue: 30, requiredPrestige: 500, dailyIncome: 40, icon: Icons.water),
-  const GameItem(id: 82, name: 'Massagestrahl', category: 'Pool', cost: 150, prestigeValue: 15, requiredPrestige: 400, dailyIncome: 10, icon: Icons.waves),
-  const GameItem(id: 83, name: 'Sonnenschirme', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, dailyIncome: 0, icon: Icons.beach_access),
-  const GameItem(id: 84, name: 'poolliegen', category: 'Pool', cost: 40, prestigeValue: 4, requiredPrestige: 400, dailyIncome: 0, icon: Icons.beach_access),
-  const GameItem(id: 85, name: 'Poolbar', category: 'Pool', cost: 600, prestigeValue: 60, requiredPrestige: 600, dailyIncome: 110, icon: Icons.local_bar),
-
-  // --- AKTIVITÄTEN ---
-  const GameItem(id: 60, name: 'Bootsverleih', category: 'Aktivitäten', cost: 1000, prestigeValue: 100, requiredPrestige: 600, dailyIncome: 180, icon: Icons.rowing),
-  const GameItem(id: 61, name: 'Funsportaktivitäten stand', category: 'Aktivitäten', cost: 800, prestigeValue: 80, requiredPrestige: 600, dailyIncome: 120, icon: Icons.skateboarding),
-  const GameItem(id: 62, name: 'Fitnessstudio', category: 'Aktivitäten', cost: 1500, prestigeValue: 140, requiredPrestige: 800, dailyIncome: 200, icon: Icons.fitness_center),
-  const GameItem(id: 63, name: 'Spielplatz', category: 'Aktivitäten', cost: 500, prestigeValue: 50, requiredPrestige: 500, dailyIncome: 30, icon: Icons.child_care),
-  const GameItem(id: 64, name: 'Tauchschule', category: 'Aktivitäten', cost: 2000, prestigeValue: 180, requiredPrestige: 900, dailyIncome: 300, icon: Icons.scuba_diving),
-  const GameItem(id: 65, name: 'Angelschule', category: 'Aktivitäten', cost: 900, prestigeValue: 75, requiredPrestige: 700, dailyIncome: 100, icon: Icons.phishing),
-
-  // --- ABRISS (IMMER GANZ RECHTS) ---
-  const GameItem(id: 99, name: 'Abriss', category: 'Abriss', cost: 0, prestigeValue: 0, requiredPrestige: 0, dailyIncome: 0, icon: Icons.delete),
-];
 
 class WorldObject {
   final double x;
