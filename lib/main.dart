@@ -60,6 +60,111 @@ class GameScreen extends StatefulWidget {
   State<GameScreen> createState() => _GameScreenState();
 }
 
+class PlantVisual {
+  final String asset;
+  final double size;
+  final double yOffset;
+  const PlantVisual(this.asset, this.size, this.yOffset);
+}
+
+PlantVisual resolvePlantVisual(int type, int x, int y) {
+  // Streuungswert für abwechslungsreiche Varianten pro Kachel
+  final int seed = (x * 37 + y * 19).abs();
+
+  switch (type) {
+    // --- 1. NADELBÄUME (8 dichte Tannen + 8 halbdichte Varianten) ---
+    case 30:
+    case 3:
+      final pines = [
+        'pine-full01.png', 'pine-full02.png', 'pine-full03.png', 'pine-full04.png',
+        'pine-full05.png', 'pine-full06.png', 'pine-full07.png', 'pine-full08.png',
+        'pine-half01.png', 'pine-half02.png', 'pine-half03.png', 'pine-half04.png',
+      ];
+      return PlantVisual('assets/${pines[seed % pines.length]}', 72.0, 24.0);
+
+    // --- 2. LAUBBÄUME (3 große Laubbäume) ---
+    case 31:
+      final bigTrees = ['bigtree01.png', 'bigtree02.png', 'bigtree03.png'];
+      return PlantVisual('assets/${bigTrees[seed % bigTrees.length]}', 76.0, 26.0);
+
+    // --- 3. ZYPRESSEN & SCHLANKE TANNEN (8 schlanke Tannen + 3 Hanf/Schilfbäume) ---
+    case 32:
+      final slimTrees = [
+        'pine-none01.png', 'pine-none02.png', 'pine-none03.png', 'pine-none04.png',
+        'pine-none05.png', 'pine-none06.png', 'pine-none07.png', 'pine-none08.png',
+        'hemp01.png', 'hemp02.png', 'hemp03.png',
+      ];
+      return PlantVisual('assets/${slimTrees[seed % slimTrees.length]}', 64.0, 20.0);
+
+    // --- 4. BÜSCHE & STRÄUCHER (5 Büsche + 10 Ziersträucher) ---
+    case 33:
+      final bushes = [
+        'bush01.png', 'bush02.png', 'bush03.png', 'bush04.png', 'bush05.png',
+        'shrub1-01.png', 'shrub1-02.png', 'shrub1-03.png', 'shrub1-04.png', 'shrub1-05.png',
+        'shrub2-01.png', 'shrub2-02.png', 'shrub2-03.png', 'shrub2-04.png', 'shrub2-05.png',
+      ];
+      return PlantVisual('assets/${bushes[seed % bushes.length]}', 38.0, 10.0);
+
+    // --- 5. PALMEN (6 mediterrane Palmen) ---
+    case 37:
+      final palms = [
+        'palm01.png', 'palm02.png', 'palm03.png',
+        'palm04.png', 'palm05.png', 'palm06.png',
+      ];
+      return PlantVisual('assets/${palms[seed % palms.length]}', 72.0, 24.0);
+
+    // --- 6. BAMBUS (6 Bambus-Haine) ---
+    case 38:
+      final bamboos = [
+        'bamboo01.png', 'bamboo02.png', 'bamboo03.png',
+        'bamboo04.png', 'bamboo05.png', 'bamboo06.png',
+      ];
+      return PlantVisual('assets/${bamboos[seed % bamboos.length]}', 56.0, 16.0);
+
+    // --- 7. KAKTEEN (4 Wüsten-Kakteen) ---
+    case 39:
+      final cacti = ['cactus01.png', 'cactus02.png', 'cactus03.png', 'cactus04.png'];
+      return PlantVisual('assets/${cacti[seed % cacti.length]}', 48.0, 14.0);
+
+    // --- 8. TROPISCHE PFLANZEN & BLUMEN (5 Tropenblumen) ---
+    case 34:
+    case 51:
+      final tropicals = [
+        'tropical01.png', 'tropical02.png', 'tropical03.png',
+        'tropical04.png', 'tropical05.png',
+      ];
+      return PlantVisual('assets/${tropicals[seed % tropicals.length]}', 40.0, 8.0);
+
+    // --- 9. GRÄSER & WILDKRÄUTER (5 Ziergräser + 6 Wildkräuter + 2 Swirls) ---
+    case 16:
+    case 52:
+      final grasses = [
+        'grasses01.png', 'grasses02.png', 'grasses03.png', 'grasses04.png', 'grasses05.png',
+        'weed01.png', 'weed02.png', 'weed03.png', 'weed04.png', 'weed05.png', 'weed06.png',
+        'swirl01.png', 'swirl02.png',
+      ];
+      return PlantVisual('assets/${grasses[seed % grasses.length]}', 32.0, 6.0);
+
+    // --- 10. HECKE (Zierhecke) ---
+    case 14:
+    case 36:
+      return const PlantVisual('assets/hedge.png', 55.0, 16.0);
+
+    // --- 11. SONNENSCHIRM ---
+    case 15:
+    case 90:
+      return const PlantVisual('assets/parasol.png', 40.0, 14.0);
+
+    // --- 12. STEIN ---
+    case 18:
+    case 35:
+      return const PlantVisual('assets/stone.png', 34.0, 6.0);
+
+    default:
+      return const PlantVisual('assets/tree.png', 60.0, 16.0);
+  }
+}
+
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   final int gridSize = 20; // Zurück auf die Originalgröße
   late List<List<int>> mapData;
@@ -1297,32 +1402,30 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       widget: buildTycoonObject(x + 0.5, y + 0.5, 90, 80, content, yOffset: 22.0),
                                     ));
                                   }
-                                  // --- 3. BÄUME, STRAND & DEKO ---
-                                  else if (type == 15 || type == 90 || type == 3 || type == 14 || (type >= 16 && type <= 18) || (type >= 30 && type <= 37) || (type >= 40 && type <= 45)) {
-                                    IconData icon = Icons.park; Color iconColor = Colors.green[800]!; double size = 60;
-                                    if (type == 16) { icon = Icons.grass; iconColor = Colors.lightGreen; size = 45; }
-                                    if (type == 17) { icon = Icons.local_florist; iconColor = Colors.pinkAccent; size = 40; }
-                                    if (type == 18) { icon = Icons.landscape; iconColor = Colors.grey; size = 50; }
+                                  // --- 3. NATUR, STRAND & DEKO ---
+                                  else if ((type >= 30 && type <= 39) || (type >= 51 && type <= 52) || 
+                                           type == 3 || type == 14 || type == 15 || type == 90 || 
+                                           (type >= 16 && type <= 18)) {
 
-                                    Widget content;
-                                    double yOffset = 16.0;
+                                    final visual = resolvePlantVisual(type, x, y);
 
-                                    if (type == 15 || type == 90) {
-                                      size = 40;
-                                      yOffset = 14.0; // Steckt den Schirmstab direkt in den Sand
-                                      content = Image.asset('assets/parasol.png', width: 40, height: 40, fit: BoxFit.contain, alignment: Alignment.bottomCenter, errorBuilder: (c, e, s) => const Icon(Icons.beach_access, size: 24, color: Colors.orangeAccent));
-                                    } else if (type == 14 || type == 36 || type == 43) {
-                                      size = 55;
-                                      yOffset = 16.0;
-                                      content = Image.asset('assets/hedge.png', width: 55, height: 55, fit: BoxFit.contain, alignment: Alignment.bottomCenter, errorBuilder: (c, e, s) => const Icon(Icons.grass, size: 30, color: Colors.lightGreen));
-                                    } else {
-                                      yOffset = 16.0; // Setzt den Baumstamm auf die Wiese
-                                      content = Image.asset('assets/tree.png', width: 65, height: 65, fit: BoxFit.contain, alignment: Alignment.bottomCenter, errorBuilder: (c, e, s) => Icon(icon, size: 40, color: iconColor));
-                                    }
+                                    Widget content = Image.asset(
+                                      visual.asset,
+                                      width: visual.size,
+                                      height: visual.size,
+                                      fit: BoxFit.contain,
+                                      alignment: Alignment.bottomCenter,
+                                      errorBuilder: (c, e, s) => const Icon(Icons.nature, size: 36, color: Colors.green),
+                                    );
 
                                     objectList.add(WorldObject(
                                       x: x + 0.5, y: y + 0.5, sinZ: sinZ, cosZ: cosZ,
-                                      widget: buildTycoonObject(x + 0.5, y + 0.5, size, size, content, yOffset: yOffset),
+                                      widget: buildTycoonObject(
+                                        x + 0.5, y + 0.5,
+                                        visual.size, visual.size,
+                                        content,
+                                        yOffset: visual.yOffset,
+                                      ),
                                     ));
                                   }
                                 }
