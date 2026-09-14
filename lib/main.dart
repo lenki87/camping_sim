@@ -74,7 +74,6 @@ PlantVisual resolvePlantVisual(int type, int x, int y) {
   switch (type) {
     // --- 1. NADELBÄUME (8 dichte Tannen + 8 halbdichte Varianten) ---
     case 30:
-    case 3:
       final pines = [
         'pine-full01.png', 'pine-full02.png', 'pine-full03.png', 'pine-full04.png',
         'pine-full05.png', 'pine-full06.png', 'pine-full07.png', 'pine-full08.png',
@@ -241,8 +240,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   List<VisitingCar> activeCars = [];
   double barrierAngle = 0.0;
 
-  bool _isParcelId(int t) => t == 2 || (t >= 20 && t <= 24);
-  bool _isRoadId(int t) => t == 4 || t == 5 || t == 6 || (t >= 1 && t <= 6) || (t >= 20 && t <= 23);
+  bool _isParcelId(int t) => t >= 20 && t <= 24;
+  bool _isRoadId(int t) => t == 1 || t == 2 || t == 3 || t == 5 || t == 6;
 
   Color getAtmosphereColor() {
     return Colors.transparent;
@@ -498,7 +497,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       return;
     }
 
-    if (mapData[x][y] == 1) return; // Meer sperren
+    if (mapData[x][y] == 98) return; // Meer sperren
     if (mapData[x][y] == selectedTool) return;
 
     try {
@@ -601,13 +600,13 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     // 1 = Meer. Wenn der Nachbar KEIN Meer ist (oder der Kartenrand), brauchen wir dort Strand.
 
     // Nord (y - 1)
-    if (y == 0 || mapData[x][y - 1] != 1) mask += 1;
+    if (y == 0 || mapData[x][y - 1] != 98) mask += 1;
     // Ost (x + 1)
-    if (x == gridSize - 1 || mapData[x + 1][y] != 1) mask += 2;
+    if (x == gridSize - 1 || mapData[x + 1][y] != 98) mask += 2;
     // Süd (y + 1)
-    if (y == gridSize - 1 || mapData[x][y + 1] != 1) mask += 4;
+    if (y == gridSize - 1 || mapData[x][y + 1] != 98) mask += 4;
     // West (x - 1)
-    if (x == 0 || mapData[x - 1][y] != 1) mask += 8;
+    if (x == 0 || mapData[x - 1][y] != 98) mask += 8;
 
     return mask;
   }
@@ -701,8 +700,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Basis-Böden
-        if (tileType == 1) // Meer
+        // 1. MEER (ID 98)
+        if (tileType == 98)
           Stack(
             fit: StackFit.expand,
             children: [
@@ -715,7 +714,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                   errorBuilder: (c, e, s) => Container(color: const Color(0xFF006994)),
                 ),
               ),
-              // Brandung nur auf dem Wasser
               Opacity(
                 opacity: groundOpacity,
                 child: CustomPaint(
@@ -1420,8 +1418,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       widget: buildTycoonObject(anchorX, anchorY, 44, 44, content, yOffset: 6.0),
                                     ));
                                   }
-                                  // --- 2. REZEPTION ---
-                                  else if (type == 23 || type == 4 || type == 6) {
+                                  // --- 2. REZEPTION (NUR NOCH ID 4!) ---
+                                  else if (type == 4) {
                                     Widget content = Stack(
                                       clipBehavior: Clip.none,
                                       alignment: Alignment.bottomCenter,
@@ -1465,7 +1463,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                   }
                                   // --- 3. NATUR, STRAND & DEKO ---
                                   else if ((type >= 30 && type <= 39) || (type >= 51 && type <= 52) || 
-                                           type == 3 || type == 14 || type == 15 || type == 90 || 
+                                           type == 14 || type == 15 || type == 90 || 
                                            (type >= 16 && type <= 18)) {
 
                                     final visual = resolvePlantVisual(type, x, y);
