@@ -543,7 +543,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
       for (int y = 0; y < gridSize; y++) {
         if (_isParcelId(mapData[x][y])) {
           parcelWater[x][y] = _isAdjacentToConnected(x, y, connectedWater, [7]);
-          parcelWaste[x][y] = _isAdjacentToConnected(x, y, connectedWaste, [12, 1]);
+          parcelWaste[x][y] = _isAdjacentToConnected(x, y, connectedWaste, [12, 98]); // 98 = Meer
           parcelPower[x][y] = _isAdjacentToConnected(x, y, connectedPower, [13]);
         }
       }
@@ -674,8 +674,27 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     }
   }
 
+  Widget _getTileTexture(int tileType) {
+    switch (tileType) {
+      case 1: // Schotterstraße / Pfad
+        return Image.asset('assets/medieval_architecture_floor_dirt_path_01.png', fit: BoxFit.cover);
+      case 2: // Stellplatz-Schotter
+        return Image.asset('assets/medieval_architecture_floor_dirt_path_01.png', fit: BoxFit.cover);
+      case 3: // Kiesweg
+        return Image.asset('assets/medieval_architecture_floor_dirt_path_01.png', fit: BoxFit.cover);
+      case 6: // Rezeption / Schranken-Vorplatz (Kopfsteinpflaster)
+        return Image.asset('assets/medieval_architecture_floor_cobblestone_road_01.png', fit: BoxFit.cover);
+      case 80: // Pool-Umrandung / Gehwegplatten
+        return Image.asset('assets/medieval_architecture_floor_stone_slab_interior_01.png', fit: BoxFit.cover);
+      case 85: // Holzsteg (Beach / Bar)
+        return Image.asset('assets/medieval_architecture_floor_wood_plank_interior_01.png', fit: BoxFit.cover);
+      default:
+        return Image.asset('assets/grass.png', fit: BoxFit.cover);
+    }
+  }
+
   Widget _buildGroundTile(int x, int y, int tileType) {
-    bool isUndergroundView = selectedTool >= 8;
+    bool isUndergroundView = selectedTool >= 8 && selectedTool <= 15;
     // NEU: Ein zentraler Wert, der alle Böden beim Röntgen auf 30% dimmt
     double groundOpacity = isUndergroundView ? 0.3 : 1.0;
 
@@ -714,50 +733,98 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
             opacity: groundOpacity,
             child: Container(color: const Color(0xFFE2C499)),
           )
-        else if (tileType == 2 || tileType == 6) // Schotter (Parzelle & Rezeption)
-            Opacity(
-              opacity: groundOpacity,
-              child: Image.asset(
-                'assets/gravel.png',
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.none,
-                errorBuilder: (c, e, s) => Container(color: Colors.grey),
-              ),
-            )
-          else if (tileType == 4 || tileType == 5) // Straßen & Wege
-              Opacity(
-                opacity: groundOpacity,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset('assets/grass.png', fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(color: Colors.green)),
-                    CustomPaint(
-                      painter: RoadPainter(
-                        hasTop: _isRoadConnection(x, y - 1),
-                        hasRight: _isRoadConnection(x + 1, y),
-                        hasBottom: _isRoadConnection(x, y + 1),
-                        hasLeft: _isRoadConnection(x - 1, y),
-                        roadColor: tileType == 5 ? Colors.grey[700]! : Colors.brown[300]!,
-                      ),
-                    ),
-                  ],
+        // --- 3. STELLPLÄTZE (ZONING) ---
+        // A) Freifläche (ID 23): Naturrasen mit Platzmarkierungs-Ecken
+        else if (tileType == 23)
+          Opacity(
+            opacity: groundOpacity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset('assets/grass.png', fit: BoxFit.cover),
+                CustomPaint(painter: ParcelBorderPainter(parcelType: 23)),
+              ],
+            ),
+          )
+        // B) Gehobener Stellplatz 2 (ID 21): Kiesbett mit Holzkanten
+        else if (tileType == 21)
+          Opacity(
+            opacity: groundOpacity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  'assets/medieval_architecture_floor_dirt_path_01.png',
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.none,
                 ),
-              )
-            else // Standard Wiese (Typ 0 & 3)
-              Opacity(
-                opacity: groundOpacity,
-                child: Builder(
-                  builder: (context) {
-                    int variant = (x * 13 + y * 37) % 4;
+                CustomPaint(painter: ParcelBorderPainter(parcelType: 21)),
+              ],
+            ),
+          )
+        // C) Standard-Stellplatz (ID 2 & ID 20 & 22 & 24): Reines Kiesbett
+        else if (_isParcelId(tileType) && tileType != 6)
+          Opacity(
+            opacity: groundOpacity,
+            child: Image.asset(
+              'assets/medieval_architecture_floor_dirt_path_01.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
+            ),
+          )
+        // --- 4. REZEPTIONS-VORPLATZ (Kopfsteinpflaster) ---
+        else if (tileType == 6)
+          Opacity(
+            opacity: groundOpacity,
+            child: Image.asset(
+              'assets/medieval_architecture_floor_cobblestone_road_01.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
+            ),
+          )
+        // --- 5. WEGE & STRASSEN ---
+        else if (_isRoadId(tileType))
+          Opacity(
+            opacity: groundOpacity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Rasen als Untergrund
+                Image.asset('assets/grass.png', fit: BoxFit.cover),
+                // Passender Weg-Painter je nach Straßentyp
+                CustomPaint(
+                  painter: RoadPainter(
+                    hasTop: _isRoadConnection(x, y - 1),
+                    hasRight: _isRoadConnection(x + 1, y),
+                    hasBottom: _isRoadConnection(x, y + 1),
+                    hasLeft: _isRoadConnection(x - 1, y),
+                    roadColor: Color(tileType), // Hack to pass tileType since we modified RoadPainter
+                  ),
+                ),
+              ],
+            ),
+          )
+        // --- 6. SANITÄR- & POOLPLATTEN (Steinplatten) ---
+        else if (tileType >= 70 && tileType <= 75 || tileType == 80)
+          Opacity(
+            opacity: groundOpacity,
+            child: Image.asset(
+              'assets/medieval_architecture_floor_stone_slab_interior_01.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
+            ),
+          )
+        // --- 7. STANDARD-WIESE ---
+        else // Standard Wiese (Typ 0 & Natur)
+          Opacity(
+            opacity: groundOpacity,
+            child: Builder(
+              builder: (context) {
+                int variant = (x * 13 + y * 37) % 4;
                     return Stack(
                       fit: StackFit.expand,
                       children: [
-                        Image.asset(
-                          'assets/grass.png',
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.none,
-                          errorBuilder: (c, e, s) => Container(color: Colors.green),
-                        ),
+                        _getTileTexture(tileType),
                         if (!isUndergroundView && variant == 1)
                           const Center(child: Icon(Icons.eco, size: 12, color: Colors.black12)),
                       ],
@@ -1621,21 +1688,43 @@ class RoadPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = roadColor;
     final double w = size.width;
     final double h = size.height;
 
-    // Die Dicke des Weges (20% Randabstand bedeutet der Weg füllt 60% der Kachel)
-    final double pStart = w * 0.2;
-    final double pEnd = w * 0.8;
+    // Standardmaße & Farben je nach Weg
+    Color color;
+    double widthFactor = 0.6; // 60% der Kachelbreite
 
-    // 1. Das abgerundete Zentrum des Weges
+    switch (roadColor.value) { // Hack: we use the old roadColor to determine type to keep signature
+      case 4: // Schotterstraße (Erdiges Hellbraun) - assuming we passed tileType instead
+        color = const Color(0xFF8B6B4F);
+        widthFactor = 0.65;
+        break;
+      case 2: // Geteerte Straße (Anthrazit)
+      case 5:
+        color = const Color(0xFF37474F);
+        widthFactor = 0.70;
+        break;
+      case 3: // Kiesweg (Schmalerer Fußweg)
+        color = const Color(0xFFB0A48E);
+        widthFactor = 0.45;
+        break;
+      default:
+        color = const Color(0xFF5D4037);
+    }
+
+    final paint = Paint()..color = roadColor;
+    final double pad = (w * (1.0 - widthFactor)) / 2;
+    final double pStart = pad;
+    final double pEnd = w - pad;
+
+    // Kreuzungszentrum
     canvas.drawRRect(
-        RRect.fromLTRBR(pStart, pStart, pEnd, pEnd, const Radius.circular(6)),
-        paint
+      RRect.fromLTRBR(pStart, pStart, pEnd, pEnd, const Radius.circular(4)),
+      paint,
     );
 
-    // 2. Die Arme zu den Nachbarn (ohne Rundung an der Außenkante für nahtlosen Übergang)
+    // Verbindungsarme
     if (hasTop) canvas.drawRect(Rect.fromLTRB(pStart, 0, pEnd, pStart + 1), paint);
     if (hasRight) canvas.drawRect(Rect.fromLTRB(pEnd - 1, pStart, w, pEnd), paint);
     if (hasBottom) canvas.drawRect(Rect.fromLTRB(pStart, pEnd - 1, pEnd, h), paint);
@@ -1643,7 +1732,66 @@ class RoadPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant RoadPainter oldDelegate) =>
+      oldDelegate.roadColor != roadColor ||
+      oldDelegate.hasTop != hasTop ||
+      oldDelegate.hasRight != hasRight ||
+      oldDelegate.hasBottom != hasBottom ||
+      oldDelegate.hasLeft != hasLeft;
+}
+
+class ParcelBorderPainter extends CustomPainter {
+  final int parcelType;
+
+  ParcelBorderPainter({required this.parcelType});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double w = size.width;
+    final double h = size.height;
+
+    // --- FREIFLÄCHE (ID 23): 4 weiße L-Winkel an den Ecken ---
+    if (parcelType == 23) {
+      final pegPaint = Paint()
+        ..color = Colors.white.withValues(alpha: 0.85)
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.square;
+
+      const double len = 6.0; // Schenkellänge
+      const double pad = 2.0; // Abstand vom Rand
+
+      // Oben links
+      canvas.drawLine(const Offset(pad, pad + len), const Offset(pad, pad), pegPaint);
+      canvas.drawLine(const Offset(pad, pad), const Offset(pad + len, pad), pegPaint);
+
+      // Oben rechts
+      canvas.drawLine(Offset(w - pad - len, pad), Offset(w - pad, pad), pegPaint);
+      canvas.drawLine(Offset(w - pad, pad), Offset(w - pad, pad + len), pegPaint);
+
+      // Unten links
+      canvas.drawLine(Offset(pad, h - pad - len), Offset(pad, h - pad), pegPaint);
+      canvas.drawLine(Offset(pad, h - pad), Offset(pad + len, h - pad), pegPaint);
+
+      // Unten rechts
+      canvas.drawLine(Offset(w - pad - len, h - pad), Offset(w - pad, h - pad), pegPaint);
+      canvas.drawLine(Offset(w - pad, h - pad), Offset(w - pad, h - pad - len), pegPaint);
+    }
+
+    // --- STELLPLATZ 2 (ID 21): Rustikale Holzbohlen-Einfassung ---
+    else if (parcelType == 21) {
+      final borderPaint = Paint()
+        ..color = const Color(0xFF5C4033)
+        ..strokeWidth = 2.5
+        ..style = PaintingStyle.stroke;
+
+      canvas.drawRect(Rect.fromLTWH(1, 1, w - 2, h - 2), borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant ParcelBorderPainter oldDelegate) =>
+      oldDelegate.parcelType != parcelType;
 }
 
 class IsometricTilePainter extends CustomPainter {
