@@ -1521,7 +1521,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
                                   objectList.add(WorldObject(
                                     x: gx, y: gy, sinZ: sinZ, cosZ: cosZ,
-                                    widget: buildTycoonObject(gx, gy, visual.size, visual.size, ghostWidget, xOffset: visual.xOffset, yOffset: visual.yOffset),
+                                    widget: buildTycoonObject(gx, gy, visual.size, visual.size, ghostWidget, yOffset: visual.yOffset),
                                   ));
                                 }
 
