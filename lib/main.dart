@@ -833,30 +833,24 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                 ),
               ),
 
-        // --- NEU: DER GHOST (VORSCHAU) ---
+        // --- NEU: DER GHOST (KACHEL-INDIKATOR) ---
         if (x == _hoveredX && y == _hoveredY && selectedTool != 0)
           Builder(
             builder: (context) {
-              // Kollisionsprüfung: Darf man hier bauen?
-              bool isBlocked = (mapData[x][y] == 1 || mapData[x][y] == 2);
-              Color previewColor = isBlocked ? Colors.red : Colors.white;
+              // Blockiert auf Meer (98) oder wenn man dasselbe noch einmal bauen will
+              bool isBlocked = (mapData[x][y] == 98) || (mapData[x][y] == selectedTool);
+              Color indicatorColor = isBlocked ? Colors.redAccent : Colors.greenAccent;
 
               return Container(
                 decoration: BoxDecoration(
-                  color: previewColor.withOpacity(0.4),
-                  border: Border.all(color: previewColor, width: 2),
+                  color: indicatorColor.withValues(alpha: 0.25),
+                  border: Border.all(color: indicatorColor, width: 2),
                 ),
                 child: Center(
                   child: Icon(
-                    selectedTool == 3 ? Icons.park :
-                    selectedTool == 16 ? Icons.grass :
-                    selectedTool == 17 ? Icons.local_florist :
-                    selectedTool == 18 ? Icons.landscape :
-                    selectedTool == 5 ? Icons.directions_car :
-                    selectedTool == 8 ? Icons.water_drop :
-                    Icons.add_box,
-                    color: Colors.white70,
-                    size: 20,
+                    isBlocked ? Icons.block : Icons.add,
+                    color: indicatorColor.withValues(alpha: 0.8),
+                    size: 18,
                   ),
                 ),
               );
@@ -1495,6 +1489,63 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                                       ),
                                     ));
                                   }
+                                }
+                              }
+
+                              // --- GHOST-VORSCHAU FÜR 3D-OBJEKTE ---
+                              if (_hoveredX >= 0 && _hoveredY >= 0 && selectedTool != 0 && selectedTool != 99) {
+                                double gx = _hoveredX + 0.5;
+                                double gy = _hoveredY + 0.5;
+                                bool isBlocked = mapData[_hoveredX][_hoveredY] == 98;
+
+                                // Vorschau für Bäume, Sträucher und Deko
+                                if ((selectedTool >= 30 && selectedTool <= 39) || (selectedTool >= 51 && selectedTool <= 52) || 
+                                     selectedTool == 3 || selectedTool == 14 || selectedTool == 15 || selectedTool == 90 || 
+                                     (selectedTool >= 16 && selectedTool <= 18)) {
+                                  final visual = resolvePlantVisual(selectedTool, _hoveredX, _hoveredY);
+                                  Widget ghostWidget = Opacity(
+                                    opacity: 0.55,
+                                    child: ColorFiltered(
+                                      colorFilter: isBlocked 
+                                          ? const ColorFilter.mode(Colors.redAccent, BlendMode.srcATop)
+                                          : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
+                                      child: Image.asset(
+                                        visual.asset,
+                                        width: visual.size,
+                                        height: visual.size,
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.bottomCenter,
+                                      ),
+                                    ),
+                                  );
+
+                                  objectList.add(WorldObject(
+                                    x: gx, y: gy, sinZ: sinZ, cosZ: cosZ,
+                                    widget: buildTycoonObject(gx, gy, visual.size, visual.size, ghostWidget, xOffset: visual.xOffset, yOffset: visual.yOffset),
+                                  ));
+                                }
+
+                                // Vorschau für neue Parzellen (Zelt-Entwurf)
+                                else if (_isParcelId(selectedTool)) {
+                                  Widget ghostTent = Opacity(
+                                    opacity: 0.45,
+                                    child: ColorFiltered(
+                                      colorFilter: isBlocked 
+                                          ? const ColorFilter.mode(Colors.redAccent, BlendMode.srcATop)
+                                          : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
+                                      child: Image.asset(
+                                        'assets/tent.png',
+                                        width: 44, height: 44,
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.bottomCenter,
+                                      ),
+                                    ),
+                                  );
+
+                                  objectList.add(WorldObject(
+                                    x: gx, y: gy, sinZ: sinZ, cosZ: cosZ,
+                                    widget: buildTycoonObject(gx, gy, 44, 44, ghostTent, yOffset: 6.0),
+                                  ));
                                 }
                               }
 
